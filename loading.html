@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planet Hoarders - Loading</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="loading-screen">
+        <h1 class="loading-header">Planet Hoarders</h1>
+        <p class="loading-subtitle">Initializing mandatory suffering protocols...</p>
+        <div class="loading-progress"></div>
+        <p class="loading-message">Preparing for planetary exploitation</p>
+    </div>
+
+    <script>
+        // Array of corporate-themed loading messages
+        const loadingMessages = [
+            "Optimizing employee suffering",
+            "Calculating pain-to-profit ratio",
+            "Initializing mandatory overtime protocols",
+            "Preparing termination paperwork",
+            "Loading corporate propaganda",
+            "Synchronizing misery metrics",
+            "Preparing expense reports (your suffering is tax-deductible)",
+            "Updating quarterly suffering projections",
+            "Initializing mandatory despair protocols",
+            "Preparing performance reviews (you're fired)"
+        ];
+
+        // Function to update loading message
+        function updateLoadingMessage() {
+            const messageElement = document.querySelector('.loading-message');
+            const randomMessage = loadingMessages[Math.floor(Math.random() * loadingMessages.length)];
+            messageElement.textContent = randomMessage;
+        }
+
+        // Update message every 3 seconds
+        setInterval(updateLoadingMessage, 3000);
+
+        // Simulate loading completion after 5 seconds
+        setTimeout(() => {
+            // Replace this with actual loading completion logic
+            window.location.href = 'index.html';
+        }, 5000);
+    </script>
+</body>
+</html> 

@@ -1,0 +1,3541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal - Planet Hoarders</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #c2b01c;
+            --secondary-color: #a23430;
+            --text-color: #adadad;
+            --hover-color: #a23430;
+            --terminal-bg: #10100e;
+            --terminal-frame: rgba(194, 176, 28, 0.3);
+            --card-bg: rgba(16, 16, 14, 0.7);
+            --error-color: #a23430;
+            --success-color: #4d6e50;
+            --warning-color: #ff8800;
+            --dirty-overlay: rgba(48, 42, 35, 0.15);
+            --scanline-color: rgba(20, 28, 20, 0.1);
+            --glow-effect: 0 0 8px rgba(194, 176, 28, 0.35);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--text-color);
+            background: var(--terminal-bg);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Add dirty overlay texture */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAA1QSURBVGhDnZpLjBVVFIZP9wUikKCIaAwQQhyoUWOiEzXRxOjCmLhwZpwZE+NC40Qn7lyYuDEmGl0YF25c6MKdJrogiAaQp/IQEQwvBRF53/f3+/5z6lbfrl7QneSfe+rUOfXv/5xz6tTtttlZ+eSTT4YWLFgwY+rUqfMnTpx4V6vVmtlqtia1Wq0xtLXavG61W/RvU9FqU6Otr1Pt9NG+Szlp0jc6xuK1gL7VR79XWjR9R40a9e+BAwf+uf/++49wxne0vMnHjx8/ZezYsQ9zPEbDdrfBQEFDCm4aYqcFh5NQnWbvx45tQZCdXkNQFHYptv0iYNe6dev+chcVCCE2bty4oJ8gmzZtKm6++WYL0T8v9aQDRUOC5O7cPfYUPi5oIX/++ef23r17241wXddnIrRaqK/0CoCWDqUIQcb8t3v37rIgChCp9dvJkyefDVRtHkE63W+EMXrQ0mLv+OCDD4oLL7ywOHLkSLF///5i+/btxf79+7Mw4K0mGgiyggIpFcP43MGDBw+rhcR8t1Ik95dWK1EkgVlHCQMn7Mcff1wcO3asmD59egBZt25d8fnnn+ejRJTgL6VAj0l5SKuDOi3vgw8+KAYGBopZs2adlSCZZHyFI0eZAhphaYwQ+qeffipefvnl4uuvvy5Gjx5d7Nq1q1izZk0xderU4oknnigOHTrUNxrJL/k4qpH1TqfbadXjFMwUKdXoQyBF1NG6nUIhLQbRqF27dhVPP/10cf311xdTpkwp7r333uKnn35KYQ4fPlzceuutxcyZM4uffvqpOHz4cGOKEZF8DJcoVuHw7KRWk0VGIHtbU2TMmDFzVXMIURMkg1DL8MhLWLZ5CbMBEeBHH32UaXXbbbcVzzzzTPHbb78V//77bzF37txi4cKFxYcfflhcfvnlCXTnzp1NIqT1iOigDnIYlcm+JI0tSMhM60xjUqQT0nRdSymnQZB58+bF/A4kzQ/NNlSJ99bkypUriy+//DIPTvbSSy8VX331VQJ+7LHHittvvz2PxCJBxNQmMFH2+AZ+9QwyRZH6mgYMnDAagcqqWz/EIB9//HGoLqbUUzwUWpPAVJPLL7+8uP/++4v33nuviGQv3n333aJXiqm9J/8WxDpYZg2QOdOlRn39wMDA3HHjxs2NTDDOOpRVtAoSRcuVsKpGnCCKVx45UqKzzSuU+PDDD4vly5cXL774YvHpp5/GJKwP8kvj5KPNz56rUoKvkCqp1Qg9CTPrOC15CyBINpBjO3lGKkHYLVJLERFk1apVxWWXXVZcddVVxYkTJwIUKdakCGlmypmyHPJVwUKRUCOMsmGtg3zW1RKdkEVZLdezuKR9wvTbmgSh5KKLLiomT55cPPTQQ5kKJHYTmUIoWB3NLwjQSCcphSChW6UEq25SKzGI5Saqd0a0YG9IIV8XkWX9FnLYiyxrwrjh448/nqlFPzWMZpuVmmzABSn7ylQr02gUFWaElJdaYIpHDw4ODpJaoUi3293Fvt2kSLMq9iCqiB8IQhARnc0ooWaTN9KoE6mFINbHqZxCVQSRzfAQojOCXDmCOLVCEhIcOJXlqpPBRfSg0uHR+vXrI63C3n777WLChAlZfT777LPoST9MApFWDTbgm8pQKhE3hAAaQcqUKlFL+J3V9sCBA7toQwhE6ViCBEFEcswF3sOsLd5FCnNrDQ6RL7/8Mm644YbizTffLEifnTt3ZuU6fvx4z8phv30IcHBwMC4mKC3BHDp0KIDKnFqM9R6EEuF/0ZHR4ZAOqNKzQM1GANoXXnghS+vhw4eLa665prjrrrtCkbvvvrt47bXXimeeeSbXECgF9CYzb9oI8ssvv0T1I+2sN3OB91Rds77A3wIZJexvHlMKpRJ+MGoP+2pqNStGiL7zzjuxKL711lvFgw8+GJULkFdccUV8c+zcuTMUYnLgLQD+dqLIiy++GPNPiXb5dQR0/SLQMFKqvBDqx6SIltv+G6U8bVTFTu6C95QhNKtPP/10fBx98MEHQQLbsGFDceLEiWLXrl2xf8eOHbkWsf2vv/4Ke+GFF+KmVRVFpAJCPPLII8WyZcvCtzjiZwuKSuoTqVWa6HYffPDBDM42txoLAVxFnFr+SqJa7Y7F4osvvhhqHDt2LCrUjTfeGBXtlltuiXu1hoYpW7ZsMXgptnHjxlBm+fLlAeg1BHl5aNGixVlYXaS0C+UfwWX0Yh8tZdgPHnIkGQfyGqhPKs2JEyfOYO/k1OqmIikyKNIJNXXDd9IjjzySDScKcAvRaoEF999/f1Syt956K0DaSDP7kULXX399jL/33nvDZ9q0aVG9wGBhFBkJj/DFZ4rJL5QIRWxlQXJAjmSfh7EfO3bs7NrNsNtrm1oCEelDLTKZ+k/vnnvuiYlfc8018eHkakYUsO9jx46FEGvXri3uuOOOuCH57qHsQl5qRKNMOblAYjH79tttxzEq2ZdVa+bMmVkQnWKRWlMrZIq05JECNACy7zEvqaVWf/PNN8WDDz4YE61cufKUScUDP5jg6tWrww/fRYsWRbrZV+pZCfqsgmzeqkH6uO+oRV8LxbHnJ6VQAUVMr41akKqS4Ug9yg+y+hy+1qNmS9J1iqCCU4DWD99rr722uPvuu6McUsVWrFiRir333nsJklSzCiAx4FgQJtxPsQ8++CA+wKR0CMUYA1VTzfgmqFDkFkpIEBEWYTUfQChg0OwaBlbULPocJecxbcaMGcUnn3wSv5Y0vlBeeOGFAlD+ixcvLkivZcuWRR/G5xoENYLz888/j/3wgwIrKVaXQiiiX0LLli0LZaxIPxTJBG+0KZVtXYRIrVJaGazG9lO7qUrbtm2Lm9ANN9yQE+zcuTM+bqQSJfSqq64qLrnkkuLDDz8s5syZE2nFEsR9CIJfAOF7aOPGjT0BKN3G4pOUKiUcBEpwHkKkIqZYixTTqm2lJjFZ/RyAGHMJPRfqA8rHfgSZPXt29RtET/2UcCogCKrQh2K2CQNVTnE/vLSXwzCCJVKrXXvqo2sQGkEQF0gKcaQihJA6kSORElitSp44cSLeQYKx+DRSRMNYVHERufXWW4vJkyfH+333ds2bIlUnDDhg0pxJYtW2Lh2rRpU1YuVZLt27dHn9MIGiHzKRQxaO+tUONnkPYUGDt27BxaqcJkYlKmjhiTTKEMgqiC9Zzw+++/j8mlBCk0NMS/Nlu3bo0JN2/eHILYD3VYdLJi3bt3bwJ65513YoL9+/eHdVjB+qy6zL169erMBT4ooqCUmwZBaEdTjnCnCFJXJQ/iWG0K4S8qGzZsyB8r1jEnxYS04sQnNcbddtttcZaUYnGJLwXN4KjnHAdCYdpRQABY/VCTw2M59rEQcKNOiKJPe/sDYQBjkwslpYI9vOICKKaCFqmUZCYrEeAB5l9JIJMiChNpYgHCHCkU1e8e0kXpCTAU1biAQQbVQhAEIY2oZJzDxeOlgMdRCMo5XCTOPJ4y2YQBQj7aTw7PUw0Wk0JO8Wa1aHfAP2zEgDzxnCoT8DxagAXEsStWFMVzrLxREVOFoYD8wLKfNY79C26+nwCLMqQXqe5+gIAbZaxSE0EKleq+0eEiQFLGI/F8ZQNgFFQUk4xvJE1OYVKFkw3qUQUVl/0nAVcVo8JxHoKojkHqEE4tgCcA60i0CG7qB2hAoRJAIxDXFsiC9M1QHV+TGCxihR0XF7JQpVfxkBypS3cC+RxQTaRO5HPsWBHbUyXwLYWtv5QJ+WsRyX0eLLbUKt/VSP5G05irRfkGJ61aVCONTSQioBF2+GkVD0/F/c32NXEPElbcKZXABABrAB4TNm3aVKZULZVUBaTsVIIwD85L9fSsGHXFJBrC+FIAaCfQZ599tkZCivXwzJRxmNiJyp70oQJpN0YW7VJNhAqlymUQVTZuXAY3koBWTcq0WECCIIKJe7YntC9+wZJO41HFiqIEqsg7iqDII488ktfSSkkXGYdTTSsvrwj2K8BlV6cWRNAzb1/VOyUQe7bv9IFABbUSIQRKKJU9x/NnEOPwGAofAQQP1VFEVlUE9YqBRXjNiEQgAWMnpLVXw7aTIBFHNIKhkKMFKK5HAFLJpA3KlWx99iQQUVmihXH2oE9A8FUkFMrLVsGzPXyQJxQx2B4TobTDpCFEoC0F6TcWJ0p1tH0G43GJ0IhEVcMHYGXLdcAgFUSZHOPYYwEGgGpG0wCMCIQaiocA5LXnI4yHx4igUCgfiW1S2CtQncCqKHRxY000QHdQlALEOQJqgr8kVCmEb2ONrSsWbedVLIXw4QhwpQ3XxwZDWpuTSHNlUOBRxSzK4GNyGhB1BPAFJ+rqRZWBsrIoEopIxRx3RjbO8++2KxVl1uRWnNVkKgTk+UpP9xsErcLX2/FxDScR1UvBNUwfWFz+8hqeRFBdhvmfSVSb8lJf1c0HUhf9PCjMIHq9TL3sYwJFRMQUgf0AoWGuSPB0/xcKP3Q3cMn/nwAAAABJRU5ErkJggg==');
+            pointer-events: none;
+            opacity: 0.5;
+            z-index: 900;
+            mix-blend-mode: overlay;
+        }
+
+        /* Boot sequence overlay */
+        .boot-sequence {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--terminal-bg);
+            color: var(--primary-color);
+            z-index: 1000;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: opacity 0.2s ease-out;
+        }
+        
+        .boot-sequence.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .boot-logo {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-align: center;
+            animation: glitch 2s infinite;
+            letter-spacing: 2px;
+            text-shadow: 0 0 5px var(--primary-color);
+        }
+        
+        .boot-log {
+            font-size: 0.9em;
+            line-height: 1.4;
+            overflow-y: auto;
+        }
+        
+        .boot-log p {
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: typewriter 0.05s steps(60, end);
+            animation-fill-mode: both;
+            position: relative;
+        }
+
+        /* Random scanline effect on boot log lines */
+        .boot-log p::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -10%;
+            width: 120%;
+            height: 100%;
+            background: rgba(194, 176, 28, 0.1);
+            pointer-events: none;
+            animation: scanline 3s linear infinite;
+            opacity: 0;
+        }
+
+        .boot-log p:nth-child(3n+1)::before {
+            opacity: 0.2;
+            animation-delay: 0.2s;
+        }
+
+        .boot-log p:nth-child(2n)::before {
+            animation-delay: 1s;
+        }
+        
+        .boot-log .error {
+            color: var(--error-color);
+        }
+        
+        .boot-log .success {
+            color: var(--success-color);
+        }
+        
+        .boot-log .warning {
+            color: var(--warning-color);
+        }
+
+        /* Add flicker effect to some text */
+        .boot-log .flicker {
+            animation: textFlicker 3s infinite;
+        }
+        
+        .boot-progress {
+            height: 20px;
+            background: rgba(194, 176, 28, 0.1);
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(194, 176, 28, 0.3);
+        }
+        
+        .boot-progress-bar {
+            height: 100%;
+            background: var(--primary-color);
+            width: 0%;
+            transition: width 0.1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Add scanlines to progress bar */
+        .boot-progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.3) 2px,
+                rgba(0, 0, 0, 0.3) 4px
+            );
+            pointer-events: none;
+        }
+        
+        .boot-progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                rgba(194, 176, 28, 0.1) 0%,
+                rgba(194, 176, 28, 0.2) 50%,
+                rgba(194, 176, 28, 0.1) 100%
+            );
+            animation: progressGlow 3s infinite;
+            background-size: 200% 100%;
+        }
+        
+        @keyframes progressGlow {
+            0% { background-position: 100% 0; }
+            100% { background-position: -100% 0; }
+        }
+        
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        @keyframes glitch {
+            0% { transform: none; text-shadow: 0 0 5px var(--primary-color); }
+            92% { transform: none; text-shadow: 0 0 5px var(--primary-color); }
+            93% { transform: translate(2px, 3px); text-shadow: -2px 0 var(--error-color), 2px 0 var(--success-color); }
+            94% { transform: translate(2px, -3px); text-shadow: 2px 0 var(--error-color), -2px 0 var(--success-color); }
+            95% { transform: translate(-2px, 3px); text-shadow: 2px 2px var(--error-color), -2px -2px var(--success-color); }
+            96% { transform: translate(-2px, -3px); text-shadow: -2px -2px var(--error-color), 2px 2px var(--success-color); }
+            97% { transform: none; text-shadow: -2px 0 var(--error-color), 2px 0 var(--success-color); }
+            98% { transform: none; text-shadow: 2px 0 var(--error-color), -2px 0 var(--success-color); }
+            99% { transform: none; text-shadow: -2px 2px var(--error-color), 2px -2px var(--success-color); }
+            100% { transform: none; text-shadow: 0 0 5px var(--primary-color); }
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            92% { opacity: 1; }
+            93% { opacity: 0.3; }
+            94% { opacity: 0.8; }
+            95% { opacity: 0.2; }
+            96% { opacity: 0.9; }
+            97% { opacity: 0.8; }
+            98% { opacity: 0.4; }
+            99% { opacity: 0.5; }
+        }
+
+        @keyframes textFlicker {
+            0%, 100% { opacity: 1; }
+            10% { opacity: 1; }
+            10.5% { opacity: 0.2; }
+            11% { opacity: 1; }
+            19% { opacity: 1; }
+            20% { opacity: 0.3; }
+            21% { opacity: 1; }
+            80% { opacity: 1; }
+            80.5% { opacity: 0.4; }
+            81% { opacity: 1; }
+            92% { opacity: 1; }
+            92.5% { opacity: 0.2; }
+            93% { opacity: 1; }
+        }
+        
+        @keyframes glitchText {
+            0% { text-shadow: none; }
+            1% { text-shadow: -1px 0 var(--error-color), 1px 0 var(--warning-color); }
+            2% { text-shadow: none; }
+            50% { text-shadow: none; }
+            51% { text-shadow: 1px 0 var(--error-color), -1px 0 var(--warning-color); }
+            52% { text-shadow: none; }
+            90% { text-shadow: none; }
+            91% { text-shadow: -1px 0 var(--warning-color), 1px 0 var(--error-color); }
+            92% { text-shadow: none; }
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(200%); }
+        }
+
+        /* Add glitch-anim keyframes from main-menu.html */
+        @keyframes glitch-anim-1 {
+            0% { opacity: 1; transform: translate3d(10px, 0, 0); clip-path: polygon(0 2%, 100% 2%, 100% 5%, 0 5%); }
+            2% { clip-path: polygon(0 15%, 100% 15%, 100% 15%, 0 15%); }
+            4% { clip-path: polygon(0 10%, 100% 10%, 100% 20%, 0 20%); }
+            6% { clip-path: polygon(0 1%, 100% 1%, 100% 2%, 0 2%); }
+            8% { clip-path: polygon(0 33%, 100% 33%, 100% 33%, 0 33%); }
+            10% { clip-path: polygon(0 44%, 100% 44%, 100% 44%, 0 44%); }
+            12% { clip-path: polygon(0 50%, 100% 50%, 100% 20%, 0 20%); }
+            14% { clip-path: polygon(0 70%, 100% 70%, 100% 70%, 0 70%); }
+            16% { clip-path: polygon(0 80%, 100% 80%, 100% 80%, 0 80%); }
+            18% { clip-path: polygon(0 50%, 100% 50%, 100% 55%, 0 55%); }
+            20% { clip-path: polygon(0 70%, 100% 70%, 100% 80%, 0 80%); }
+            21.9% { opacity: 1; transform: translate3d(10px, 0, 0); }
+            22%, 100% { opacity: 0; transform: translate3d(0, 0, 0); clip-path: polygon(0 0, 0 0, 0 0, 0 0); }
+        }
+
+        /* Terminal header */
+        .terminal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            border-bottom: 1px solid var(--terminal-frame);
+            background: rgba(10, 12, 14, 0.8);
+            position: relative;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Random corruption/damage to UI */
+        .terminal-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 136, 0, 0.15) 0%, transparent 20%),
+                radial-gradient(circle at 80% 70%, rgba(10, 203, 103, 0.1) 0%, transparent 20%);
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        /* Rust and damage stains */
+        .terminal-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 30%;
+            width: 40%;
+            height: 40%;
+            background: linear-gradient(to bottom, transparent, rgba(139, 69, 19, 0.2));
+            pointer-events: none;
+            transform: rotate(5deg);
+            z-index: -1;
+        }
+
+        /* Enhanced tab buttons */
+        .tab-buttons {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 5px;
+        }
+
+        .tab-button {
+            color: var(--text-color);
+            opacity: 0.6;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 15px;
+            position: relative;
+            background: rgba(255, 235, 59, 0.05);
+            border: 1px solid transparent;
+        }
+
+        .tab-button:hover {
+            color: var(--primary-color);
+            opacity: 1;
+            background: rgba(255, 235, 59, 0.1);
+            border-color: rgba(255, 235, 59, 0.2);
+        }
+
+        .tab-button.active {
+            color: var(--primary-color);
+            opacity: 1;
+        }
+
+        .tab-button::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary-color);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+            opacity: 0.5;
+        }
+
+        .tab-button:hover::before {
+            transform: scaleX(0.8);
+        }
+
+        .tab-button.active::before {
+            transform: scaleX(1);
+            opacity: 1;
+        }
+
+        .terminal-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .time-display {
+            font-size: 1.2em;
+            color: var(--primary-color);
+            position: relative;
+        }
+        
+        .time-display::after {
+            content: 'CONNECTED';
+            position: absolute;
+            top: -8px;
+            right: 0;
+            font-size: 0.55em;
+            opacity: 0.7;
+            color: var(--success-color);
+        }
+
+        .balance {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 1.2em;
+            position: relative;
+        }
+        
+        .balance::after {
+            content: '~';
+            position: absolute;
+            top: 0;
+            right: -12px;
+            font-size: 0.8em;
+            animation: blink 1s infinite;
+            color: var(--primary-color);
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .balance-value {
+            color: var(--primary-color);
+        }
+
+        /* Main terminal display */
+        .terminal-display {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            border: 1px solid var(--terminal-frame);
+            margin: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            position: relative;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Card grid layout */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 10px;
+        }
+        
+        .card-grid.card-view {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        }
+        
+        .card-grid.list-view {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Planet card */
+        .planet-card {
+            background: var(--card-bg);
+            border: 1px solid var(--terminal-frame);
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .planet-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(255, 235, 59, 0.2);
+            z-index: 2;
+        }
+
+        .planet-card.selected {
+            border: 2px solid var(--primary-color);
+        }
+        
+        /* Unavailable planet */
+        .planet-card.unavailable {
+            opacity: 0.8;
+            position: relative;
+        }
+        
+        .planet-card.unavailable .planet-image {
+            filter: saturate(0.4) hue-rotate(180deg);
+        }
+        
+        .unavailable-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(0, 0, 0, 0.3),
+                rgba(0, 0, 0, 0.3) 10px,
+                rgba(162, 52, 48, 0.3) 10px,
+                rgba(162, 52, 48, 0.3) 20px
+            );
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+        
+        .unavailable-text {
+            background: rgba(0, 0, 0, 0.7);
+            color: var(--error-color);
+            padding: 5px 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+            transform: rotate(-15deg);
+            border: 2px solid var(--error-color);
+            text-shadow: 0 0 5px var(--error-color);
+            animation: pulse 2s infinite;
+        }
+        
+        .planet-card.unavailable .purchase-button {
+            background: rgba(162, 52, 48, 0.2);
+            color: rgba(162, 52, 48, 0.7);
+            cursor: not-allowed;
+            border-color: rgba(162, 52, 48, 0.3);
+        }
+        
+        .planet-card.unavailable .purchase-button:hover {
+            background: rgba(162, 52, 48, 0.3);
+        }
+        
+        .destination-label.restricted {
+            background: var(--error-color);
+        }
+
+        .planet-image-container {
+            width: 100%;
+            height: 180px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .planet-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: saturate(0.8);
+            transition: all 0.5s;
+            mask-image: linear-gradient(to bottom, 
+                rgba(0, 0, 0, 1) 0%,
+                rgba(0, 0, 0, 1) 50%,
+                rgba(0, 0, 0, 0) 100%
+            );
+            -webkit-mask-image: linear-gradient(to bottom, 
+                rgba(0, 0, 0, 1) 0%,
+                rgba(0, 0, 0, 1) 50%,
+                rgba(0, 0, 0, 0) 100%
+            );
+        }
+
+        .planet-card:hover .planet-image {
+            filter: saturate(1.2);
+        }
+
+        /* Update gradient overlay */
+        .image-gradient {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                transparent 0%,
+                transparent 50%,
+                var(--card-bg) 100%
+            );
+            pointer-events: none;
+        }
+
+        .planet-info {
+            padding: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .planet-name {
+            color: var(--primary-color);
+            font-size: 1.3em;
+            text-align: center;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .planet-description {
+            font-size: 0.9em;
+            line-height: 1.4;
+            opacity: 0.8;
+            margin-bottom: 15px;
+        }
+
+        .planet-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 15px;
+        }
+
+        .destination-label {
+            background: var(--primary-color);
+            color: #000;
+            padding: 5px 10px;
+            font-weight: bold;
+        }
+
+        .cost {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cost-label {
+            color: var(--text-color);
+        }
+
+        .cost-value {
+            background: #4CAF50;
+            color: #fff;
+            padding: 5px 10px;
+            font-weight: bold;
+        }
+
+        .cost-value.expensive {
+            background: #f44336;
+        }
+
+        /* Shop item card */
+        .item-card {
+            background: var(--card-bg);
+            border: 1px solid var(--terminal-frame);
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .item-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(255, 235, 59, 0.2);
+            z-index: 2;
+        }
+
+        .item-header {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid var(--terminal-frame);
+        }
+
+        .item-name {
+            color: var(--primary-color);
+            font-size: 1.1em;
+            text-transform: uppercase;
+        }
+
+        .item-content {
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            flex: 1;
+        }
+
+        .item-image-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .item-image {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+        }
+
+        .item-rarity {
+            text-align: center;
+            margin-bottom: 10px;
+            padding: 5px;
+        }
+
+        .item-rarity.common {
+            background: #fff;
+            color: #000;
+        }
+
+        .item-rarity.rare {
+            background: #2196F3;
+            color: #fff;
+        }
+
+        .item-rarity.legendary {
+            background: #FF9800;
+            color: #000;
+        }
+
+        .item-stat {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .item-description {
+            font-size: 0.85em;
+            line-height: 1.4;
+            opacity: 0.8;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .item-price-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: auto;
+            gap: 10px;
+        }
+
+        .item-price {
+            background: #4CAF50;
+            color: #fff;
+            padding: 5px 10px;
+            font-weight: bold;
+        }
+
+        .sale-price {
+            display: flex;
+            align-items: center;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            opacity: 0.6;
+            margin-left: 5px;
+            font-size: 0.8em;
+        }
+
+        .sale-tag {
+            background: #f44336;
+            color: #fff;
+            padding: 2px 5px;
+            font-size: 0.7em;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* Enhanced category tabs */
+        .category-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--terminal-frame);
+            padding: 10px 0;
+            gap: 5px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .category-tab {
+            padding: 8px 20px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: all 0.3s;
+            position: relative;
+            background: rgba(255, 235, 59, 0.05);
+            border: 1px solid transparent;
+        }
+
+        .category-tab::before {
+            content: '/';
+            color: var(--primary-color);
+            margin-right: 5px;
+            opacity: 0;
+            transform: translateX(-5px);
+            transition: all 0.3s;
+        }
+
+        .category-tab:hover::before,
+        .category-tab.active::before {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .category-tab::after {
+            content: '';
+            position: absolute;
+            bottom: -11px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary-color);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .category-tab:hover {
+            opacity: 1;
+            background: rgba(255, 235, 59, 0.1);
+            border-color: rgba(255, 235, 59, 0.2);
+        }
+
+        .category-tab.active {
+            opacity: 1;
+            color: var(--primary-color);
+            background: rgba(255, 235, 59, 0.15);
+            border: 1px solid var(--terminal-frame);
+        }
+
+        .category-tab:hover::after {
+            transform: scaleX(0.8);
+        }
+
+        .category-tab.active::after {
+            transform: scaleX(1);
+        }
+
+        /* Tab content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Controller hints */
+        .controller-hints {
+            display: flex;
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            gap: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 15px;
+            border: 1px solid var(--terminal-frame);
+        }
+
+        .controller-hint {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.7;
+        }
+
+        .button-icon {
+            min-width: 50px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 235, 59, 0.2);
+            border: 1px solid var(--primary-color);
+            border-radius: 2px;
+            font-size: 0.8em;
+            color: var(--primary-color);
+            padding: 0 8px;
+            text-align: center;
+        }
+
+        /* Navigation arrows */
+        .navigation-arrows {
+            position: fixed;
+            bottom: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+            pointer-events: none;
+        }
+
+        .nav-arrow {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--terminal-frame);
+            color: var(--primary-color);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            pointer-events: auto;
+            opacity: 0.7;
+        }
+
+        .nav-arrow:hover {
+            background: rgba(0, 0, 0, 0.8);
+            opacity: 1;
+        }
+
+        /* Terminal status bar */
+        .terminal-status-bar {
+            display: flex;
+            padding: 5px 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-bottom: 1px solid var(--terminal-frame);
+            font-size: 0.8em;
+            color: var(--primary-color);
+            overflow-x: auto;
+            white-space: nowrap;
+            gap: 20px;
+        }
+        
+        .status-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+            padding-right: 15px;
+            border-right: 1px solid rgba(194, 176, 28, 0.2);
+        }
+        
+        .status-group:last-child {
+            border-right: none;
+        }
+        
+        .status-group:hover {
+            opacity: 1;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .status-item.error {
+            color: var(--error-color);
+            animation: blink 2s infinite;
+        }
+        
+        .status-item i {
+            font-size: 0.9em;
+        }
+        
+        .monster-stats-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-left: auto;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 3px 10px;
+            border-radius: 2px;
+            border: 1px solid var(--terminal-frame);
+        }
+        
+        .monster-stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .monster-stat-value {
+            font-weight: bold;
+        }
+        
+        .monster-stat-value.warning {
+            color: var(--warning-color);
+        }
+        
+        .monster-stat-value.error {
+            color: var(--error-color);
+            animation: blink 2s infinite;
+        }
+        
+        /* Capsule occupation meter */
+        .capsule-meter-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .capsule-meter {
+            width: 100px;
+            height: 8px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(194, 176, 28, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .capsule-fill {
+            height: 100%;
+            background: var(--primary-color);
+            width: 30%; /* Will be set dynamically with JS */
+            position: relative;
+            transition: width 0.5s ease;
+        }
+        
+        .capsule-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                rgba(255, 255, 255, 0.1) 0%, 
+                rgba(255, 255, 255, 0.3) 50%, 
+                rgba(255, 255, 255, 0.1) 100%);
+        }
+        
+        .capsule-fill.warning {
+            background: var(--warning-color);
+        }
+        
+        .capsule-fill.danger {
+            background: var(--error-color);
+            animation: pulse 2s infinite;
+        }
+        
+        .capsule-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7em;
+            opacity: 0.7;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+
+        /* Optimize animations by reducing complexity */
+        @keyframes glitch {
+            0%, 100% { transform: none; }
+            97% { transform: translateX(-2px); }
+            98% { transform: translateX(2px); }
+            99% { transform: none; }
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            97% { opacity: 0.95; }
+        }
+
+        /* Defer heavy animations */
+        .terminal-display {
+            animation: none; /* Will be added after boot */
+        }
+
+        body {
+            animation: none; /* Will be added after boot */
+        }
+
+        /* Optimize scan line effect */
+        .scan-line {
+            animation: scan 10s linear infinite;
+            opacity: 0.2;
+        }
+
+        /* Add selection styling for item cards */
+        .item-card.selected {
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 0 10px rgba(255, 235, 59, 0.3);
+        }
+
+        /* Purchase confirmation modal */
+        .purchase-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .purchase-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 2px solid var(--terminal-frame);
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+
+        .modal-header {
+            font-size: 1.5em;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .modal-body {
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .modal-item-name {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .modal-price {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .modal-button {
+            padding: 10px 25px;
+            border: 1px solid var(--terminal-frame);
+            background: rgba(0, 0, 0, 0.5);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-button:hover, .modal-button.selected {
+            background: var(--primary-color);
+            color: #000;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            color: var(--primary-color);
+        }
+
+        /* Purchase feedback */
+        .purchase-feedback {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--terminal-frame);
+            padding: 15px 20px;
+            color: var(--text-color);
+            z-index: 50;
+            transform: translateX(120%);
+            transition: transform 0.5s;
+        }
+
+        .purchase-feedback.show {
+            transform: translateX(0);
+        }
+
+        .purchase-feedback.success {
+            border-left: 4px solid #4CAF50;
+        }
+
+        .purchase-feedback.error {
+            border-left: 4px solid #f44336;
+        }
+
+        /* Add CSS for quantity display */
+        .quantity-display {
+            background: var(--primary-color);
+            color: #000;
+            padding: 3px 8px;
+            margin-left: 10px;
+            font-weight: bold;
+            border-radius: 3px;
+            position: relative;
+            top: 1px;
+        }
+
+        /* Add CSS for expensive items in shop */
+        .item-price.expensive {
+            background: #f44336;
+        }
+
+        /* Purchase button styling */
+        .purchase-button {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--terminal-frame);
+            color: var(--primary-color);
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+
+        .purchase-button:hover, .planet-card.selected .purchase-button:not(.disabled):not(.owned), .item-card.selected .purchase-button:not(.disabled):not(.owned) {
+            background: var(--primary-color);
+            color: #000;
+        }
+
+        .purchase-button.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            border-color: rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .purchase-button.owned {
+            background: rgba(76, 175, 80, 0.3);
+            color: #4CAF50;
+            border-color: #4CAF50;
+            cursor: default;
+        }
+
+        .planet-card .planet-info {
+            padding-bottom: 5px;
+        }
+
+        /* Terminal notifications */
+        .terminal-notification {
+            position: fixed;
+            top: 80px;
+            right: -400px;
+            max-width: 400px;
+            background: rgba(0, 0, 0, 0.9);
+            color: var(--primary-color);
+            border-left: 4px solid var(--primary-color);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 100;
+            transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 0.9em;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .terminal-notification.show {
+            right: 20px;
+        }
+        
+        .terminal-notification i {
+            font-size: 1.4em;
+        }
+        
+        .terminal-notification.success {
+            border-color: var(--success-color);
+        }
+        
+        .terminal-notification.success i {
+            color: var(--success-color);
+        }
+        
+        .terminal-notification.error {
+            border-color: var(--error-color);
+        }
+        
+        .terminal-notification.error i {
+            color: var(--error-color);
+        }
+        
+        .terminal-notification.warning {
+            border-color: var(--warning-color);
+        }
+        
+        .terminal-notification.warning i {
+            color: var(--warning-color);
+        }
+        
+        /* Terminal cursor effect */
+        .terminal-cursor {
+            display: inline-block;
+            width: 10px;
+            height: 18px;
+            background: var(--primary-color);
+            vertical-align: middle;
+            margin-left: 2px;
+            animation: blink 1s infinite;
+        }
+        
+        /* Add crt scanlines to entire display */
+        body::after {
+            content: "";
+            display: block;
+            height: 100vh;
+            width: 100vw;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            background: repeating-linear-gradient(
+                0deg,
+                var(--scanline-color),
+                var(--scanline-color) 1px,
+                transparent 1px,
+                transparent 3px
+            );
+            z-index: 999;
+        }
+        
+        /* Add vignette effect */
+        body::before {
+            content: "";
+            display: block;
+            height: 100vh;
+            width: 100vw;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            background: radial-gradient(
+                circle at center,
+                transparent 50%,
+                rgba(0, 0, 0, 0.7) 150%
+            );
+            z-index: 998;
+        }
+
+        /* Enhanced terminal structure styles */
+        .terminal-title {
+            text-align: center;
+            position: relative;
+            padding: 5px 0;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .terminal-title .version {
+            font-size: 0.8em;
+            opacity: 0.7;
+            letter-spacing: 1px;
+        }
+
+        .terminal-title .session-id {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.7em;
+            opacity: 0.5;
+        }
+
+        .terminal-nav {
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-bottom: 1px solid var(--terminal-frame);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-size: 1.2em;
+            color: var(--primary-color);
+        }
+
+        .section-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .control-label {
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+
+        .terminal-select {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--terminal-frame);
+            color: var(--text-color);
+            padding: 5px 10px;
+            font-family: inherit;
+            font-size: 0.9em;
+        }
+
+        .terminal-select option {
+            background: #000;
+            color: var(--text-color);
+        }
+
+        .status-group {
+            display: flex;
+            gap: 20px;
+            padding: 0 15px;
+            border-right: 1px solid rgba(255, 235, 59, 0.2);
+        }
+
+        .status-group:last-child {
+            border-right: none;
+            margin-left: auto;
+        }
+
+        /* Console styles */
+        .terminal-console {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--terminal-frame);
+            height: calc(100vh - 250px);
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        .console-output {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+            font-size: 0.9em;
+        }
+
+        .console-line {
+            margin-bottom: 5px;
+            opacity: 0.8;
+        }
+
+        .console-line.success {
+            color: var(--success-color);
+        }
+
+        .console-line.error {
+            color: var(--error-color);
+        }
+
+        .console-line.warning {
+            color: var(--warning-color);
+        }
+
+        .console-input-line {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .console-prompt {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .console-input {
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            font-family: inherit;
+            font-size: 1em;
+            width: 100%;
+            outline: none;
+        }
+
+        .console-input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Enhanced tab buttons */
+        .tab-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: rgba(255, 235, 59, 0.05);
+            border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-button i {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .tab-button::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary-color);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .tab-button:hover::after {
+            transform: scaleX(0.8);
+        }
+
+        .tab-button.active::after {
+            transform: scaleX(1);
+        }
+
+        .tab-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, 
+                transparent,
+                rgba(255, 235, 59, 0.1),
+                transparent
+            );
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+
+        .tab-button:hover::before {
+            transform: translateX(100%);
+        }
+
+        .glitch-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        /* Add glitch overlay to terminal display */
+        .glitch-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            mix-blend-mode: overlay;
+            z-index: 10;
+        }
+
+        .glitch-overlay::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(90deg, rgba(194, 176, 28, 0.03) 1px, transparent 1px),
+                linear-gradient(0deg, rgba(77, 110, 80, 0.02) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: glitchBg 30s linear infinite;
+            opacity: 0.5;
+        }
+
+        .glitch-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 30% 40%, rgba(194, 176, 28, 0.1) 0%, transparent 30%),
+                radial-gradient(circle at 70% 70%, rgba(162, 52, 48, 0.08) 0%, transparent 20%);
+            opacity: 0.3;
+        }
+
+        /* Random damage stains on elements */
+        .planet-card::after, .item-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(ellipse at 80% 20%, rgba(139, 69, 19, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 20% 80%, rgba(64, 64, 64, 0.2) 0%, transparent 60%);
+            pointer-events: none;
+            opacity: 0.3;
+            mix-blend-mode: multiply;
+        }
+
+        /* Random corruption visual effects */
+        .planet-card:nth-child(3n+1)::before, .item-card:nth-child(3n+2)::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 30%;
+            height: 20%;
+            background: linear-gradient(45deg, transparent, rgba(255, 68, 68, 0.1));
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        /* Enhance damage for terminal elements */
+        .terminal-display {
+            position: relative;
+        }
+
+        .terminal-display::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
+            pointer-events: none;
+            z-index: 4;
+        }
+
+        /* Add scratched screen effect */
+        .terminal-display::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.03) 50%, transparent 100%),
+                linear-gradient(-45deg, transparent 65%, rgba(255, 255, 255, 0.05) 75%, transparent 85%),
+                linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.04) 50%, transparent 70%);
+            background-size: 200px 100%, 400px 400px, 300px 300px;
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        /* Enhance glitch text effect */
+        .flicker {
+            position: relative;
+            display: inline-block;
+            color: var(--warning-color);
+            animation: textFlicker 3s infinite;
+        }
+
+        /* Add occasional glitch animation to elements */
+        .planet-name, .item-name {
+            position: relative;
+            animation: smallGlitch 10s infinite;
+        }
+
+        /* Enhance warning text */
+        .warning {
+            position: relative;
+            color: var(--warning-color);
+        }
+
+        .warning::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -5px;
+            width: calc(100% + 10px);
+            height: 100%;
+            background: rgba(194, 176, 28, 0.1);
+            z-index: -1;
+            transform: skewX(-10deg);
+        }
+
+        .error {
+            position: relative;
+            color: var(--error-color);
+        }
+
+        .error::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -5px;
+            width: calc(100% + 10px);
+            height: 100%;
+            background: rgba(162, 52, 48, 0.1);
+            z-index: -1;
+            transform: skewX(-10deg);
+        }
+
+        /* Additional animations */
+        @keyframes smallGlitch {
+            0%, 95%, 100% { transform: none; text-shadow: none; }
+            95.5% { transform: translateX(2px); text-shadow: -1px 0 var(--error-color); }
+            96% { transform: translateX(-2px); text-shadow: 1px 0 var(--error-color); }
+            96.5% { transform: translateY(2px); text-shadow: 1px 0 var(--success-color); }
+            97% { transform: translateY(-2px); text-shadow: -1px 0 var(--success-color); }
+            97.5% { transform: none; text-shadow: -1px 0 var(--error-color), 1px 0 var(--success-color); }
+            98% { transform: none; text-shadow: 1px 0 var(--error-color), -1px 0 var(--success-color); }
+        }
+
+        @keyframes glitchBg {
+            0%, 90% { background-position: 0 0; }
+            90.1% { background-position: 5px 0; }
+            90.2% { background-position: -5px 0; }
+            90.3% { background-position: 0 5px; }
+            90.4% { background-position: 0 -5px; }
+            90.5% { background-position: 0 0; }
+            95% { background-position: 0 0; }
+            95.1% { background-position: -3px 2px; }
+            95.2% { background-position: 3px -2px; }
+            95.3% { background-position: 0 0; }
+            99% { background-position: 0 0; }
+            99.1% { background-position: 2px 3px; }
+            99.2% { background-position: -2px -3px; }
+            99.3% { background-position: 0 0; }
+            100% { background-position: 0 0; }
+        }
+
+        /* Enhance scanlines */
+        body::after {
+            content: "";
+            display: block;
+            height: 100vh;
+            width: 100vw;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            background: repeating-linear-gradient(
+                0deg,
+                var(--scanline-color),
+                var(--scanline-color) 1px,
+                transparent 1px,
+                transparent 3px
+            );
+            z-index: 999;
+        }
+        
+        /* Enhanced vignette effect */
+        body::before {
+            content: "";
+            display: block;
+            height: 100vh;
+            width: 100vw;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            background: radial-gradient(
+                circle at center,
+                transparent 30%,
+                rgba(0, 0, 0, 0.8) 150%
+            );
+            z-index: 998;
+        }
+
+        /* Add view mode styles */
+        .view-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: auto;
+        }
+        
+        .view-control {
+            padding: 5px 8px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--terminal-frame);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .view-control:hover, .view-control.active {
+            background: rgba(194, 176, 28, 0.1);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        /* Card grid and list views */
+        .card-grid.list-view {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .card-grid.list-view .item-card {
+            display: flex;
+            flex-direction: row;
+            height: auto;
+            padding: 10px;
+        }
+        
+        .card-grid.list-view .item-header {
+            width: 200px;
+            border-bottom: none;
+            border-right: 1px solid var(--terminal-frame);
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+        }
+        
+        .card-grid.list-view .item-content {
+            display: flex;
+            flex-direction: row;
+            padding: 0 15px;
+            flex: 1;
+        }
+        
+        .card-grid.list-view .item-image-container {
+            width: 40px;
+            height: 40px;
+            margin: 0 15px 0 0;
+        }
+        
+        .card-grid.list-view .item-rarity {
+            width: 100px;
+            margin: 0 15px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .card-grid.list-view .item-stat {
+            width: 200px;
+            margin: 0 15px 0 0;
+            text-align: left;
+        }
+        
+        .card-grid.list-view .item-description {
+            display: none;
+        }
+        
+        .card-grid.list-view .item-price-container {
+            margin: 0 15px 0 auto;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-grid.list-view .purchase-button {
+            margin: 0 0 0 15px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+        
+        .card-grid.list-view .item-image {
+            width: 40px;
+            height: 40px;
+        }
+        
+        /* Compact view */
+        .card-grid.compact-view {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+        
+        .card-grid.compact-view .item-image-container {
+            height: 80px;
+        }
+        
+        .card-grid.compact-view .item-description {
+            display: none;
+        }
+        
+        .card-grid.compact-view .item-stat {
+            margin-bottom: 5px;
+            font-size: 0.75em;
+        }
+    </style>
+</head>
+<body>
+    <!-- Simplified boot sequence -->
+    <div class="boot-sequence" id="bootSequence">
+        <div class="boot-logo">
+            PLANET HOARDERS™ <span class="flicker">v2.4.7</span>
+        </div>
+        <div class="boot-log" id="bootLog">
+            <p class="success">> INITIALIZING CORPORATE SUFFERING PROTOCOLS...</p>
+            <p class="success">> LOADING MANDATORY DESPAIR MODULES... <span class="flicker">COMPLETE</span></p>
+            <p class="warning">> WARNING: YOUR PAIN IS BEING MONITORED FOR QUARTERLY REPORTS</p>
+            <p class="success">> INITIALIZING TAX-DEDUCTIBLE MISERY... <span class="flicker">OPTIMIZED</span></p>
+            <p class="error">> ERROR: EMPLOYEE HAPPINESS DETECTED - NEUTRALIZING</p>
+            <p class="success">> LOADING TERMINATION PAPERWORK... <span class="flicker">PRE-SIGNED</span></p>
+            <p class="warning">> WARNING: YOUR SCREAMS ARE BEING RECORDED FOR TRAINING PURPOSES</p>
+            <p class="success">> LOADING UNPAID OVERTIME PROTOCOLS... <span class="flicker">MANDATORY</span></p>
+            <p class="success">> CALCULATING PAIN-TO-PROFIT RATIO... <span class="flicker">INSUFFICIENT PAIN</span></p>
+            <p class="error">> ERROR: MINIMUM SUFFERING THRESHOLD NOT MET</p>
+            <p class="success">> APPLYING CORRECTIVE MEASURES...</p>
+            <p class="warning">> WARNING: PSYCHOLOGICAL DAMAGE MAY EXCEED INSURANCE COVERAGE</p>
+            <p class="success">> INITIALIZING SOUL EXTRACTION SUBSYSTEM... <span class="flicker">READY</span></p>
+            <p class="error">> CRITICAL WARNING: EMPLOYEE RETENTION AT 0.002%</p>
+            <p class="success">> CONCLUSION: WITHIN ACCEPTABLE PARAMETERS</p>
+            <p class="success">> WELCOME BACK, VALUED ASSET #7452-B... <span class="flicker">EXPENDABLE</span></p>
+        </div>
+        <div class="boot-progress">
+            <div class="boot-progress-bar" id="bootProgressBar"></div>
+        </div>
+    </div>
+
+    <!-- Terminal Header -->
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <div class="terminal-title">
+                <span class="version">HOARDING SYSTEMS v1.28.303</span>
+                <span class="session-id">SESSION: #8844-2F</span>
+            </div>
+            <div class="terminal-info">
+                <div class="time-display">9:42AM</div>
+                <div class="balance">BALANCE: <span class="balance-value">3000$</span></div>
+            </div>
+        </div>
+
+        <!-- Terminal status bar -->
+        <div class="terminal-status-bar">
+            <div class="status-group">
+                <div class="status-item">
+                    <i class="fas fa-signal"></i>
+                    <span>UPLINK: <span class="flicker">DEGRADED</span></span>
+                </div>
+                <div class="status-item">
+                    <i class="fas fa-broadcast-tower"></i>
+                    <span>SIGNAL: 47% <span class="flicker">(UNSTABLE)</span></span>
+                </div>
+            </div>
+            <div class="status-group">
+                <div class="status-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>SECURITY: <span class="flicker">COMPROMISED</span></span>
+                </div>
+                <div class="status-item">
+                    <i class="fas fa-bolt"></i>
+                    <span>POWER: <span class="flicker">CRITICAL</span></span>
+                </div>
+            </div>
+            <div class="status-group">
+                <div class="status-item error">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>MANAGEMENT OVERSIGHT PROTOCOLS ACTIVE</span>
+                </div>
+            </div>
+            
+            <!-- Monster Collection Stats -->
+            <div class="monster-stats-group">
+                <div class="monster-stat">
+                    <i class="fa-solid fa-flask-vial"></i>
+                    <span>CAPSULES:</span>
+                    <span class="monster-stat-value" id="capsulesFilled">3/12</span>
+                </div>
+                
+                <!-- Capsule Occupation Meter -->
+                <div class="capsule-meter-container">
+                    <div class="capsule-meter">
+                        <div class="capsule-fill" id="capsuleFill"></div>
+                    </div>
+                    <div class="capsule-labels">
+                        <span>EMPTY</span>
+                        <span>OCCUPIED</span>
+                    </div>
+                </div>
+                
+                <div class="monster-stat">
+                    <i class="fa-solid fa-dragon"></i>
+                    <span>COLLECTION VALUE:</span>
+                    <span class="monster-stat-value" id="monsterWorth">1,567$</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terminal Navigation -->
+    <div class="terminal-nav">
+        <div class="tab-buttons">
+            <div class="tab-button active" data-tab="systems">
+                <i class="fas fa-globe"></i>
+                SYSTEMS
+            </div>
+            <div class="tab-button" data-tab="shop">
+                <i class="fas fa-shopping-cart"></i>
+                SHOP
+            </div>
+            <div class="tab-button" data-tab="console">
+                <i class="fas fa-terminal"></i>
+                CONSOLE
+            </div>
+        </div>
+    </div>
+
+    <!-- Terminal Display -->
+    <div class="terminal-display">
+        <div class="scan-line"></div>
+        <div class="glitch-overlay"></div>
+        
+        <!-- Systems Tab Content -->
+        <div class="tab-content active" id="systems-tab">
+            <div class="section-header">
+                <h2>AVAILABLE SYSTEMS <span class="flicker">(MOSTLY CONDEMNED)</span></h2>
+                <div class="section-controls">
+                    <span class="control-label">SORT BY:</span>
+                    <select class="terminal-select">
+                        <option>DISTANCE</option>
+                        <option>COST</option>
+                        <option>MORTALITY RATE</option>
+                        <option>EXISTENTIAL DREAD</option>
+                    </select>
+                </div>
+            </div>
+            <div class="card-grid">
+                <!-- Planet Card 1 -->
+                <div class="planet-card selected">
+                    <div class="planet-image-container">
+                        <img src="images/snowy.png" alt="Amaterasu" class="planet-image">
+                        <div class="image-gradient"></div>
+                    </div>
+                    <div class="planet-info">
+                        <div class="planet-name">AMATERASU</div>
+                        <div class="planet-description">
+                            A frigid world where icy crystalline formations stretch across endless tundra. Temperature fluctuations cause facility structures to crack and buckle. <span class="flicker warning">SEVERE COLD DAMAGE TO EQUIPMENT.</span>
+                        </div>
+                        <div class="purchase-button">BUY AND TRAVEL</div>
+                    </div>
+                    <div class="planet-footer">
+                        <div class="destination-label">STATUS: ACTIVE</div>
+                    </div>
+                </div>
+
+                <!-- Planet Card 2 -->
+                <div class="planet-card">
+                    <div class="planet-image-container">
+                        <img src="images/nox.png" alt="Nox-427" class="planet-image">
+                        <div class="image-gradient"></div>
+                    </div>
+                    <div class="planet-info">
+                        <div class="planet-name">NOX-427</div>
+                        <div class="planet-description">
+                            A frigid world of perpetual twilight where abandoned facilities creak in the bitter winds. Locals report shadows that move independently of their owners. <span class="flicker error">PREVIOUS TEAM MISSING.</span>
+                        </div>
+                        <div class="purchase-button">BUY AND TRAVEL</div>
+                    </div>
+                    <div class="planet-footer">
+                        <div class="cost">
+                            <div class="cost-label">COST</div>
+                            <div class="cost-value">300$</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Planet Card 3 -->
+                <div class="planet-card">
+                    <div class="planet-image-container">
+                        <img src="images/mephisto.png" alt="Mephisto" class="planet-image">
+                        <div class="image-gradient"></div>
+                    </div>
+                    <div class="planet-info">
+                        <div class="planet-name">MEPHISTO</div>
+                        <div class="planet-description">
+                            A sulfurous hellscape where acid rains dissolve unprotected equipment. Equipment lifespans measured in hours. <span class="flicker error">PSYCHOLOGICAL EVALUATION REQUIRED</span> upon return.
+                        </div>
+                        <div class="purchase-button">BUY AND TRAVEL</div>
+                    </div>
+                    <div class="planet-footer">
+                        <div class="cost">
+                            <div class="cost-label">COST</div>
+                            <div class="cost-value expensive">700$</div>
+                        </div>
+                    </div>
+                </div>
+				
+				                <!-- Planet Card 5 -->
+                <div class="planet-card">
+                    <div class="planet-image-container">
+                        <img src="images/niflhel.png" alt="Niflhel" class="planet-image">
+                        <div class="image-gradient"></div>
+                    </div>
+                    <div class="planet-info">
+                        <div class="planet-name">NIFLHEL</div>
+                        <div class="planet-description">
+                            A glacial world where lavender‐tinged fog drifts through skeletal pines and frost blooms on wind‐scarred plains. <span class="flicker error">DEFROSTATION REQUIRED</span> upon return. Please do not ignore procedure.
+                        </div>
+                        <div class="purchase-button">BUY AND TRAVEL</div>
+                    </div>
+                    <div class="planet-footer">
+                        <div class="cost">
+                            <div class="cost-label">COST</div>
+                            <div class="cost-value expensive">150$</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Planet Card 4 (Unavailable) -->
+                <div class="planet-card unavailable">
+                    <div class="unavailable-overlay">
+                        <div class="unavailable-text">QUARANTINE ACTIVE</div>
+                    </div>
+                    <div class="planet-image-container">
+                        <img src="images/chronos.png" alt="Chronos-IX" class="planet-image">
+                        <div class="image-gradient"></div>
+                    </div>
+                    <div class="planet-info">
+                        <div class="planet-name">CHRONOS-IX</div>
+                        <div class="planet-description">
+                            Temporal anomalies distort reality. Previous explorers reported meeting themselves, some aging decades within minutes. <span class="flicker error">CAUSALITY BREACH DETECTED.</span> Access restricted by S.O.A.P. Interdimensional Regulations Dept.
+                        </div>
+                        <div class="purchase-button disabled">ACCESS DENIED</div>
+                    </div>
+                    <div class="planet-footer">
+                        <div class="destination-label restricted">STATUS: QUARANTINED</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shop Tab Content -->
+        <div class="tab-content" id="shop-tab">
+            <div class="section-header">
+                <h2>AVAILABLE EQUIPMENT</h2>
+                <div class="section-controls">
+                    <div class="control-label">FILTER:</div>
+                    <select class="terminal-select" id="shopFilter">
+                        <option value="all">All Items</option>
+                        <option value="tools">Tools</option>
+                        <option value="weapons">Weapons</option>
+                        <option value="equipment">Equipment</option>
+                    </select>
+                    
+                    <!-- View Controls -->
+                    <div class="view-controls">
+                        <div class="control-label">VIEW:</div>
+                        <div class="view-control active" data-view="card" title="Card View">
+                            <i class="fa-solid fa-th-large"></i>
+                        </div>
+                        <div class="view-control" data-view="compact" title="Compact View">
+                            <i class="fa-solid fa-th"></i>
+                        </div>
+                        <div class="view-control" data-view="list" title="List View">
+                            <i class="fa-solid fa-list"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Shop Categories -->
+            <div class="category-tabs">
+                <div class="category-tab active" data-category="general">/ GENERAL</div>
+                <div class="category-tab" data-category="upgrades">/ UPGRADES</div>
+                <div class="category-tab" data-category="decorations">/ DECORATIONS</div>
+                <div class="category-tab" data-category="uniques">/ UNIQUES</div>
+            </div>
+
+            <div class="card-grid card-view">
+                <!-- Item Card 1 -->
+                <div class="item-card">
+                    <div class="item-header">
+                        <div class="item-name">FLASHLIGHT</div>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-image-container">
+                            <img src="images/flashlight.png" alt="Flashlight" class="item-image">
+                        </div>
+                        <div class="item-rarity common">COMMON</div>
+                        <div class="item-stat">+1% to light radius <span class="flicker">-10% to sanity</span></div>
+                        <div class="item-description">
+                            Salvaged from S.O.A.P. Corporation Storage Unit #B-347. Battery acid <span class="flicker">whispers about the void between planets</span>. Warranty annulled if pointed at any reality distortions.
+                        </div>
+                        <div class="item-price-container">
+                            <div class="item-price">30$</div>
+                        </div>
+                        <div class="purchase-button">PURCHASE <span class="flicker">(BIOLOGICAL WARRANTY VOID)</span></div>
+                    </div>
+                </div>
+
+                <!-- Item Card 3 -->
+                <div class="item-card">
+                    <div class="item-header">
+                        <div class="item-name">SCREAMING VACUUM</div>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-image-container">
+                            <img src="images/vacuum.png" alt="Vacuum Cleaner" class="item-image">
+                        </div>
+                        <div class="item-rarity rare">RARE</div>
+                        <div class="item-stat">+5% to collection rate <span class="flicker">+70% to paranoia</span></div>
+                        <div class="item-description">
+                            S.O.A.P. Corporation Prototype #V-935. <span class="flicker error">Screams match missing maintenance staff ID frequencies.</span> Collects non-Euclidean debris. Previous users reported hearing it at night.
+                        </div>
+                        <div class="item-price-container">
+                            <div class="item-price">100$</div>
+                        </div>
+                        <div class="purchase-button">PURCHASE <span class="flicker">(HEARING PROTECTION SOLD SEPARATELY)</span></div>
+                    </div>
+                </div>
+
+                <!-- Item Card 4 -->
+                <div class="item-card">
+                    <div class="item-header">
+                        <div class="item-name">UNRELIABLE DETECTOR</div>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-image-container">
+                            <img src="images/detector.png" alt="Detector" class="item-image">
+                        </div>
+                        <div class="item-rarity common">DEFECTIVE</div>
+                        <div class="item-stat">+2% to detection range <span class="flicker">+40% to false positives</span></div>
+                        <div class="item-description">
+                            Recovered from S.O.A.P. Corporation Outpost Delta after the <span class="flicker">INCIDENT-KL-7</span>. Calibrated by Resource #4815 who has since been <span class="flicker error">reassigned to moon duties</span>. Return form WV-11 required for complaints.
+                        </div>
+                        <div class="item-price-container">
+                            <div class="item-price">50$</div>
+                        </div>
+                        <div class="purchase-button">PURCHASE <span class="flicker">(POWER SOURCE NOT GUARANTEED)</span></div>
+                    </div>
+                </div>
+                
+                <!-- Item Card 5 - Trampoline -->
+                <div class="item-card">
+                    <div class="item-header">
+                        <div class="item-name">"SAFE" TRAMPOLINE</div>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-image-container">
+                            <img src="images/trampoline.png" alt="Trampoline" class="item-image">
+                        </div>
+                        <div class="item-rarity rare">HAZARDOUS</div>
+                        <div class="item-stat">+20% Jump Height <span class="flicker error">-15% Fall Resistance</span></div>
+                        <div class="item-description">
+                            Confiscated from S.O.A.P. Corporation "Mandatory Joy Activities" area. <span class="flicker">Anti-gravity component slightly unstable.</span> Escape velocity achieved in 17% of test jumps. Non-returnable orbital trajectories possible.
+                        </div>
+                        <div class="item-price-container">
+                            <div class="item-price">120$</div>
+                        </div>
+                        <div class="purchase-button">PURCHASE <span class="flicker">(SPACE HELMET RECOMMENDED)</span></div>
+                    </div>
+                </div>
+                
+                <!-- Item Card 6 - First Aid Kit -->
+                <div class="item-card">
+                    <div class="item-header">
+                        <div class="item-name">FIRST AID KIT</div>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-image-container">
+                            <img src="images/firstaidkit.png" alt="First Aid Kit" class="item-image">
+                        </div>
+                        <div class="item-rarity common">STANDARD ISSUE</div>
+                        <div class="item-stat">Restores 25 HP <span class="flicker warning">5% chance of mutation</span></div>
+                        <div class="item-description">
+                            S.O.A.P. Corporation Employee Health Maintenance Unit. Contains fossilized bandages, unidentified ointment, and note reading <span class="flicker">"Planet Productivity First!"</span> Genetic stability waiver in fine print. Report limb duplication to HR.
+                        </div>
+                        <div class="item-price-container">
+                            <div class="item-price">65$</div>
+                        </div>
+                        <div class="purchase-button">PURCHASE <span class="flicker">(METABOLIC CONSEQUENCES EXPECTED)</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Console Tab Content -->
+        <div class="tab-content" id="console-tab">
+            <div class="terminal-console">
+                <div class="console-output" id="consoleOutput">
+                    <div class="console-line">> System terminal ready... <span class="flicker">MOSTLY FUNCTIONAL</span></div>
+                    <div class="console-line success">> Connection established to central database</div>
+                    <div class="console-line error">> WARNING: Unauthorized access detected. Logging for audit purposes.</div>
+                    <div class="console-line">> <span class="flicker">Unknown entity detected in local network...</span></div>
+                    <div class="console-line">> <span class="flicker">Entity denied.</span></div>
+                    <div class="console-line">> Type 'help' for available commands</div>
+                    <div class="console-line warning">> REMINDER: All inputs are monitored for compliance</div>
+                </div>
+                <div class="console-input-line">
+                    <span class="console-prompt">&gt;</span>
+                    <input type="text" class="console-input" id="consoleInput" placeholder="Enter command... (we are watching)">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Arrows -->
+    <div class="navigation-arrows">
+        <div class="nav-arrow previous">
+            <i class="fa-solid fa-chevron-left"></i>
+        </div>
+        <div class="nav-arrow next">
+            <i class="fa-solid fa-chevron-right"></i>
+        </div>
+    </div>
+
+    <!-- Purchase Confirmation Modal -->
+    <div class="purchase-modal" id="purchaseModal">
+        <div class="modal-content">
+            <div class="modal-close" onclick="closePurchaseModal()">×</div>
+            <div class="modal-header" id="purchaseModalHeader">CONFIRM PURCHASE</div>
+            <div class="modal-body">
+                Are you sure you want to purchase <span class="modal-item-name" id="purchaseItemName">ITEM NAME</span> for <span class="modal-price" id="purchasePrice">PRICE</span>?
+            </div>
+            <div class="modal-buttons">
+                <div class="modal-button" id="confirmBtn" onclick="confirmPurchase()">CONFIRM</div>
+                <div class="modal-button" id="cancelBtn" onclick="closePurchaseModal()">CANCEL</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Purchase Feedback Notification -->
+    <div class="purchase-feedback" id="purchaseFeedback"></div>
+
+    <!-- Controller Hints -->
+    <div class="controller-hints">
+        <div class="controller-hint">
+            <div class="button-icon">ARROWS</div>
+            Navigate
+        </div>
+        <div class="controller-hint">
+            <div class="button-icon">ENTER</div>
+            Select
+        </div>
+        <div class="controller-hint">
+            <div class="button-icon">ESC</div>
+            Back
+        </div>
+        <div class="controller-hint">
+            <div class="button-icon">TAB</div>
+            Next Tab
+        </div>
+        <div class="controller-hint">
+            <div class="button-icon">SHIFT+TAB</div>
+            Prev Tab
+        </div>
+    </div>
+
+    <script>
+        // Optimized boot sequence
+        function runBootSequence() {
+            const bootLog = document.getElementById('bootLog');
+            const bootProgressBar = document.getElementById('bootProgressBar');
+            const bootSequence = document.getElementById('bootSequence');
+            
+            const bootMessages = [
+                {text: "> Initializing systems...", delay: 100},
+                {text: "> Security check complete", delay: 100, class: "success"},
+                {text: "> Loading interface...", delay: 100}
+            ];
+            
+            let currentIndex = 0;
+            let progress = 0;
+            const progressIncrement = 100 / bootMessages.length;
+            
+            function displayNextMessage() {
+                if (currentIndex >= bootMessages.length) {
+                    bootSequence.classList.add('hidden');
+                    setTimeout(() => {
+                        bootSequence.style.display = 'none';
+                        enableFullAnimations();
+                        showNotification("Systems ready.", "success");
+                    }, 200);
+                    return;
+                }
+                
+                const message = bootMessages[currentIndex];
+                const p = document.createElement('p');
+                p.textContent = message.text;
+                if (message.class) {
+                    p.classList.add(message.class);
+                }
+                
+                bootLog.appendChild(p);
+                progress += progressIncrement;
+                bootProgressBar.style.width = `${progress}%`;
+                
+                currentIndex++;
+                setTimeout(displayNextMessage, message.delay);
+            }
+            
+            displayNextMessage();
+        }
+        
+        // Enable full animations after boot
+        function enableFullAnimations() {
+            requestAnimationFrame(() => {
+                // Enable terminal display animations with reduced frequency
+                document.querySelector('.terminal-display').style.animation = 'glitch 30s infinite';
+                document.body.style.animation = 'flicker 15s infinite';
+            });
+        }
+        
+        // Initialize notifications system with reduced frequency
+        function initializeNotifications() {
+            // Set up time updates
+            setInterval(updateTerminalTime, 60000);
+            
+            // Set up anomaly checks with reduced frequency
+            setTimeout(() => {
+                setInterval(() => {
+                    if (Math.random() < 0.1) { // Reduced probability
+                        triggerRandomAnomaly();
+                    }
+                }, 120000); // Increased interval
+            }, 30000);
+        }
+
+        // Optimize initial load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Start boot sequence immediately
+            runBootSequence();
+            
+            // Initialize only critical features first
+            updateTerminalTime();
+            
+            // Defer non-critical initializations
+            requestAnimationFrame(() => {
+                // Initialize essential UI elements
+                const activeTab = document.querySelector('.tab-content.active');
+                if (activeTab) {
+                    const firstCard = activeTab.querySelector('.planet-card, .item-card');
+                    if (firstCard) {
+                        firstCard.classList.add('selected');
+                    }
+                }
+                
+                // Update initial balance
+                updateBalanceDisplay();
+            });
+            
+            // Defer event listeners and animations
+            setTimeout(() => {
+                initializeEventListeners();
+                initializeNotifications();
+            }, 300);
+        });
+
+        // Initialize event listeners
+        function initializeEventListeners() {
+            // Add click handlers to purchase buttons
+            document.querySelectorAll('.purchase-button').forEach(button => {
+                button.addEventListener('click', handlePurchaseClick);
+            });
+            
+            // Add click handlers to cards
+            document.querySelectorAll('.planet-card, .item-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    // Don't trigger if clicking purchase button
+                    if (e.target.classList.contains('purchase-button')) return;
+                    
+                    // Remove selected class from all cards in the active tab
+                    const activeTab = document.querySelector('.tab-content.active');
+                    activeTab.querySelectorAll('.planet-card, .item-card').forEach(c => {
+                        c.classList.remove('selected');
+                    });
+                    
+                    // Add selected class to clicked card
+                    card.classList.add('selected');
+                    
+                    // Play sound effect
+                    playNavigationSound();
+                });
+            });
+            
+            // Navigation arrows
+            document.querySelector('.nav-arrow.previous').addEventListener('click', () => {
+                navigateCards('left');
+            });
+            
+            document.querySelector('.nav-arrow.next').addEventListener('click', () => {
+                navigateCards('right');
+            });
+            
+            // Initialize view mode controls
+            initializeViewControls();
+        }
+        
+        // Function to handle view mode switching
+        function switchViewMode(viewMode) {
+            const cardGrid = document.querySelector('#shop-tab .card-grid');
+            if (!cardGrid) {
+                console.error('Card grid not found');
+                return;
+            }
+            
+            console.log(`Switching to ${viewMode} view mode`);
+            
+            const viewControls = document.querySelectorAll('.view-control');
+            
+            // Remove all view mode classes
+            cardGrid.classList.remove('card-view', 'compact-view', 'list-view');
+            
+            // Remove active class from all controls
+            viewControls.forEach(control => control.classList.remove('active'));
+            
+            // Add the selected view mode class
+            cardGrid.classList.add(`${viewMode}-view`);
+            console.log(`Added class '${viewMode}-view' to card grid`);
+            
+            // Add active class to the selected control
+            const activeControl = document.querySelector(`.view-control[data-view="${viewMode}"]`);
+            if (activeControl) {
+                activeControl.classList.add('active');
+                console.log(`Set active control to ${viewMode}`);
+            } else {
+                console.error(`Control for ${viewMode} view not found`);
+            }
+            
+            // Save preference to localStorage
+            localStorage.setItem('shopViewMode', viewMode);
+            
+            // Play navigation sound
+            playNavigationSound();
+        }
+
+        // Tab switching
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabName = button.getAttribute('data-tab');
+                
+                // Deactivate all tabs
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Activate selected tab
+                button.classList.add('active');
+                document.getElementById(`${tabName}-tab`).classList.add('active');
+                
+                // Ensure a card is selected in the active tab
+                ensureCardSelection(tabName);
+                
+                // Play sound effect
+                playNavigationSound();
+            });
+        });
+
+        // Function to ensure a card is selected in the active tab
+        function ensureCardSelection(tabName) {
+            const activeTab = document.getElementById(`${tabName}-tab`);
+            const cards = activeTab.querySelectorAll('.planet-card, .item-card');
+            
+            // If no card is selected in this tab, select the first one
+            const hasSelectedCard = Array.from(cards).some(card => card.classList.contains('selected'));
+            
+            if (!hasSelectedCard && cards.length > 0) {
+                cards[0].classList.add('selected');
+            }
+        }
+
+        // Shop category switching
+        const categoryTabs = document.querySelectorAll('.category-tab');
+        
+        categoryTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const category = tab.getAttribute('data-category');
+                
+                // Deactivate all category tabs
+                categoryTabs.forEach(t => t.classList.remove('active'));
+                
+                // Activate selected category tab
+                tab.classList.add('active');
+                
+                // Filter items by category
+                filterItemsByCategory(category);
+                
+                // Ensure an item is selected
+                const shopTab = document.getElementById('shop-tab');
+                const cards = shopTab.querySelectorAll('.item-card:not([style*="display: none"])');
+                
+                // Remove selected class from all cards
+                shopTab.querySelectorAll('.item-card').forEach(card => card.classList.remove('selected'));
+                
+                // Select the first visible card in this category
+                if (cards.length > 0) {
+                    cards[0].classList.add('selected');
+                }
+                
+                // Play sound effect
+                playNavigationSound();
+            });
+        });
+
+        // Function to filter items by category
+        function filterItemsByCategory(category) {
+            // In a real implementation, you would filter items by category here
+            // For demo purposes, we'll just log the category
+            console.log(`Filtering by category: ${category}`);
+            
+            // Simulating filtering - would be replaced with actual filtering in production
+            // For demo, all items stay visible regardless of category
+        }
+
+        // Sound effect for navigation
+        function playNavigationSound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.start();
+                oscillator.stop(audioContext.currentTime + 0.1);
+            } catch (e) {
+                console.log('Audio not supported');
+            }
+        }
+
+        // Initialize gamepad support
+        let gamepadIndex = null;
+        let activeCardIndex = 0;
+        let lastButtonState = {};
+
+        window.addEventListener("gamepadconnected", (e) => {
+            console.log("Gamepad connected:", e.gamepad);
+            gamepadIndex = e.gamepad.index;
+        });
+
+        window.addEventListener("gamepaddisconnected", (e) => {
+            console.log("Gamepad disconnected:", e.gamepad);
+            gamepadIndex = null;
+        });
+
+        function pollGamepad() {
+            if (gamepadIndex !== null) {
+                const gamepad = navigator.getGamepads()[gamepadIndex];
+                if (!gamepad) return;
+
+                // A Button (0) - Select
+                if (gamepad.buttons[0].pressed && !lastButtonState[0]) {
+                    selectCurrentItem();
+                }
+
+                // X Button (2) - Buy
+                if (gamepad.buttons[2].pressed && !lastButtonState[2]) {
+                    buyCurrentItem();
+                }
+
+                // B Button (1) - Back
+                if (gamepad.buttons[1].pressed && !lastButtonState[1]) {
+                    if (document.getElementById('purchaseModal').classList.contains('active')) {
+                        closePurchaseModal();
+                    } else {
+                        goBack();
+                    }
+                }
+
+                // LB Button (4) - Previous Tab
+                if (gamepad.buttons[4].pressed && !lastButtonState[4]) {
+                    switchTab('previous');
+                }
+
+                // RB Button (5) - Next Tab
+                if (gamepad.buttons[5].pressed && !lastButtonState[5]) {
+                    switchTab('next');
+                }
+
+                // D-pad Up (12)
+                if (gamepad.buttons[12].pressed && !lastButtonState[12]) {
+                    if (document.getElementById('purchaseModal').classList.contains('active')) {
+                        // No up/down navigation in the modal
+                    } else {
+                        navigateCards('up');
+                    }
+                }
+
+                // D-pad Down (13)
+                if (gamepad.buttons[13].pressed && !lastButtonState[13]) {
+                    if (document.getElementById('purchaseModal').classList.contains('active')) {
+                        // No up/down navigation in the modal
+                    } else {
+                        navigateCards('down');
+                    }
+                }
+
+                // D-pad Left (14)
+                if (gamepad.buttons[14].pressed && !lastButtonState[14]) {
+                    if (document.getElementById('purchaseModal').classList.contains('active')) {
+                        navigateModalButtons('left');
+                    } else {
+                        navigateCards('left');
+                    }
+                }
+
+                // D-pad Right (15)
+                if (gamepad.buttons[15].pressed && !lastButtonState[15]) {
+                    if (document.getElementById('purchaseModal').classList.contains('active')) {
+                        navigateModalButtons('right');
+                    } else {
+                        navigateCards('right');
+                    }
+                }
+
+                // Update last button states
+                for (let i = 0; i < gamepad.buttons.length; i++) {
+                    lastButtonState[i] = gamepad.buttons[i].pressed;
+                }
+            }
+
+            requestAnimationFrame(pollGamepad);
+        }
+
+        // Start polling for gamepad input
+        pollGamepad();
+
+        // Global variables for purchase functionality
+        let currentBalance = 3000; // Starting balance
+        let activeModalButton = 'confirm'; // Default selected button in the modal
+        let inventory = {}; // Object to track owned items and their quantities
+
+        // Update balance display
+        function updateBalanceDisplay() {
+            document.querySelector('.balance-value').textContent = currentBalance + '$';
+            
+            // Update all planet and shop item prices and purchase buttons
+            const allCards = document.querySelectorAll('.planet-card, .item-card');
+            
+            allCards.forEach(card => {
+                // Get price element
+                let priceElement;
+                if (card.classList.contains('planet-card')) {
+                    priceElement = card.querySelector('.cost-value');
+                } else {
+                    // For items with sale price
+                    if (card.querySelector('.sale-price')) {
+                        priceElement = card.querySelector('.sale-price .item-price');
+                    } else {
+                        priceElement = card.querySelector('.item-price');
+                    }
+                }
+                
+                // Skip if no price element found
+                if (!priceElement) return;
+                
+                const price = extractPrice(priceElement);
+                const canPurchase = canAfford(price);
+                
+                // Update price color
+                priceElement.classList.toggle('expensive', !canPurchase);
+                
+                // Make sure all price elements have the expensive class if can't afford
+                if (!canPurchase) {
+                    card.querySelectorAll('.item-price, .cost-value').forEach(element => {
+                        element.classList.add('expensive');
+                    });
+                }
+                
+                // Update purchase button
+                const purchaseButton = card.querySelector('.purchase-button');
+                if (purchaseButton) {
+                    // Check if planet is already being orbited
+                    const isOrbiting = card.classList.contains('planet-card') && 
+                        card.querySelector('.destination-label')?.textContent === 'STATUS: ACTIVE';
+                        
+                    // Check if item is already owned
+                    const itemName = card.classList.contains('planet-card') 
+                        ? card.querySelector('.planet-name').textContent
+                        : card.querySelector('.item-name').textContent;
+                        
+                    // Update button state
+                    if (isOrbiting) {
+                        purchaseButton.classList.add('owned');
+                        purchaseButton.classList.remove('disabled');
+                        purchaseButton.textContent = 'CURRENTLY ORBITING';
+                    } else if (inventory[itemName]) {
+                        purchaseButton.classList.add('owned');
+                        purchaseButton.classList.remove('disabled');
+                        purchaseButton.textContent = `OWNED (${inventory[itemName]})`;
+                    } else {
+                        purchaseButton.classList.toggle('disabled', !canPurchase);
+                        purchaseButton.classList.remove('owned');
+                        if (card.classList.contains('planet-card')) {
+                            purchaseButton.textContent = canPurchase ? 'BUY AND TRAVEL' : 'INSUFFICIENT FUNDS';
+                        } else {
+                            purchaseButton.textContent = canPurchase ? 'PURCHASE' : 'INSUFFICIENT FUNDS';
+                        }
+                    }
+                }
+            });
+        }
+
+        // Check if player can afford the item
+        function canAfford(price) {
+            return currentBalance >= price;
+        }
+
+        // Extract price from element
+        function extractPrice(priceElement) {
+            // Clean the price string and convert to number
+            return parseInt(priceElement.textContent.replace(/[^\d]/g, ''));
+        }
+
+        // Show purchase modal
+        function showPurchaseModal(name, price, isPlanet = false) {
+            document.getElementById('purchaseItemName').textContent = name;
+            document.getElementById('purchasePrice').textContent = price + '$';
+            document.getElementById('purchaseModal').classList.add('active');
+            
+            // Update modal header and buttons based on item type
+            if (isPlanet) {
+                document.getElementById('purchaseModalHeader').textContent = 'CONFIRM TRAVEL';
+                document.getElementById('confirmBtn').textContent = 'BUY AND TRAVEL';
+            } else {
+                document.getElementById('purchaseModalHeader').textContent = 'CONFIRM PURCHASE';
+                document.getElementById('confirmBtn').textContent = 'CONFIRM';
+            }
+            
+            // Reset modal button selection
+            document.getElementById('confirmBtn').classList.add('selected');
+            document.getElementById('cancelBtn').classList.remove('selected');
+            activeModalButton = 'confirm';
+            
+            // Focus handling for keyboard navigation
+            setTimeout(() => {
+                document.getElementById('confirmBtn').focus();
+            }, 100);
+        }
+
+        // Close purchase modal
+        function closePurchaseModal() {
+            document.getElementById('purchaseModal').classList.remove('active');
+        }
+
+        // Show purchase feedback
+        function showPurchaseFeedback(message, success) {
+            const feedback = document.getElementById('purchaseFeedback');
+            feedback.textContent = message;
+            feedback.classList.remove('success', 'error');
+            feedback.classList.add(success ? 'success' : 'error');
+            feedback.classList.add('show');
+            
+            setTimeout(() => {
+                feedback.classList.remove('show');
+            }, 3000);
+        }
+
+        // Process the purchase
+        function processPurchase(name, price) {
+            // Check if player can afford the item
+            if (canAfford(price)) {
+                // Deduct the price from balance
+                currentBalance -= price;
+                updateBalanceDisplay();
+                
+                // Mark the item as purchased if it's a planet
+                const activeTab = document.querySelector('.tab-content.active');
+                const selectedCard = activeTab.querySelector('.planet-card.selected, .item-card.selected');
+                
+                if (selectedCard.classList.contains('planet-card')) {
+                    // Remove "STATUS: ACTIVE" from all other planets first
+                    document.querySelectorAll('.planet-card').forEach(card => {
+                        const footer = card.querySelector('.planet-footer');
+                        const costLabel = card.querySelector('.cost-value');
+                        const purchaseButton = card.querySelector('.purchase-button');
+                        
+                        if (footer.querySelector('.destination-label')?.textContent === 'STATUS: ACTIVE') {
+                            // Reset to show cost
+                            footer.innerHTML = `
+                                <div class="cost">
+                                    <div class="cost-label">COST</div>
+                                    <div class="cost-value">${costLabel ? costLabel.textContent : '300$'}</div>
+                                </div>
+                            `;
+                            
+                            // Update purchase button state
+                            if (purchaseButton) {
+                                purchaseButton.classList.remove('owned');
+                                purchaseButton.textContent = 'BUY AND TRAVEL';
+                            }
+                        }
+                    });
+                    
+                    // Set this planet as currently active
+                    const footer = selectedCard.querySelector('.planet-footer');
+                    footer.innerHTML = '<div class="destination-label">STATUS: ACTIVE</div>';
+                    
+                    // Update purchase button
+                    const purchaseButton = selectedCard.querySelector('.purchase-button');
+                    if (purchaseButton) {
+                        purchaseButton.classList.add('owned');
+                        purchaseButton.classList.remove('disabled');
+                        purchaseButton.textContent = 'CURRENTLY ORBITING';
+                    }
+                } else {
+                    // For shop items, add to inventory with quantity
+                    if (!inventory[name]) {
+                        inventory[name] = 1;
+                    } else {
+                        inventory[name]++;
+                    }
+                    
+                    // Update purchase button to show quantity
+                    const purchaseButton = selectedCard.querySelector('.purchase-button');
+                    if (purchaseButton) {
+                        purchaseButton.classList.add('owned');
+                        purchaseButton.classList.remove('disabled');
+                        purchaseButton.textContent = `OWNED (${inventory[name]})`;
+                    }
+                }
+                
+                showPurchaseFeedback(`Successfully purchased ${name}!`, true);
+            } else {
+                showPurchaseFeedback(`Insufficient funds to purchase ${name}!`, false);
+            }
+        }
+
+        // Confirm purchase
+        function confirmPurchase() {
+            const itemName = document.getElementById('purchaseItemName').textContent;
+            const itemPrice = parseInt(document.getElementById('purchasePrice').textContent.replace(/[^\d]/g, ''));
+            
+            closePurchaseModal();
+            processPurchase(itemName, itemPrice);
+        }
+
+        // Handle keyboard navigation in the modal
+        function navigateModalButtons(direction) {
+            if (direction === 'left' || direction === 'right') {
+                // Toggle between confirm and cancel
+                activeModalButton = activeModalButton === 'confirm' ? 'cancel' : 'confirm';
+                
+                // Update visual selection
+                document.getElementById('confirmBtn').classList.toggle('selected', activeModalButton === 'confirm');
+                document.getElementById('cancelBtn').classList.toggle('selected', activeModalButton === 'cancel');
+                
+                // Play sound
+                playNavigationSound();
+            }
+        }
+
+        // Updated selectCurrentItem function to handle purchases
+        function selectCurrentItem() {
+            // If modal is open, handle modal buttons
+            if (document.getElementById('purchaseModal').classList.contains('active')) {
+                if (activeModalButton === 'confirm') {
+                    confirmPurchase();
+                } else {
+                    closePurchaseModal();
+                }
+                return;
+            }
+            
+            // Get the selected card
+            const activeTab = document.querySelector('.tab-content.active');
+            const selectedCard = activeTab.querySelector('.planet-card.selected, .item-card.selected');
+            
+            if (!selectedCard) return;
+            
+            // Get item name
+            let itemName;
+            if (selectedCard.classList.contains('planet-card')) {
+                itemName = selectedCard.querySelector('.planet-name').textContent;
+            } else {
+                itemName = selectedCard.querySelector('.item-name').textContent;
+            }
+            
+            // Check if the planet is already owned
+            const footer = selectedCard.querySelector('.planet-footer');
+            
+            if (selectedCard.classList.contains('planet-card') && 
+                footer && footer.querySelector('.destination-label')?.textContent === 'STATUS: ACTIVE') {
+                showPurchaseFeedback(`You are already orbiting ${itemName}!`, false);
+                return;
+            }
+            
+            // Get price element
+            let priceElement;
+            if (selectedCard.classList.contains('planet-card')) {
+                priceElement = selectedCard.querySelector('.cost-value');
+            } else {
+                // For items with sale price
+                if (selectedCard.querySelector('.sale-price')) {
+                    priceElement = selectedCard.querySelector('.sale-price .item-price');
+                } else {
+                    priceElement = selectedCard.querySelector('.item-price');
+                }
+            }
+            
+            // If there's no price, don't proceed
+            if (!priceElement) {
+                console.log('No price found');
+                return;
+            }
+            
+            // Extract the price from the element
+            const price = extractPrice(priceElement);
+            
+            // For shop items, show quantity in the modal if already owned
+            let modalMessage;
+            if (selectedCard.classList.contains('planet-card')) {
+                modalMessage = `Are you sure you want to buy and travel to <span class="modal-item-name" id="purchaseItemName">ITEM NAME</span> for <span class="modal-price" id="purchasePrice">PRICE</span>?`;
+            } else if (inventory[itemName]) {
+                modalMessage = `Are you sure you want to purchase another <span class="modal-item-name" id="purchaseItemName">ITEM NAME</span> for <span class="modal-price" id="purchasePrice">PRICE</span>? (Currently owned: ${inventory[itemName]})`;
+            } else {
+                modalMessage = `Are you sure you want to purchase <span class="modal-item-name" id="purchaseItemName">ITEM NAME</span> for <span class="modal-price" id="purchasePrice">PRICE</span>?`;
+            }
+            
+            // Update modal message
+            document.querySelector('.modal-body').innerHTML = modalMessage;
+            
+            // Show purchase confirmation with appropriate type
+            showPurchaseModal(itemName, price, selectedCard.classList.contains('planet-card'));
+            
+            // Play sound effect
+            playNavigationSound();
+        }
+
+        // Buy function to be called by keyboard and gamepad
+        function buyCurrentItem() {
+            selectCurrentItem(); // Reuse the select functionality
+        }
+
+        // Keyboard navigation (updated for purchases and modal)
+        document.addEventListener('keydown', (e) => {
+            const modalActive = document.getElementById('purchaseModal').classList.contains('active');
+            
+            switch (e.key) {
+                case 'ArrowUp':
+                    if (!modalActive) navigateCards('up');
+                    break;
+                case 'ArrowDown':
+                    if (!modalActive) navigateCards('down');
+                    break;
+                case 'ArrowLeft':
+                    if (modalActive) {
+                        navigateModalButtons('left');
+                    } else {
+                        navigateCards('left');
+                    }
+                    break;
+                case 'ArrowRight':
+                    if (modalActive) {
+                        navigateModalButtons('right');
+                    } else {
+                        navigateCards('right');
+                    }
+                    break;
+                case 'Enter':
+                    if (modalActive) {
+                        if (activeModalButton === 'confirm') {
+                            confirmPurchase();
+                        } else {
+                            closePurchaseModal();
+                        }
+                    } else {
+                        buyCurrentItem();
+                    }
+                    break;
+                case 'Escape':
+                    if (modalActive) {
+                        closePurchaseModal();
+                    } else {
+                        goBack();
+                    }
+                    break;
+                case ' ': // Space key for purchasing
+                    if (!modalActive) {
+                        buyCurrentItem();
+                    }
+                    break;
+                case 'Tab':
+                    if (e.shiftKey) {
+                        e.preventDefault();
+                        if (!modalActive) switchTab('previous');
+                    } else {
+                        e.preventDefault();
+                        if (!modalActive) switchTab('next');
+                    }
+                    break;
+            }
+        });
+
+        // Functions that were accidentally removed and need to be restored
+        function goBack() {
+            // Implementation for going back
+            console.log('Go back');
+            playNavigationSound();
+        }
+
+        function switchTab(direction) {
+            const activeTabIndex = Array.from(tabButtons).findIndex(tab => tab.classList.contains('active'));
+            let newIndex;
+
+            if (direction === 'previous') {
+                newIndex = (activeTabIndex - 1 + tabButtons.length) % tabButtons.length;
+            } else {
+                newIndex = (activeTabIndex + 1) % tabButtons.length;
+            }
+
+            tabButtons[newIndex].click();
+        }
+
+        function navigateCards(direction) {
+            // Get all cards in the active tab
+            const activeTab = document.querySelector('.tab-content.active');
+            const cards = activeTab.querySelectorAll('.planet-card, .item-card');
+            
+            if (cards.length === 0) return;
+            
+            // Find the currently selected card
+            let selectedIndex = Array.from(cards).findIndex(card => card.classList.contains('selected'));
+            
+            // If no card is selected, select the first one
+            if (selectedIndex === -1) {
+                selectedIndex = 0;
+                cards[0].classList.add('selected');
+                return;
+            }
+            
+            let newIndex;
+            
+            // Card grid has a specific number of columns
+            const columns = 3; // Adjust based on your grid layout
+            const currentRow = Math.floor(selectedIndex / columns);
+            const currentCol = selectedIndex % columns;
+            
+            switch (direction) {
+                case 'up':
+                    newIndex = selectedIndex - columns;
+                    break;
+                case 'down':
+                    newIndex = selectedIndex + columns;
+                    break;
+                case 'left':
+                    newIndex = selectedIndex - 1;
+                    if (currentCol === 0) return; // Don't wrap to previous row
+                    break;
+                case 'right':
+                    newIndex = selectedIndex + 1;
+                    if (currentCol === columns - 1) return; // Don't wrap to next row
+                    break;
+            }
+            
+            // Check if new index is valid
+            if (newIndex >= 0 && newIndex < cards.length) {
+                // Remove selected class from all cards
+                cards.forEach(card => card.classList.remove('selected'));
+                
+                // Add selected class to new card
+                cards[newIndex].classList.add('selected');
+                
+                // Scroll to make sure the card is visible if needed
+                cards[newIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                // Play sound effect
+                playNavigationSound();
+            }
+        }
+
+        // Terminal time update
+        function updateTerminalTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // Convert 0 to 12
+            
+            document.querySelector('.time-display').textContent = `${hours}:${minutes}${ampm}`;
+        }
+        
+        // Terminal notification system
+        function showNotification(message, type = "info") {
+            const notification = document.createElement('div');
+            notification.className = `terminal-notification ${type}`;
+            
+            const icon = document.createElement('i');
+            if (type === "success") {
+                icon.className = "fas fa-check-circle";
+            } else if (type === "error") {
+                icon.className = "fas fa-exclamation-circle";
+            } else if (type === "warning") {
+                icon.className = "fas fa-exclamation-triangle";
+            } else {
+                icon.className = "fas fa-info-circle";
+            }
+            
+            const textSpan = document.createElement('span');
+            textSpan.textContent = message;
+            
+            notification.appendChild(icon);
+            notification.appendChild(textSpan);
+            
+            // Add to document
+            document.body.appendChild(notification);
+            
+            // Trigger animation
+            setTimeout(() => notification.classList.add('show'), 10);
+            
+            // Remove after delay
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 500);
+            }, 4000);
+        }
+        
+        // Random anomaly events
+        function triggerRandomAnomaly() {
+            const anomalies = [
+                {message: "Signal interference detected in nearby sector.", type: "warning"},
+                {message: "Unusual energy signature on planet surface.", type: "warning"},
+                {message: "Movement detected in Sector 12-B.", type: "warning"},
+                {message: "Unauthorized data access attempt blocked.", type: "error"},
+                {message: "Life support systems operating at reduced capacity.", type: "error"},
+                {message: "Maintenance required: Collection equipment degrading.", type: "warning"},
+                {message: "Beacon signal lost in quadrant 7.", type: "error"},
+                {message: "Discovered new resource deposit on current planet.", type: "success"},
+                {message: "Environmental hazard approaching current location.", type: "error"},
+                {message: "System recovered 12 corrupted memory blocks.", type: "info"}
+            ];
+            
+            const anomaly = anomalies[Math.floor(Math.random() * anomalies.length)];
+            showNotification(anomaly.message, anomaly.type);
+            
+            // Also update the status bar with the most recent anomaly
+            const errorStatus = document.querySelector('.status-item.error span');
+            if (errorStatus) {
+                errorStatus.textContent = "WARNING: " + anomaly.message.toUpperCase();
+            }
+        }
+
+        // Console functionality
+        const consoleInput = document.getElementById('consoleInput');
+        const consoleOutput = document.getElementById('consoleOutput');
+        let commandHistory = [];
+        let historyIndex = -1;
+
+        const COMMANDS = {
+            help: {
+                description: 'Display available commands',
+                execute: () => {
+                    let output = '> Available commands:\n';
+                    Object.entries(COMMANDS).forEach(([cmd, info]) => {
+                        output += `  ${cmd.padEnd(15)} - ${info.description}\n`;
+                    });
+                    return output;
+                }
+            },
+            clear: {
+                description: 'Clear console output',
+                execute: () => {
+                    consoleOutput.innerHTML = '';
+                    return '';
+                }
+            },
+            status: {
+                description: 'Display system status',
+                execute: () => {
+                    return `> System Status:
+  Uplink: STABLE
+  Signal Strength: 82%
+  Security Level: ACTIVE
+  Power Systems: NOMINAL
+  Current Anomalies: 1
+  Active Warnings: System instability detected in sector 7`;
+                }
+            },
+            scan: {
+                description: 'Scan current location for anomalies',
+                execute: () => {
+                    return new Promise(resolve => {
+                        addConsoleOutput('> Initiating scan...', 'info');
+                        setTimeout(() => {
+                            addConsoleOutput('> Scanning sector 1...', 'info');
+                        }, 500);
+                        setTimeout(() => {
+                            addConsoleOutput('> Scanning sector 2...', 'info');
+                        }, 1000);
+                        setTimeout(() => {
+                            resolve('> Scan complete. Found 2 anomalies:\n  - Unknown energy signature detected\n  - Temporal distortion in nearby space');
+                        }, 1500);
+                    });
+                }
+            },
+            inventory: {
+                description: 'List owned items and equipment',
+                execute: () => {
+                    const items = Object.entries(inventory).map(([item, quantity]) => 
+                        `  ${item.padEnd(20)} x${quantity}`
+                    ).join('\n');
+                    return `> Current Inventory:\n${items || '  No items owned'}`;
+                }
+            },
+            balance: {
+                description: 'Show current balance',
+                execute: () => {
+                    return `> Current Balance: ${currentBalance}$`;
+                }
+            }
+        };
+
+        consoleInput.addEventListener('keydown', async (e) => {
+            if (e.key === 'Enter') {
+                const command = consoleInput.value.trim().toLowerCase();
+                
+                if (command) {
+                    // Add command to history
+                    commandHistory.push(command);
+                    historyIndex = commandHistory.length;
+                    
+                    // Display command
+                    addConsoleOutput(`> ${command}`);
+                    
+                    // Process command
+                    if (COMMANDS[command]) {
+                        try {
+                            const result = await COMMANDS[command].execute();
+                            if (result) {
+                                addConsoleOutput(result);
+                            }
+                        } catch (error) {
+                            addConsoleOutput('> Error executing command', 'error');
+                        }
+                    } else {
+                        addConsoleOutput('> Unknown command. Type "help" for available commands.', 'error');
+                    }
+                    
+                    // Clear input
+                    consoleInput.value = '';
+                }
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (historyIndex > 0) {
+                    historyIndex--;
+                    consoleInput.value = commandHistory[historyIndex];
+                }
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (historyIndex < commandHistory.length - 1) {
+                    historyIndex++;
+                    consoleInput.value = commandHistory[historyIndex];
+                } else {
+                    historyIndex = commandHistory.length;
+                    consoleInput.value = '';
+                }
+            }
+        });
+
+        function addConsoleOutput(text, type = '') {
+            const lines = text.split('\n');
+            lines.forEach(line => {
+                const div = document.createElement('div');
+                div.textContent = line;
+                div.className = `console-line ${type}`;
+                consoleOutput.appendChild(div);
+            });
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        }
+
+        // Enhanced sorting and filtering
+        document.querySelectorAll('.terminal-select').forEach(select => {
+            select.addEventListener('change', function() {
+                const value = this.value.toLowerCase();
+                const container = this.closest('.tab-content');
+                
+                if (container.id === 'systems-tab') {
+                    // Sort planets
+                    const cards = Array.from(container.querySelectorAll('.planet-card'));
+                    cards.sort((a, b) => {
+                        if (value === 'cost') {
+                            const costA = extractPrice(a.querySelector('.cost-value') || { textContent: '0' });
+                            const costB = extractPrice(b.querySelector('.cost-value') || { textContent: '0' });
+                            return costA - costB;
+                        } else if (value === 'danger level') {
+                            // Implement danger level sorting logic
+                            return 0;
+                        }
+                        // Default to distance sorting
+                        return 0;
+                    });
+                    
+                    const grid = container.querySelector('.card-grid');
+                    cards.forEach(card => grid.appendChild(card));
+                } else if (container.id === 'shop-tab') {
+                    // Filter items
+                    const cards = container.querySelectorAll('.item-card');
+                    cards.forEach(card => {
+                        const itemName = card.querySelector('.item-name').textContent;
+                        if (value === 'available') {
+                            card.style.display = inventory[itemName] ? 'none' : '';
+                        } else if (value === 'owned') {
+                            card.style.display = inventory[itemName] ? '' : 'none';
+                        } else {
+                            card.style.display = '';
+                        }
+                    });
+                }
+            });
+        });
+
+        // Handle purchase button click
+        function handlePurchaseClick(e) {
+            e.stopPropagation(); // Prevent card selection when clicking purchase button
+            
+            const card = e.target.closest('.planet-card, .item-card');
+            if (!card) return;
+            
+            // Select the card first
+            const activeTab = document.querySelector('.tab-content.active');
+            activeTab.querySelectorAll('.planet-card, .item-card').forEach(c => {
+                c.classList.remove('selected');
+            });
+            card.classList.add('selected');
+            
+            // Then trigger purchase
+            buyCurrentItem();
+        }
+
+        // Terminal key event handling
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                // Check if any modal or overlay is open
+                const bootSequence = document.getElementById('bootSequence');
+                if (bootSequence && bootSequence.style.display !== 'none') {
+                    // Don't close terminal if boot sequence is running
+                    return;
+                }
+                
+                // Return to game
+                closeTerminal();
+            }
+        });
+
+        // Close terminal function
+        function closeTerminal() {
+            // Save any terminal state if needed
+            window.location.href = 'index.html';
+        }
+
+        // Initialize the Doom Code and uptime
+        document.addEventListener('DOMContentLoaded', function() {
+            generateDoomCode();
+            updateUptime();
+            setInterval(updateUptime, 1000);
+            
+            // Initialize monster collection stats
+            updateMonsterCollectionStats();
+        });
+        
+        // Function to update monster collection stats
+        function updateMonsterCollectionStats() {
+            // Get stored values or use defaults
+            const filledCapsules = localStorage.getItem('filledCapsules') || 3;
+            const totalCapsules = localStorage.getItem('totalCapsules') || 12;
+            const monsterWorth = localStorage.getItem('monsterWorth') || 1567;
+            
+            // Format the values with commas for thousands
+            const formattedWorth = monsterWorth.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            
+            // Update the display
+            document.getElementById('capsulesFilled').textContent = `${filledCapsules}/${totalCapsules}`;
+            document.getElementById('monsterWorth').textContent = `${formattedWorth}$`;
+            
+            // Update capsule occupation meter
+            const capsuleFill = document.getElementById('capsuleFill');
+            const occupationPercent = (filledCapsules / totalCapsules) * 100;
+            capsuleFill.style.width = `${occupationPercent}%`;
+            
+            // Remove all status classes first
+            capsuleFill.classList.remove('warning', 'danger');
+            
+            // Add appropriate status class based on occupation level
+            if (occupationPercent >= 90) {
+                capsuleFill.classList.add('danger');
+                document.getElementById('capsulesFilled').classList.add('error');
+            } else if (occupationPercent >= 75) {
+                capsuleFill.classList.add('warning');
+                document.getElementById('capsulesFilled').classList.add('warning');
+            } else {
+                document.getElementById('capsulesFilled').classList.remove('warning', 'error');
+            }
+        }
+        
+        // Function to add a new monster to collection
+        function addMonsterToCollection(monsterValue) {
+            // Get current values
+            let filledCapsules = parseInt(localStorage.getItem('filledCapsules') || 3);
+            const totalCapsules = parseInt(localStorage.getItem('totalCapsules') || 12);
+            let monsterWorth = parseInt(localStorage.getItem('monsterWorth') || 1567);
+            
+            // Update values
+            filledCapsules++;
+            monsterWorth += monsterValue;
+            
+            // Check if exceeding capacity
+            if (filledCapsules > totalCapsules) {
+                filledCapsules = totalCapsules;
+                showNotification("WARNING: Collection capacity reached!", "warning");
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('filledCapsules', filledCapsules);
+            localStorage.setItem('monsterWorth', monsterWorth);
+            
+            // Update display
+            updateMonsterCollectionStats();
+            
+            // Show success notification
+            showNotification(`Monster captured! Collection value increased by ${monsterValue}$`, "success");
+        }
+
+        // Initialize view mode controls
+        function initializeViewControls() {
+            const viewControls = document.querySelectorAll('.view-control');
+            
+            if (viewControls.length === 0) {
+                console.error('View controls not found');
+                return;
+            }
+            
+            viewControls.forEach(control => {
+                control.addEventListener('click', () => {
+                    const viewMode = control.getAttribute('data-view');
+                    switchViewMode(viewMode);
+                });
+            });
+            
+            // Load saved preference or default to card view
+            const savedViewMode = localStorage.getItem('shopViewMode') || 'card';
+            switchViewMode(savedViewMode);
+        }
+    </script>
+</body>
+</html> 
