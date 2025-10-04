@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLANET HOARDERS - LOBBY</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="audio-manager.js"></script>
+    <style>
+        :root {
+            --primary-color: #f7b933;
+            --secondary-color: #a23430;
+            --tertiary-color: #4d6e50;
+            --text-color: #adadad;
+            --background-color: rgba(16, 16, 14, 0.7);
+            --ui-opacity: 0.9;
+            --glow-effect: 0 0 8px rgba(194, 176, 28, 0.35);
+            --error-color: #a23430;
+            --scanline-color: rgba(20, 28, 20, 0.1);
+        }
+        
+        /* Custom Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+            background: rgba(10, 10, 8, 0.9);
+            border-left: 1px solid rgba(194, 176, 28, 0.2);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--primary-color) 0%, #937f13 100%);
+            border: 1px solid var(--primary-color);
+            box-shadow: inset 0 0 3px rgba(194, 176, 28, 0.5);
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, #e6d02b 0%, var(--primary-color) 100%);
+            box-shadow: 0 0 5px rgba(194, 176, 28, 0.7);
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(20, 20, 18, 0.7);
+            border-left: 1px solid rgba(194, 176, 28, 0.1);
+        }
+        
+        /* Firefox scrollbar */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) rgba(20, 20, 18, 0.7);
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'VT323', 'Share Tech Mono', monospace;
+            color: var(--text-color);
+            height: 100vh;
+            overflow: hidden;
+            background: url('background.png') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, 
+                rgba(10, 10, 8, 0.8) 0%,
+                rgba(20, 20, 18, 0.7) 50%,
+                rgba(10, 10, 8, 0.8) 100%);
+            z-index: 1;
+        }
+
+        /* CRT Effects */
+        .crt-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 4;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        /* Scanlines */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                var(--scanline-color),
+                var(--scanline-color) 2px,
+                transparent 2px,
+                transparent 4px
+            );
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0.3;
+        }
+
+        /* Vignette */
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                ellipse at center,
+                transparent 60%,
+                rgba(0, 0, 0, 0.6) 100%
+            );
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        /* Noise */
+        .noise {
+            position: fixed;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 300%;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQ1IDc5LjE2MzQ5OSwgMjAxOC8wOC8xMy0xNjo0MDoyMiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTkgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkQ4RTFFQkE3MjNFRDExRUI4QjQzOTMxMEQ5NzY1QTdDIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkQ4RTFFQkE4MjNFRDExRUI4QjQzOTMxMEQ5NzY1QTdDIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6RDhFMUVCQTUyM0VEMTFFQjhCNDM5MzEwRDk3NjVBN0MiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6RDhFMUVCQTYyM0VEMTFFQjhCNDM5MzEwRDk3NjVBN0MiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5lMSr6AAAD+klEQVR42sxaW08TQRT+tiAFsZSrlJu5CNLwQJ+NJj76Q/wL/hx/gg8+mfhkDIFoQiKKICoFyr3QFihr5tRzli20uLMzu9tJTpqdzszsz5nznfOd2d3a2Nig/3GrVeWSt/+C78vcrnJrc3vPrZOb+i/5O2bX5/ZH8Jn343pS+RXcLnBbEXCbMnLAu3g9t1X0Unvrj3bnV9vjjR8VbqvcnrTpVK2Qgy6qGnCpmv0T82TvaDtcqZKDXj2p7ZnxEeBx+X+KE4LlvU3/9l9igAZGhlKFxIqfxImBBdopLqrHuQsrITDlw3xh1fWIVz6Uxqns5PDiAbTl1u/xR/Nh+/QYJiKDLPAHV+MoIZHoWN5mN5omADswkcLQxCh9wv3M2jofx5bIkJdqYtCY0TlWMg40nYTgXk3sIl6e4oDJ0xVCVMGlJDSyIbYl8sIUHK458pIUk2iXG7lqbm5YdcFHRxM2+JI83mRCyA1dSjELXoQS3DL3QhcgGXEsMjnkitxYL+LiU1BxsRK1JiJSzM7T0AyJZHiB87M75DTnUV2FDRWfQc+hYkwmcAASUXJ3TmjjdtQXnEUhd5z11yKRCCOBQKkgxkCUiGAhUdxNEYkOJgR1aJJBzF9JJJcICWJ7nE/1qA3q6B5/9uJGrNu+2ekkUQ9J3LqTz7Jw3ybSi+MSzw/3qb/Qb5TQGdX4yRUXwRrL8MfPGzUK8YyYR23FdyZxjYEYu3qPRm/Ni3FrVnePiw3rxNkUTrIbWCdCDuM4JVYzV4zTZCZNY+kxqpZKVDku0Wx6gkr5ORrJZdR8MxFGlGp6Jt3m27TVb9QhgrJ3dTM+l1XaCXdipfyWUYj3p0SFw0PSpV5BPG+JnFcwDgYJ2n/71gjMRAgBBokgRGSZ8V5hCMxFiDETyRaLbGCGTJAkk5XQKdawO6XlwiF/UW2/REdvNqh2VqFifoHKhUPqcRxqzI7Q4MgEDZ6ORkIQF4M9IkkjgpXDIcLt1Q9fmEQfHe2+p4O37A7lU8o982h8dp7GZ7gNjIRGCNyUyKCaQ86o1GgyJSvCZODK3KNzNrDX325S7RR2buFRKvhkQ5BJH5o9Wy8iOTNFE9MzlBwc0J6PbOJR5d6wASn/SrIQsBgcYbHHXiXKx2WOTcQQ4NJUdlOhIZKL9XyGCLCBJvqidQk0Fw/4vCMhhEqUuTSVkwhBJwQ95yI1FiHXqEm9C3JzFd6NEQhuAy7fBxhW68FNJ0Z6q1dK0Sw4KWuDYGnAq0oHJOOvSTcXpZUqfUQVlTQ5rQa3ZSE3jGgk1LlvSpwjVtG5K0qnMPbMFPrAb1u7RndR+iXAAE3ACGvhZiC4AAAAAElFTkSuQmCC');
+            background-repeat: repeat;
+            animation: noiseAnim .2s infinite;
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        @keyframes noiseAnim {
+            0% { transform: translate(0, 0); }
+            10% { transform: translate(-5%, -5%); }
+            20% { transform: translate(-10%, 5%); }
+            30% { transform: translate(5%, -10%); }
+            40% { transform: translate(-5%, 15%); }
+            50% { transform: translate(-10%, 5%); }
+            60% { transform: translate(15%, 0); }
+            70% { transform: translate(0, 10%); }
+            80% { transform: translate(-15%, 0); }
+            90% { transform: translate(10%, 5%); }
+            100% { transform: translate(5%, 0); }
+        }
+
+        /* Flicker for random screen flicker effect */
+        .flicker {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 6;
+            background-color: rgba(10, 10, 8, 0);
+            transition: background-color 0.1s ease;
+        }
+
+        .lobby-container {
+            position: relative;
+            z-index: 7;
+            width: 90%;
+            max-width: 800px;
+            background-color: var(--background-color);
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 0 15px rgba(194, 176, 28, 0.3), inset 0 0 10px rgba(0, 0, 0, 0.6);
+            padding: 30px;
+            animation: terminalAppear 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        @keyframes terminalAppear {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .lobby-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(194, 176, 28, 0.3);
+        }
+
+        .lobby-title {
+            color: var(--primary-color);
+            font-size: 36px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px rgba(194, 176, 28, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .lobby-subtitle {
+            color: var(--text-color);
+            font-size: 16px;
+            opacity: 0.8;
+        }
+
+        .server-info {
+            background-color: rgba(20, 20, 18, 0.6);
+            border: 1px solid rgba(194, 176, 28, 0.3);
+            padding: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .doom-code-display {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .doom-code-label {
+            color: var(--text-color);
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+
+        .doom-code-value {
+            color: var(--primary-color);
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .copy-code-btn {
+            background-color: rgba(20, 20, 18, 0.8);
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 8px 15px;
+            font-family: 'VT323', monospace;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .copy-code-btn:hover {
+            background-color: rgba(194, 176, 28, 0.2);
+            box-shadow: 0 0 10px rgba(194, 176, 28, 0.4);
+        }
+
+        .players-section {
+            margin-bottom: 25px;
+        }
+
+        .section-header {
+            color: var(--primary-color);
+            font-size: 20px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .player-count {
+            background-color: rgba(194, 176, 28, 0.2);
+            border: 1px solid var(--primary-color);
+            padding: 3px 10px;
+            font-size: 16px;
+        }
+
+        .players-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .player-item {
+            background-color: rgba(20, 20, 18, 0.6);
+            border: 1px solid rgba(194, 176, 28, 0.3);
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            gap: 8px;
+        }
+
+        .player-item:hover {
+            background-color: rgba(194, 176, 28, 0.1);
+            border-color: var(--primary-color);
+        }
+
+        .player-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+
+
+        /* Avatar Container */
+        .player-avatar {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            overflow: hidden;
+            border: 2px solid var(--primary-color);
+            background-color: rgba(10, 10, 8, 0.8);
+            box-shadow: 0 0 8px rgba(194, 176, 28, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .player-avatar-half {
+            position: absolute;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(135deg, 
+                rgba(194, 176, 28, 0.8) 0%, 
+                rgba(147, 127, 19, 0.6) 50%,
+                rgba(194, 176, 28, 0.8) 100%);
+            transition: transform 0.15s ease-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .player-avatar-half.top {
+            top: 0;
+            border-bottom: none;
+        }
+
+        .player-avatar-half.bottom {
+            bottom: 0;
+            border-top: none;
+        }
+
+        .player-avatar-icon {
+            position: absolute;
+            color: var(--primary-color);
+            font-size: 28px;
+            text-shadow: 0 0 5px rgba(194, 176, 28, 0.5);
+            pointer-events: none;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .player-avatar-icon.top,
+        .player-avatar-icon.bottom {
+            display: none;
+        }
+
+        /* Show unified icon by default */
+        .player-avatar::before {
+            content: '\f007';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            color: var(--primary-color);
+            font-size: 28px;
+            text-shadow: 0 0 5px rgba(194, 176, 28, 0.5);
+            z-index: 1;
+        }
+
+        /* Speaking Animation */
+        .player-item.speaking .player-avatar::before {
+            opacity: 0;
+        }
+
+        .player-item.speaking .player-avatar-half.top {
+            transform: translateY(-8px);
+        }
+
+        .player-item.speaking .player-avatar-half.bottom {
+            transform: translateY(8px);
+        }
+
+        .player-item.speaking .player-avatar {
+            border-color: var(--tertiary-color);
+            box-shadow: 0 0 15px rgba(77, 110, 80, 0.6);
+            animation: speaking-pulse 0.3s ease-in-out infinite alternate;
+        }
+
+        @keyframes speaking-pulse {
+            0% { box-shadow: 0 0 15px rgba(77, 110, 80, 0.6); }
+            100% { box-shadow: 0 0 25px rgba(77, 110, 80, 0.9); }
+        }
+
+        .player-item.speaking .player-avatar-half {
+            background: linear-gradient(135deg, 
+                rgba(77, 110, 80, 0.9) 0%, 
+                rgba(60, 90, 63, 0.7) 50%,
+                rgba(77, 110, 80, 0.9) 100%);
+        }
+
+        .player-item.speaking .player-avatar-icon.top,
+        .player-item.speaking .player-avatar-icon.bottom {
+            display: block;
+        }
+
+        .player-item.speaking .player-avatar-icon {
+            color: var(--tertiary-color);
+        }
+
+        .player-item.speaking .player-avatar-icon.top {
+            top: 8px;
+            transform: translate(-50%, 0);
+        }
+
+        .player-item.speaking .player-avatar-icon.bottom {
+            bottom: 8px;
+            top: auto;
+            transform: translate(-50%, 0);
+        }
+
+        .player-icon {
+            color: var(--primary-color);
+            font-size: 20px;
+        }
+
+        .player-name {
+            color: var(--text-color);
+            font-size: 18px;
+        }
+
+        /* Player microphone toggle button */
+        .player-mic-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border: 1px solid var(--secondary-color);
+            background-color: rgba(162, 52, 48, 0.2);
+            color: var(--secondary-color);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 6px;
+        }
+
+        .player-mic-toggle:hover {
+            background-color: rgba(162, 52, 48, 0.4);
+            box-shadow: 0 0 8px rgba(162, 52, 48, 0.4);
+            transform: scale(1.05);
+        }
+
+        .player-mic-toggle.active {
+            border-color: var(--tertiary-color);
+            background-color: rgba(77, 110, 80, 0.2);
+            color: var(--tertiary-color);
+        }
+
+        .player-mic-toggle.active:hover {
+            background-color: rgba(77, 110, 80, 0.4);
+            box-shadow: 0 0 10px rgba(77, 110, 80, 0.5);
+        }
+
+        .player-item.speaking .player-mic-toggle.active {
+            animation: mic-pulse 0.5s ease-in-out infinite;
+            box-shadow: 0 0 15px rgba(77, 110, 80, 0.8);
+        }
+
+        @keyframes mic-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .player-status {
+            color: var(--tertiary-color);
+            font-size: 14px;
+            border: 1px solid var(--tertiary-color);
+            padding: 3px 8px;
+        }
+
+        .player-status.host {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .warning-box {
+            background-color: rgba(162, 52, 48, 0.2);
+            border: 1px solid var(--secondary-color);
+            color: #ff6b63;
+            padding: 15px;
+            margin-bottom: 25px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .invite-section {
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .invite-button {
+            width: 100%;
+            background-color: rgba(20, 20, 18, 0.8);
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 12px;
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .invite-button:hover {
+            background-color: rgba(194, 176, 28, 0.2);
+            box-shadow: 0 0 10px rgba(194, 176, 28, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .invite-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--primary-color), transparent);
+            animation: scan-move 2s linear infinite;
+        }
+
+        @keyframes scan-move {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .lobby-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .lobby-button {
+            flex: 1;
+            background-color: rgba(20, 20, 18, 0.8);
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 15px;
+            font-family: 'VT323', monospace;
+            font-size: 20px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lobby-button:hover {
+            background-color: rgba(194, 176, 28, 0.2);
+            box-shadow: 0 0 10px rgba(194, 176, 28, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .lobby-button.start-button {
+            border-color: var(--tertiary-color);
+            color: var(--tertiary-color);
+        }
+
+        .lobby-button.start-button:hover {
+            background-color: rgba(77, 110, 80, 0.2);
+            box-shadow: 0 0 10px rgba(77, 110, 80, 0.4);
+        }
+
+        .lobby-button.cancel-button {
+            border-color: var(--secondary-color);
+            color: var(--secondary-color);
+        }
+
+        .lobby-button.cancel-button:hover {
+            background-color: rgba(162, 52, 48, 0.2);
+            box-shadow: 0 0 10px rgba(162, 52, 48, 0.4);
+        }
+
+        .corner-element {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+        }
+
+        .corner-element.top-left {
+            top: -2px;
+            left: -2px;
+            border-top: 2px solid var(--primary-color);
+            border-left: 2px solid var(--primary-color);
+        }
+
+        .corner-element.top-right {
+            top: -2px;
+            right: -2px;
+            border-top: 2px solid var(--primary-color);
+            border-right: 2px solid var(--primary-color);
+        }
+
+        .corner-element.bottom-left {
+            bottom: -2px;
+            left: -2px;
+            border-bottom: 2px solid var(--primary-color);
+            border-left: 2px solid var(--primary-color);
+        }
+
+        .corner-element.bottom-right {
+            bottom: -2px;
+            right: -2px;
+            border-bottom: 2px solid var(--primary-color);
+            border-right: 2px solid var(--primary-color);
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: var(--tertiary-color);
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; box-shadow: 0 0 0 0 rgba(77, 110, 80, 0.7); }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; box-shadow: 0 0 0 10px rgba(77, 110, 80, 0); }
+        }
+
+        .corporate-message {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: var(--text-color);
+            opacity: 0.6;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <!-- CRT Effects -->
+    <div class="crt-overlay">
+        <div class="scanlines"></div>
+        <div class="vignette"></div>
+        <div class="noise"></div>
+        <div class="flicker"></div>
+    </div>
+
+    <div class="lobby-container">
+        <div class="corner-element top-left"></div>
+        <div class="corner-element top-right"></div>
+        <div class="corner-element bottom-left"></div>
+        <div class="corner-element bottom-right"></div>
+
+        <div class="lobby-header">
+            <h1 class="lobby-title">EXPEDITION LOBBY</h1>
+            <div class="lobby-subtitle">PRE-DEPLOYMENT CHAMBER • SUFFERING SYNCHRONIZATION IN PROGRESS</div>
+        </div>
+
+        <!-- Toggle Lobby Code Button -->
+        <button class="toggle-code-btn" id="toggleLobbyCode" style="width: 100%; margin-bottom: 15px; padding: 12px; background-color: rgba(20, 20, 18, 0.6); border: 1px solid rgba(194, 176, 28, 0.3); color: var(--primary-color); font-family: 'VT323', monospace; font-size: 18px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: space-between; text-transform: uppercase;">
+            <span id="toggleCodeText">
+                <i class="fa-solid fa-eye"></i> SHOW DOOM CODE
+            </span>
+            <i class="fa-solid fa-chevron-down" id="lobbyToggleIcon" style="transition: transform 0.3s ease;"></i>
+        </button>
+        
+        <div class="server-info" id="lobbyServerInfo" style="display: none; opacity: 0; transition: opacity 0.3s ease, margin 0.3s ease; margin-bottom: 0;">
+            <div class="doom-code-display">
+                <span class="doom-code-label">DOOM CODE:</span>
+                <span class="doom-code-value" id="lobbyDoomCode">#LOADING</span>
+            </div>
+            <button class="copy-code-btn" id="copyDoomCode">
+                <i class="fa-solid fa-copy"></i> COPY CODE
+            </button>
+        </div>
+
+        <div class="warning-box">
+            <i class="fa-solid fa-skull-crossbones"></i> WARNING: WAITING FOR ADDITIONAL SACRIFICIAL EMPLOYEES • LONELINESS INCREASES MORTALITY BY 47% <i class="fa-solid fa-skull-crossbones"></i>
+        </div>
+
+        <div class="players-section">
+            <div class="section-header">
+                <i class="fa-solid fa-users"></i>
+                <span>CONDEMNED PERSONNEL</span>
+                <div class="player-count"><span id="playerCount">1</span>/4</div>
+            </div>
+
+            <div class="players-list" id="playersList">
+                <div class="player-item" data-player-id="host">
+                    <div class="player-info">
+                        <div class="player-avatar">
+                            <div class="player-avatar-half top">
+                                <i class="fa-solid fa-user player-avatar-icon top"></i>
+                            </div>
+                            <div class="player-avatar-half bottom">
+                                <i class="fa-solid fa-user player-avatar-icon bottom"></i>
+                            </div>
+                        </div>
+                        <span class="status-indicator"></span>
+                        <i class="fa-solid fa-user player-icon"></i>
+                        <span class="player-name">YOU [EMPLOYEE #4815]</span>
+                    </div>
+                    <div class="player-mic-toggle">
+                        <i class="fa-solid fa-microphone-slash"></i>
+                    </div>
+                    <div class="player-status host">HOST</div>
+                </div>
+                <!-- Additional players will be added here -->
+            </div>
+        </div>
+
+        <div class="invite-section">
+            <button class="invite-button" id="inviteFriendsBtn">
+                <i class="fa-solid fa-user-plus"></i>
+                <span>RECRUIT SACRIFICIAL COLLEAGUES</span>
+                <i class="fa-solid fa-share-nodes"></i>
+            </button>
+        </div>
+
+        <div class="lobby-actions">
+            <button class="lobby-button start-button" id="startExpedition">
+                <i class="fa-solid fa-rocket"></i> COMMENCE SUFFERING
+            </button>
+            <button class="lobby-button cancel-button" id="cancelLobby">
+                <i class="fa-solid fa-door-open"></i> ABANDON EXPEDITION
+            </button>
+        </div>
+
+        <div class="corporate-message">
+            "Remember: Team deaths are tax-deductible. Have a productive demise!"
+        </div>
+    </div>
+
+    <script>
+        // Initialize audio when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            window.audioManager.initializeAudio();
+            
+            // Add sound effects to all interactive elements
+            const interactiveElements = document.querySelectorAll('.lobby-button, .copy-code-btn, .invite-button, .toggle-code-btn');
+            interactiveElements.forEach(element => {
+                element.addEventListener('mouseenter', function() {
+                    window.audioManager.playSound(window.audioManager.hoverSound);
+                });
+                
+                element.addEventListener('click', function() {
+                    window.audioManager.playSound(window.audioManager.clickSound);
+                });
+            });
+        });
+
+        // Toggle Lobby Code visibility
+        document.getElementById('toggleLobbyCode').addEventListener('click', function() {
+            const serverInfo = document.getElementById('lobbyServerInfo');
+            const toggleIcon = document.getElementById('lobbyToggleIcon');
+            const toggleText = document.getElementById('toggleCodeText');
+            
+            if (serverInfo.style.display === 'none') {
+                // Show the section
+                serverInfo.style.display = 'flex';
+                setTimeout(() => {
+                    serverInfo.style.opacity = '1';
+                    serverInfo.style.marginBottom = '25px';
+                }, 10);
+                toggleText.innerHTML = '<i class="fa-solid fa-eye-slash"></i> HIDE DOOM CODE';
+                toggleIcon.style.transform = 'rotate(180deg)';
+            } else {
+                // Hide the section
+                serverInfo.style.opacity = '0';
+                serverInfo.style.marginBottom = '0';
+                setTimeout(() => {
+                    serverInfo.style.display = 'none';
+                }, 300);
+                toggleText.innerHTML = '<i class="fa-solid fa-eye"></i> SHOW DOOM CODE';
+                toggleIcon.style.transform = 'rotate(0deg)';
+            }
+        });
+        
+        // Add hover effect to toggle button
+        document.getElementById('toggleLobbyCode').addEventListener('mouseenter', function() {
+            this.style.backgroundColor = 'rgba(194, 176, 28, 0.1)';
+            this.style.borderColor = 'var(--primary-color)';
+        });
+        
+        document.getElementById('toggleLobbyCode').addEventListener('mouseleave', function() {
+            this.style.backgroundColor = 'rgba(20, 20, 18, 0.6)';
+            this.style.borderColor = 'rgba(194, 176, 28, 0.3)';
+        });
+
+        // Generate or retrieve Doom Code
+        function generateDoomCode() {
+            const storedDoomCode = localStorage.getItem('hostDoomCode');
+            const doomCodeElement = document.getElementById('lobbyDoomCode');
+            
+            if (storedDoomCode) {
+                doomCodeElement.textContent = storedDoomCode;
+            } else {
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                let doomCode = '#';
+                for (let i = 0; i < 7; i++) {
+                    doomCode += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                doomCodeElement.textContent = doomCode;
+                localStorage.setItem('hostDoomCode', doomCode);
+            }
+        }
+
+        // Copy Doom Code to clipboard
+        document.getElementById('copyDoomCode').addEventListener('click', function() {
+            const doomCode = document.getElementById('lobbyDoomCode').textContent;
+            navigator.clipboard.writeText(doomCode).then(function() {
+                const copyBtn = document.getElementById('copyDoomCode');
+                const originalHTML = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> COPIED';
+                copyBtn.style.backgroundColor = 'rgba(77, 110, 80, 0.3)';
+                
+                setTimeout(function() {
+                    copyBtn.innerHTML = originalHTML;
+                    copyBtn.style.backgroundColor = '';
+                }, 2000);
+                
+                showNotification('Doom Code copied. Share with colleagues to increase collective suffering.', 'success');
+            });
+        });
+
+        // Invite Friends button
+        document.getElementById('inviteFriendsBtn').addEventListener('click', function() {
+            const doomCode = document.getElementById('lobbyDoomCode').textContent;
+            
+            // Try to use Web Share API if available (mobile/modern browsers)
+            if (navigator.share) {
+                navigator.share({
+                    title: 'PLANET HOARDERS - Join Expedition',
+                    text: `JOIN MY EXPEDITION OF DOOM!\n\nDoom Code: ${doomCode}\n\nWarning: Survival probability estimated at 12.7%. Company accepts no liability for employee disintegration.\n\nJoin at your own risk!`,
+                }).then(() => {
+                    showNotification('Invitation transmitted. Their fate is sealed.', 'success');
+                }).catch((error) => {
+                    console.log('Share failed:', error);
+                    // Fallback to copy
+                    copyInviteToClipboard(doomCode);
+                });
+            } else {
+                // Fallback for desktop browsers - copy invitation text
+                copyInviteToClipboard(doomCode);
+            }
+        });
+
+        // Fallback function to copy invite text to clipboard
+        function copyInviteToClipboard(doomCode) {
+            const inviteText = `🚀 JOIN MY PLANET HOARDERS EXPEDITION! 🚀\n\nDoom Code: ${doomCode}\n\n⚠️ WARNING: Survival probability estimated at 12.7%\n💀 Company accepts no liability for employee disintegration\n🏥 Medical disclaimer forms pre-signed\n\nJoin the expedition at your own risk!\n\nLet the suffering begin! 💀`;
+            
+            navigator.clipboard.writeText(inviteText).then(function() {
+                const inviteBtn = document.getElementById('inviteFriendsBtn');
+                const originalHTML = inviteBtn.innerHTML;
+                inviteBtn.innerHTML = '<i class="fa-solid fa-check"></i> INVITATION COPIED <i class="fa-solid fa-check"></i>';
+                inviteBtn.style.backgroundColor = 'rgba(77, 110, 80, 0.3)';
+                
+                setTimeout(function() {
+                    inviteBtn.innerHTML = originalHTML;
+                    inviteBtn.style.backgroundColor = '';
+                }, 2500);
+                
+                showNotification('Invitation copied to clipboard. Spread the misery far and wide!', 'success');
+            }).catch(function(err) {
+                console.error('Failed to copy: ', err);
+                showNotification('ERROR: Failed to copy invitation. Your isolation continues.', 'error');
+            });
+        }
+
+        // Start expedition button
+        document.getElementById('startExpedition').addEventListener('click', function() {
+            window.audioManager.playSound(window.audioManager.selectSound);
+            
+            // Navigate to loading page
+            window.location.href = 'loading.html';
+        });
+
+        // Cancel lobby button
+        document.getElementById('cancelLobby').addEventListener('click', function() {
+            window.audioManager.playSound(window.audioManager.clickSound);
+            
+            const confirmed = confirm("WARNING: Abandoning expedition will result in a demerit on your permanent record.\n\nYour cowardice has been logged.\n\nReturn to main menu?");
+            
+            if (confirmed) {
+                window.location.href = 'main-menu.html';
+            }
+        });
+
+        // Flicker effect for CRT screen
+        function randomFlicker() {
+            const flicker = document.querySelector('.flicker');
+            if (Math.random() < 0.03) {
+                flicker.style.backgroundColor = 'rgba(10, 10, 8, 0.1)';
+                setTimeout(() => {
+                    flicker.style.backgroundColor = 'rgba(10, 10, 8, 0)';
+                }, 100);
+            }
+            setTimeout(randomFlicker, 100);
+        }
+        randomFlicker();
+
+        // Simple notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+            
+            // Set color based on type
+            let borderColor = 'var(--primary-color)';
+            let textColor = 'var(--primary-color)';
+            if (type === 'success') {
+                borderColor = 'var(--tertiary-color)';
+                textColor = 'var(--tertiary-color)';
+            } else if (type === 'error') {
+                borderColor = 'var(--secondary-color)';
+                textColor = 'var(--secondary-color)';
+            }
+            
+            notification.style.border = '1px solid ' + borderColor;
+            notification.style.color = textColor;
+            notification.style.padding = '15px 20px';
+            notification.style.fontFamily = "'Share Tech Mono', monospace";
+            notification.style.fontSize = '14px';
+            notification.style.zIndex = '9999';
+            notification.style.opacity = '0';
+            notification.style.transition = 'opacity 0.3s ease';
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '1';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Microphone and Audio Analysis Setup
+        let audioContext = null;
+        let analyser = null;
+        let microphone = null;
+        let mediaStream = null;
+        let dataArray = null;
+        let bufferLength = null;
+        let microphoneActive = false;
+        let microphoneEnabled = false;
+
+        // Request microphone access and setup audio analysis
+        async function setupMicrophone() {
+            try {
+                mediaStream = await navigator.mediaDevices.getUserMedia({ 
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        autoGainControl: true
+                    } 
+                });
+                
+                // Create audio context
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                microphone = audioContext.createMediaStreamSource(mediaStream);
+                
+                // Configure analyser
+                analyser.fftSize = 512;
+                analyser.smoothingTimeConstant = 0.8;
+                bufferLength = analyser.frequencyBinCount;
+                dataArray = new Uint8Array(bufferLength);
+                
+                // Connect microphone to analyser
+                microphone.connect(analyser);
+                
+                microphoneActive = true;
+                microphoneEnabled = true;
+                
+                // Update button UI
+                updateMicButtonUI();
+                
+                // Start monitoring audio levels
+                monitorAudioLevel();
+                
+                showNotification('Microphone activated. Voice monitoring engaged.', 'success');
+            } catch (error) {
+                console.error('Microphone access denied:', error);
+                showNotification('WARNING: Microphone access denied. Voice communication disabled.', 'error');
+            }
+        }
+
+        // Toggle microphone on/off
+        function toggleMicrophone() {
+            if (!mediaStream) {
+                // First time - request microphone access
+                setupMicrophone();
+            } else {
+                microphoneEnabled = !microphoneEnabled;
+                updateMicButtonUI();
+                
+                if (microphoneEnabled) {
+                    showNotification('Microphone enabled.', 'success');
+                } else {
+                    showNotification('Microphone muted.', 'info');
+                    // Remove speaking class when muted
+                    const hostPlayer = document.querySelector('.player-item[data-player-id="host"]');
+                    if (hostPlayer) {
+                        hostPlayer.classList.remove('speaking');
+                    }
+                }
+            }
+        }
+
+        // Update microphone button UI
+        function updateMicButtonUI() {
+            // Update player mic toggle in player list
+            const hostPlayer = document.querySelector('.player-item[data-player-id="host"]');
+            if (hostPlayer) {
+                const playerMicToggle = hostPlayer.querySelector('.player-mic-toggle');
+                const playerMicIcon = playerMicToggle.querySelector('i');
+                
+                if (microphoneEnabled) {
+                    playerMicToggle.classList.add('active');
+                    playerMicIcon.classList.remove('fa-microphone-slash');
+                    playerMicIcon.classList.add('fa-microphone');
+                } else {
+                    playerMicToggle.classList.remove('active');
+                    playerMicIcon.classList.remove('fa-microphone');
+                    playerMicIcon.classList.add('fa-microphone-slash');
+                }
+            }
+        }
+
+        // Monitor audio level and trigger speaking animation
+        function monitorAudioLevel() {
+            if (!microphoneActive || !analyser) return;
+            
+            analyser.getByteFrequencyData(dataArray);
+            
+            // Calculate average volume
+            let sum = 0;
+            for (let i = 0; i < bufferLength; i++) {
+                sum += dataArray[i];
+            }
+            const average = sum / bufferLength;
+            
+            // Threshold for detecting speech (adjust as needed)
+            const speechThreshold = 25;
+            
+            const hostPlayer = document.querySelector('.player-item[data-player-id="host"]');
+            
+            if (hostPlayer) {
+                // Only animate if microphone is enabled
+                if (microphoneEnabled && average > speechThreshold) {
+                    if (!hostPlayer.classList.contains('speaking')) {
+                        hostPlayer.classList.add('speaking');
+                    }
+                } else {
+                    if (hostPlayer.classList.contains('speaking')) {
+                        hostPlayer.classList.remove('speaking');
+                    }
+                }
+            }
+            
+            // Continue monitoring
+            requestAnimationFrame(monitorAudioLevel);
+        }
+
+        // Setup player mic toggle (for host player in the list)
+        setTimeout(() => {
+            const hostPlayer = document.querySelector('.player-item[data-player-id="host"]');
+            if (hostPlayer) {
+                const playerMicToggle = hostPlayer.querySelector('.player-mic-toggle');
+                playerMicToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    window.audioManager.playSound(window.audioManager.clickSound);
+                    toggleMicrophone();
+                });
+                
+                // Add hover sound effect
+                playerMicToggle.addEventListener('mouseenter', function() {
+                    window.audioManager.playSound(window.audioManager.hoverSound);
+                });
+            }
+        }, 100);
+
+        // Simulate random players joining (for demo purposes)
+        function simulatePlayerJoin() {
+            const playerNames = [
+                'SMITH, J. [ID#1623]',
+                'PETERSON, A. [ID#4421]',
+                'RODRIGUEZ, M. [ID#8890]',
+                'CHEN, L. [ID#2847]',
+                'WILLIAMS, K. [ID#9012]'
+            ];
+
+            const randomTime = Math.random() * 10000 + 5000; // Random time between 5-15 seconds
+            
+            setTimeout(() => {
+                const playersList = document.getElementById('playersList');
+                const currentPlayerCount = playersList.children.length;
+                
+                if (currentPlayerCount < 4) {
+                    const randomName = playerNames[Math.floor(Math.random() * playerNames.length)];
+                    const playerId = 'player_' + Date.now();
+                    
+                    const newPlayer = document.createElement('div');
+                    newPlayer.className = 'player-item';
+                    newPlayer.setAttribute('data-player-id', playerId);
+                    newPlayer.style.opacity = '0';
+                    newPlayer.style.transform = 'translateX(-20px)';
+                    newPlayer.innerHTML = `
+                        <div class="player-info">
+                            <div class="player-avatar">
+                                <div class="player-avatar-half top">
+                                    <i class="fa-solid fa-user player-avatar-icon top"></i>
+                                </div>
+                                <div class="player-avatar-half bottom">
+                                    <i class="fa-solid fa-user player-avatar-icon bottom"></i>
+                                </div>
+                            </div>
+                            <span class="status-indicator"></span>
+                            <i class="fa-solid fa-user player-icon"></i>
+                            <span class="player-name">${randomName}</span>
+                        </div>
+                        <div class="player-mic-toggle active">
+                            <i class="fa-solid fa-microphone"></i>
+                        </div>
+                        <div class="player-status">CONNECTED</div>
+                    `;
+                    
+                    playersList.appendChild(newPlayer);
+                    
+                    setTimeout(() => {
+                        newPlayer.style.transition = 'all 0.5s ease';
+                        newPlayer.style.opacity = '1';
+                        newPlayer.style.transform = 'translateX(0)';
+                    }, 10);
+                    
+                    // Update player count
+                    const playerCountElement = document.getElementById('playerCount');
+                    playerCountElement.textContent = playersList.children.length;
+                    
+                    showNotification(`${randomName.split('[')[0].trim()} has joined the expedition. Their suffering begins.`, 'info');
+                    
+                    // Simulate voice activity for other players
+                    simulateOtherPlayerVoice(playerId);
+                    
+                    // Continue simulating if room available
+                    if (playersList.children.length < 4) {
+                        simulatePlayerJoin();
+                    }
+                }
+            }, randomTime);
+        }
+
+        // Simulate voice activity for non-host players (for demo)
+        function simulateOtherPlayerVoice(playerId) {
+            setInterval(() => {
+                const player = document.querySelector(`.player-item[data-player-id="${playerId}"]`);
+                if (player && Math.random() > 0.85) {
+                    player.classList.add('speaking');
+                    
+                    const duration = 1000 + Math.random() * 3000;
+                    setTimeout(() => {
+                        player.classList.remove('speaking');
+                    }, duration);
+                }
+            }, 3000);
+        }
+
+        // Initialize
+        generateDoomCode();
+        
+        // Note: Microphone access is requested when user clicks the mic toggle button
+        // This ensures compliance with browser autoplay/permission policies
+        
+        // Uncomment the line below to enable automatic player joining simulation
+        // simulatePlayerJoin();
+
+        // Random ominous messages
+        function showOminousMessage() {
+            const messages = [
+                "SYSTEM ALERT: Reality anchors deteriorating...",
+                "NOTICE: Employee replacement forms have been pre-filled.",
+                "WARNING: Survival probability recalculated to 11.3%",
+                "UPDATE: Medical bay stocked with 73% more body bags.",
+                "REMINDER: Your organs have been pre-registered for donation."
+            ];
+            
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            showNotification(randomMessage, 'info');
+            
+            // Schedule next message
+            const nextMessageTime = 15000 + Math.random() * 20000;
+            setTimeout(showOminousMessage, nextMessageTime);
+        }
+        
+        // Start showing messages after initial delay
+        setTimeout(showOminousMessage, 10000);
+    </script>
+</body>
+</html>

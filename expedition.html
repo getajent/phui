@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLANET HOARDERS - INITIATE EXPEDITION</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="audio-manager.js"></script>
+    <style>
+        :root {
+            --primary-color: #f7b933;
+            --secondary-color: #a23430;
+            --tertiary-color: #4d6e50;
+            --text-color: #adadad;
+            --background-color: rgba(16, 16, 14, 0.7);
+            --ui-opacity: 0.9;
+            --glow-effect: 0 0 8px rgba(194, 176, 28, 0.35);
+            --error-color: #a23430;
+            --scanline-color: rgba(20, 28, 20, 0.1);
+        }
+        
+        /* Custom Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+            background: rgba(10, 10, 8, 0.9);
+            border-left: 1px solid rgba(194, 176, 28, 0.2);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--primary-color) 0%, #937f13 100%);
+            border: 1px solid var(--primary-color);
+            box-shadow: inset 0 0 3px rgba(194, 176, 28, 0.5);
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, #e6d02b 0%, var(--primary-color) 100%);
+            box-shadow: 0 0 5px rgba(194, 176, 28, 0.7);
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(20, 20, 18, 0.7);
+            border-left: 1px solid rgba(194, 176, 28, 0.1);
+        }
+        
+        ::-webkit-scrollbar-corner {
+            background: rgba(20, 20, 18, 0.9);
+        }
+        
+        /* Firefox scrollbar */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) rgba(20, 20, 18, 0.7);
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'VT323', 'Share Tech Mono', monospace;
+            color: var(--text-color);
+            height: 100vh;
+            overflow: hidden;
+            background: url('background.png') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, 
+                rgba(10, 10, 8, 0.8) 0%,
+                rgba(20, 20, 18, 0.7) 50%,
+                rgba(10, 10, 8, 0.8) 100%);
+            z-index: 1;
+        }
+
+        /* CRT Effects */
+        .crt-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 4;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        /* Scanlines */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                var(--scanline-color),
+                var(--scanline-color) 2px,
+                transparent 2px,
+                transparent 4px
+            );
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0.3;
+        }
+
+        /* Vignette */
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                ellipse at center,
+                transparent 60%,
+                rgba(0, 0, 0, 0.6) 100%
+            );
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        /* Noise */
+        .noise {
+            position: fixed;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 300%;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQ1IDc5LjE2MzQ5OSwgMjAxOC8wOC8xMy0xNjo0MDoyMiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTkgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkQ4RTFFQkE3MjNFRDExRUI4QjQzOTMxMEQ5NzY1QTdDIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkQ4RTFFQkE4MjNFRDExRUI4QjQzOTMxMEQ5NzY1QTdDIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6RDhFMUVCQTUyM0VEMTFFQjhCNDM5MzEwRDk3NjVBN0MiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6RDhFMUVCQTYyM0VEMTFFQjhCNDM5MzEwRDk3NjVBN0MiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5lMSr6AAAD+klEQVR42sxaW08TQRT+tiAFsZSrlJu5CNLwQJ+NJj76Q/wL/hx/gg8+mfhkDIFoQiKKICoFyr3QFihr5tRzli20uLMzu9tJTpqdzszsz5nznfOd2d3a2Nig/3GrVeWSt/+C78vcrnJrc3vPrZOb+i/5O2bX5/ZH8Jn343pS+RXcLnBbEXCbMnLAu3g9t1X0Unvrj3bnV9vjjR8VbqvcnrTpVK2Qgy6qGnCpmv0T82TvaDtcqZKDXj2p7ZnxEeBx+X+KE4LlvU3/9l9igAZGhlKFxIqfxImBBdopLqrHuQsrITDlw3xh1fWIVz6Uxqns5PDiAbTl1u/xR/Nh+/QYJiKDLPAHV+MoIZHoWN5mN5omADswkcLQxCh9wv3M2jofx5bIkJdqYtCY0TlWMg40nYTgXk3sIl6e4oDJ0xVCVMGlJDSyIbYl8sIUHK458pIUk2iXG7lqbm5YdcFHRxM2+JI83mRCyA1dSjELXoQS3DL3QhcgGXEsMjnkitxYL+LiU1BxsRK1JiJSzM7T0AyJZHiB87M75DTnUV2FDRWfQc+hYkwmcAASUXJ3TmjjdtQXnEUhd5z11yKRCCOBQKkgxkCUiGAhUdxNEYkOJgR1aJJBzF9JJJcICWJ7nE/1qA3q6B5/9uJGrNu+2ekkUQ9J3LqTz7Jw3ybSi+MSzw/3qb/Qb5TQGdX4yRUXwRrL8MfPGzUK8YyYR23FdyZxjYEYu3qPRm/Ni3FrVnePiw3rxNkUTrIbWCdCDuM4JVYzV4zTZCZNY+kxqpZKVDku0Wx6gkr5ORrJZdR8MxFGlGp6Jt3m27TVb9QhgrJ3dTM+l1XaCXdipfyWUYj3p0SFw0PSpV5BPG+JnFcwDgYJ2n/71gjMRAgBBokgRGSZ8V5hCMxFiDETyRaLbGCGTJAkk5XQKdawO6XlwiF/UW2/REdvNqh2VqFifoHKhUPqcRxqzI7Q4MgEDZ6ORkIQF4M9IkkjgpXDIcLt1Q9fmEQfHe2+p4O37A7lU8o982h8dp7GZ7gNjIRGCNyUyKCaQ86o1GgyJSvCZODK3KNzNrDX325S7RR2buFRKvhkQ5BJH5o9Wy8iOTNFE9MzlBwc0J6PbOJR5d6wASn/SrIQsBgcYbHHXiXKx2WOTcQQ4NJUdlOhIZKL9XyGCLCBJvqidQk0Fw/4vCMhhEqUuTSVkwhBJwQ95yI1FiHXqEm9C3JzFd6NEQhuAy7fBxhW68FNJ0Z6q1dK0Sw4KWuDYGnAq0oHJOOvSTcXpZUqfUQVlTQ5rQa3ZSE3jGgk1LlvSpwjVtG5K0qnMPbMFPrAb1u7RndR+iXAAE3ACGvhZiC4AAAAAElFTkSuQmCC');
+            background-repeat: repeat;
+            animation: noiseAnim .2s infinite;
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        @keyframes noiseAnim {
+            0% { transform: translate(0, 0); }
+            10% { transform: translate(-5%, -5%); }
+            20% { transform: translate(-10%, 5%); }
+            30% { transform: translate(5%, -10%); }
+            40% { transform: translate(-5%, 15%); }
+            50% { transform: translate(-10%, 5%); }
+            60% { transform: translate(15%, 0); }
+            70% { transform: translate(0, 10%); }
+            80% { transform: translate(-15%, 0); }
+            90% { transform: translate(10%, 5%); }
+            100% { transform: translate(5%, 0); }
+        }
+
+        /* Flicker for random screen flicker effect */
+        .flicker {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 6;
+            background-color: rgba(10, 10, 8, 0);
+            transition: background-color 0.1s ease;
+        }
+
+        .logo-container {
+            position: relative;
+            z-index: 7;
+            margin-bottom: 40px;
+            text-align: center;
+            animation: terminal-float 8s ease-in-out infinite;
+        }
+
+        @keyframes terminal-float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .game-logo {
+            width: 500px;
+            height: auto;
+            filter: drop-shadow(0 0 10px rgba(194, 176, 28, 0.5)) 
+                    drop-shadow(0 0 20px rgba(194, 176, 28, 0.3));
+            transition: all 0.3s;
+        }
+
+        .expedition-container {
+            position: relative;
+            z-index: 7;
+            width: 500px;
+            background-color: var(--background-color);
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 0 15px rgba(194, 176, 28, 0.3), inset 0 0 10px rgba(0, 0, 0, 0.6);
+            padding: 25px;
+            border-radius: 5px;
+            animation: pulse-glow 3s infinite;
+        }
+
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 15px rgba(194, 176, 28, 0.3), inset 0 0 10px rgba(0, 0, 0, 0.6); }
+            50% { box-shadow: 0 0 20px rgba(194, 176, 28, 0.5), inset 0 0 10px rgba(0, 0, 0, 0.6); }
+            100% { box-shadow: 0 0 15px rgba(194, 176, 28, 0.3), inset 0 0 10px rgba(0, 0, 0, 0.6); }
+        }
+
+        .expedition-header {
+            text-align: center;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .expedition-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(
+                to right,
+                rgba(194, 176, 28, 0) 0%,
+                rgba(194, 176, 28, 0.5) 50%,
+                rgba(194, 176, 28, 0) 100%
+            );
+        }
+
+        .expedition-title {
+            color: var(--primary-color);
+            text-transform: uppercase;
+            font-size: 32px;
+            text-shadow: 0 0 10px rgba(194, 176, 28, 0.5);
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            animation: text-glitch 10s infinite;
+        }
+
+        @keyframes text-glitch {
+            0%, 100% { text-shadow: 0 0 10px rgba(194, 176, 28, 0.5); }
+            98% { text-shadow: 0 0 10px rgba(194, 176, 28, 0.5); }
+            98.5% { text-shadow: -2px 0 var(--primary-color), 2px 2px var(--secondary-color); }
+            99% { text-shadow: 0 0 10px rgba(194, 176, 28, 0.5); }
+            99.5% { text-shadow: 2px -2px var(--primary-color), -2px 0 var(--secondary-color); }
+        }
+
+        .expedition-subtitle {
+            color: var(--text-color);
+            font-size: 16px;
+            opacity: 0.8;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .warning-message {
+            background-color: rgba(162, 52, 48, 0.2);
+            border: 1px solid var(--secondary-color);
+            color: #ff6b63;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .warning-message::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--secondary-color), transparent);
+            animation: scan-move 3s linear infinite;
+        }
+
+        @keyframes scan-move {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .expedition-options {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .option-button {
+            background-color: rgba(20, 20, 18, 0.8);
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 15px;
+            font-family: 'VT323', monospace;
+            font-size: 20px;
+            text-transform: uppercase;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .option-button:hover {
+            background-color: rgba(194, 176, 28, 0.2);
+            box-shadow: 0 0 10px rgba(194, 176, 28, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .option-button:hover::after {
+            opacity: 1;
+        }
+
+        .option-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--primary-color), transparent);
+            animation: scan-move 2s linear infinite;
+            opacity: 0;
+        }
+
+        .server-form {
+            display: none;
+            margin-top: 20px;
+            animation: form-appear 0.3s forwards;
+        }
+
+        @keyframes form-appear {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+
+        .form-input {
+            width: 100%;
+            background-color: rgba(20, 20, 18, 0.8);
+            border: 1px solid var(--primary-color);
+            color: var(--text-color);
+            padding: 10px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 16px;
+        }
+
+        .form-input:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(194, 176, 28, 0.7);
+            border-color: var(--primary-color);
+        }
+
+        .input-with-button {
+            display: flex;
+            gap: 10px;
+        }
+
+        .paste-button {
+            background-color: rgba(20, 20, 18, 0.8);
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 10px;
+            font-family: 'VT323', monospace;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .paste-button:hover {
+            background-color: rgba(194, 176, 28, 0.2);
+            box-shadow: 0 0 10px rgba(194, 176, 28, 0.4);
+        }
+
+        .paste-button i {
+            font-size: 14px;
+        }
+
+        .form-submit {
+            background-color: rgba(20, 20, 18, 0.8);
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 10px 15px;
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .form-submit:hover {
+            background-color: rgba(194, 176, 28, 0.2);
+            box-shadow: 0 0 10px rgba(194, 176, 28, 0.4);
+        }
+
+        .back-button {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .back-link {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--primary-color);
+            opacity: 1;
+        }
+
+        .corner-element {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+        }
+
+        .corner-element.top-left {
+            top: -2px;
+            left: -2px;
+            border-top: 2px solid var(--primary-color);
+            border-left: 2px solid var(--primary-color);
+        }
+
+        .corner-element.top-right {
+            top: -2px;
+            right: -2px;
+            border-top: 2px solid var(--primary-color);
+            border-right: 2px solid var(--primary-color);
+        }
+
+        .corner-element.bottom-left {
+            bottom: -2px;
+            left: -2px;
+            border-bottom: 2px solid var(--primary-color);
+            border-left: 2px solid var(--primary-color);
+        }
+
+        .corner-element.bottom-right {
+            bottom: -2px;
+            right: -2px;
+            border-bottom: 2px solid var(--primary-color);
+            border-right: 2px solid var(--primary-color);
+        }
+
+        .corporate-disclaimer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: var(--text-color);
+            opacity: 0.7;
+        }
+
+        /* Custom Confirmation Dialog */
+        .confirmation-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .confirmation-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .confirmation-dialog {
+            background: var(--background-color);
+            border: 2px solid var(--primary-color);
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            box-shadow: 0 0 20px rgba(194, 176, 28, 0.3);
+            animation: dialog-appear 0.3s ease;
+        }
+
+        @keyframes dialog-appear {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .confirmation-header {
+            color: var(--primary-color);
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .confirmation-message {
+            color: var(--text-color);
+            font-size: 16px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .confirmation-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .confirmation-button {
+            padding: 10px 20px;
+            border: 1px solid var(--primary-color);
+            background: rgba(20, 20, 18, 0.8);
+            color: var(--primary-color);
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .confirmation-button:hover {
+            background: rgba(194, 176, 28, 0.2);
+            box-shadow: 0 0 10px rgba(194, 176, 28, 0.4);
+        }
+
+        .confirmation-button.deny {
+            color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        .confirmation-button.deny:hover {
+            background: rgba(162, 52, 48, 0.2);
+            box-shadow: 0 0 10px rgba(162, 52, 48, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <!-- CRT screen effect overlays -->
+    <div class="crt-overlay"></div>
+    <div class="scanlines"></div>
+    <div class="noise"></div>
+    <div class="flicker"></div>
+    <div class="vignette"></div>
+    
+    <!-- Custom Confirmation Dialog -->
+    <div class="confirmation-overlay" id="confirmationOverlay">
+        <div class="confirmation-dialog">
+            <div class="corner-element top-left"></div>
+            <div class="corner-element top-right"></div>
+            <div class="corner-element bottom-left"></div>
+            <div class="corner-element bottom-right"></div>
+            
+            <div class="confirmation-header">WARNING: SERVER CREATION</div>
+            <div class="confirmation-message" id="confirmationMessage">
+                By creating a server, you forfeit your right to a swift and painless death.
+                <br><br>
+                Your organs will be automatically registered for company research.
+                <br><br>
+                Proceed with server creation?
+            </div>
+            <div class="confirmation-buttons">
+                <button class="confirmation-button" id="confirmButton">ACCEPT FATE</button>
+                <button class="confirmation-button deny" id="denyButton">REJECT DOOM</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Join Server Error Dialog -->
+    <div class="confirmation-overlay" id="joinErrorOverlay">
+        <div class="confirmation-dialog">
+            <div class="corner-element top-left"></div>
+            <div class="corner-element top-right"></div>
+            <div class="corner-element bottom-left"></div>
+            <div class="corner-element bottom-right"></div>
+            
+            <div class="confirmation-header">ERROR: DOOM CODE REQUIRED</div>
+            <div class="confirmation-message" id="joinErrorMessage">
+                Please enter a valid Doom Code. Your reluctance has been logged and will affect your annual performance review.
+            </div>
+            <div class="confirmation-buttons">
+                <button class="confirmation-button" id="joinErrorButton">ACKNOWLEDGE FAILURE</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Join Server Confirmation Dialog -->
+    <div class="confirmation-overlay" id="joinConfirmOverlay">
+        <div class="confirmation-dialog">
+            <div class="corner-element top-left"></div>
+            <div class="corner-element top-right"></div>
+            <div class="corner-element bottom-left"></div>
+            <div class="corner-element bottom-right"></div>
+            
+            <div class="confirmation-header">WARNING: JOINING EXPEDITION</div>
+            <div class="confirmation-message" id="joinConfirmMessage">
+                Warning message will be displayed here
+            </div>
+            <div class="confirmation-buttons">
+                <button class="confirmation-button" id="joinConfirmButton">ACCEPT CONNECTION</button>
+                <button class="confirmation-button deny" id="joinDenyButton">REFUSE COLLABORATION</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="logo-container">
+        <img src="logo.png" alt="Planet Hoarders" class="game-logo">
+    </div>
+    
+    <div class="expedition-container">
+        <div class="corner-element top-left"></div>
+        <div class="corner-element top-right"></div>
+        <div class="corner-element bottom-left"></div>
+        <div class="corner-element bottom-right"></div>
+        
+        <div class="expedition-header">
+            <h1 class="expedition-title">Initiate Profit Venture</h1>
+            <div class="expedition-subtitle">EXPENDABLE EMPLOYEE DEPLOYMENT [v.0.5.3-UNSTABLE]</div>
+        </div>
+        
+        <div class="warning-message">
+            WARNING: TEAM SURVIVAL RATE ESTIMATED AT 12.7% [AN IMPROVEMENT FROM LAST QUARTER'S 8.2%!]. 
+            COMPANY ACCEPTS NO LIABILITY FOR EMPLOYEE DISINTEGRATION, MOLECULAR RESTRUCTURING, OR EXISTENTIAL DREAD.
+        </div>
+        
+        <div class="expedition-options">
+            <div class="option-button" id="createServerBtn">SACRIFICE YOUR FREE WILL</div>
+            <div class="option-button" id="joinServerBtn">FOLLOW A DOOMED COLLEAGUE</div>
+        </div>
+        
+        <!-- Join Server Form -->
+        <div id="joinServerForm" class="server-form">
+            <div class="input-group">
+                <label class="form-label">COLLEAGUE'S DOOM CODE</label>
+                <div class="input-with-button">
+                    <input type="text" class="form-input" id="doomCodeInput" placeholder="Enter ID of soon-to-be-deceased colleague">
+                    <button class="paste-button" id="pasteDoomCode"><i class="fa-solid fa-clipboard"></i> RETRIEVE CODE</button>
+                </div>
+            </div>
+            <button class="form-submit">EMBRACE INEVITABLE DEMISE</button>
+        </div>
+        
+        <div class="back-button">
+            <a href="main-menu.html" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i> RETURN TO ILLUSION OF SAFETY
+            </a>
+        </div>
+        
+        <div class="corporate-disclaimer">
+            By proceeding, you acknowledge that your organs may be harvested for company research.
+            HR will not process complaints from the deceased. Have a productive day!
+        </div>
+    </div>
+    
+    <script>
+        // Initialize audio when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            window.audioManager.initializeAudio();
+            
+            // Add sound effects to all interactive elements
+            const interactiveElements = document.querySelectorAll('.option-button, .form-submit, .paste-button, .back-link, .confirmation-button');
+            interactiveElements.forEach(element => {
+                element.addEventListener('mouseenter', function() {
+                    window.audioManager.playSound(window.audioManager.hoverSound);
+                });
+                
+                element.addEventListener('click', function() {
+                    window.audioManager.playSound(window.audioManager.clickSound);
+                });
+            });
+        });
+        
+        // Flicker effect for CRT screen
+        function randomFlicker() {
+            const flicker = document.querySelector('.flicker');
+            if (Math.random() < 0.03) {
+                flicker.style.backgroundColor = 'rgba(10, 10, 8, 0.1)';
+                setTimeout(() => {
+                    flicker.style.backgroundColor = 'rgba(10, 10, 8, 0)';
+                }, 100);
+            }
+            setTimeout(randomFlicker, 100);
+        }
+        randomFlicker();
+        
+        // Form toggle functionality
+        document.getElementById('createServerBtn').addEventListener('click', function() {
+            window.audioManager.playSound(window.audioManager.selectSound);
+            
+            // Show custom confirmation dialog
+            const overlay = document.getElementById('confirmationOverlay');
+            const message = document.getElementById('confirmationMessage');
+            
+            // Random confirmation messages
+            const confirmMessages = [
+                "By creating a server, you forfeit your right to a swift and painless death.\n\nYour organs will be automatically registered for company research.\n\nProceed with server creation?",
+                "WARNING: Server creation initiates mandatory organ donor status.\n\nYour family has been pre-approved as 'acceptable casualties'.\n\nContinue with deployment?",
+                "NOTICE: Your sanity waiver has been pre-signed for your convenience.\n\nObjections will be filed in the void.\n\nProceed with server creation?",
+                "ALERT: Creating a server logs your existence as 'expendable'.\n\nYour suffering will be monitored for research purposes.\n\nAccept these terms?"
+            ];
+            
+            message.innerHTML = confirmMessages[Math.floor(Math.random() * confirmMessages.length)].replace(/\n/g, '<br>');
+            overlay.classList.add('active');
+        });
+        
+        // Handle confirmation dialog buttons
+        document.getElementById('confirmButton').addEventListener('click', function() {
+            window.audioManager.playSound(window.audioManager.selectSound);
+            
+            console.log("Employee surrender protocol accepted. Deploying to lobby...");
+            // Add a fake "loading" effect before redirecting
+            document.body.innerHTML += `<div class="fake-loading" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); color: #c2b01c; font-family: 'Share Tech Mono'; font-size: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999;">
+                <div>ESTABLISHING LOBBY CONNECTION...</div>
+                <div style="margin-top: 20px; font-size: 14px;">Preparing pre-deployment chamber...</div>
+            </div>`;
+            
+            setTimeout(() => {
+                window.location.href = 'lobby.html';
+            }, 2000);
+        });
+        
+        document.getElementById('denyButton').addEventListener('click', function() {
+            window.audioManager.playSound(window.audioManager.selectSound);
+            
+            document.getElementById('confirmationOverlay').classList.remove('active');
+            // Add a glitch effect to the screen
+            const flicker = document.querySelector('.flicker');
+            flicker.style.backgroundColor = 'rgba(10, 10, 8, 0.3)';
+            setTimeout(() => {
+                flicker.style.backgroundColor = 'rgba(10, 10, 8, 0)';
+            }, 100);
+        });
+        
+        // Close dialog when clicking outside
+        document.getElementById('confirmationOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                window.audioManager.playSound(window.audioManager.clickSound);
+                this.classList.remove('active');
+            }
+        });
+        
+        document.getElementById('joinServerBtn').addEventListener('click', function() {
+            window.audioManager.playSound(window.audioManager.selectSound);
+            
+            document.getElementById('joinServerForm').style.display = 'block';
+            document.querySelectorAll('.option-button').forEach(btn => {
+                btn.style.opacity = '0.5';
+            });
+            this.style.opacity = '1';
+            
+            // Add some console humor
+            console.log("Employee loyalty noted. Reducing scheduled torment by 0.02%.");
+        });
+        
+        // Simulate joining server
+        document.querySelector('#joinServerForm .form-submit').addEventListener('click', function() {
+            window.audioManager.playSound(window.audioManager.selectSound);
+            
+            const serverId = document.getElementById('doomCodeInput').value;
+            if (serverId.trim() === '') {
+                // Show custom error dialog instead of alert
+                const joinErrorOverlay = document.getElementById('joinErrorOverlay');
+                joinErrorOverlay.classList.add('active');
+                return;
+            }
+            
+            // Store the server ID for the game to use
+            localStorage.setItem('joinedServerCode', serverId);
+            
+            // Show absurd confirmation with custom dialog instead of confirm
+            const joinMessages = [
+                `WARNING: Joining expedition "${serverId}". This colleague has already encountered 17 reality distortions. Join anyway?`,
+                `NOTICE: Colleague using code "${serverId}" has reported "screaming walls" and "floors that hunger." Happiness levels acceptable. Proceed?`,
+                `ALERT: Tracking data shows "${serverId}" is currently experiencing rapid molecular disassembly. Excellent learning opportunity. Join?`,
+                `CAUTION: Expedition "${serverId}" has exceeded expected survival time by 347%. Investigation pending. Continue anyway?`
+            ];
+            
+            const randomJoinMessage = joinMessages[Math.floor(Math.random() * joinMessages.length)];
+            
+            // Set the message and show custom confirmation dialog
+            const joinConfirmOverlay = document.getElementById('joinConfirmOverlay');
+            const joinConfirmMessage = document.getElementById('joinConfirmMessage');
+            joinConfirmMessage.innerHTML = randomJoinMessage;
+            joinConfirmOverlay.classList.add('active');
+        });
+        
+        // Handle join error dialog button
+        document.getElementById('joinErrorButton').addEventListener('click', function() {
+            window.audioManager.playSound(window.audioManager.clickSound);
+            document.getElementById('joinErrorOverlay').classList.remove('active');
+        });
+        
+        // Handle join confirmation dialog buttons
+        document.getElementById('joinConfirmButton').addEventListener('click', function() {
+            window.audioManager.playSound(window.audioManager.selectSound);
+            
+            document.getElementById('joinConfirmOverlay').classList.remove('active');
+            
+            // Add a fake "scanning" effect before redirecting
+            document.body.innerHTML += `<div class="fake-loading" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); color: #c2b01c; font-family: 'Share Tech Mono'; font-size: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999;">
+                <div>SYNCHRONIZING INEVITABLE FATE...</div>
+                <div style="margin-top: 20px; font-size: 14px;">Aligning temporal death coordinates...</div>
+            </div>`;
+            
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2000);
+        });
+        
+        document.getElementById('joinDenyButton').addEventListener('click', function() {
+            window.audioManager.playSound(window.audioManager.clickSound);
+            document.getElementById('joinConfirmOverlay').classList.remove('active');
+        });
+        
+        // Close join error dialog when clicking outside
+        document.getElementById('joinErrorOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                window.audioManager.playSound(window.audioManager.clickSound);
+                this.classList.remove('active');
+            }
+        });
+        
+        // Close join confirmation dialog when clicking outside
+        document.getElementById('joinConfirmOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                window.audioManager.playSound(window.audioManager.clickSound);
+                this.classList.remove('active');
+            }
+        });
+        
+        // Add random ominous messages that appear occasionally
+        function randomOminousMessage() {
+            const messages = [
+                "Employee vitals deteriorating... Productivity unaffected.",
+                "WARNING: Reality anchor destabilizing...",
+                "Server stability at 34%. Acceptable parameters.",
+                "Motion detected in walls. Standard procedure initiated.",
+                "Employee mental resilience test commencing without notice."
+            ];
+            
+            const message = messages[Math.floor(Math.random() * messages.length)];
+            const messageDiv = document.createElement('div');
+            messageDiv.style.position = 'fixed';
+            messageDiv.style.bottom = '20px';
+            messageDiv.style.right = '20px';
+            messageDiv.style.backgroundColor = 'rgba(0,0,0,0.7)';
+            messageDiv.style.color = '#a23430';
+            messageDiv.style.padding = '10px 15px';
+            messageDiv.style.fontFamily = "'Share Tech Mono', monospace";
+            messageDiv.style.fontSize = '14px';
+            messageDiv.style.zIndex = '1000';
+            messageDiv.style.opacity = '0';
+            messageDiv.style.transition = 'opacity 0.5s ease';
+            messageDiv.textContent = message;
+            
+            document.body.appendChild(messageDiv);
+            
+            setTimeout(() => {
+                messageDiv.style.opacity = '1';
+            }, 100);
+            
+            setTimeout(() => {
+                messageDiv.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(messageDiv);
+                }, 500);
+            }, 4000);
+            
+            // Schedule next message
+            const nextMessageTime = 5000 + Math.random() * 15000;
+            setTimeout(randomOminousMessage, nextMessageTime);
+        }
+        
+        // Start random messages after a delay
+        setTimeout(randomOminousMessage, 5000);
+        
+        // Paste Doom Code functionality
+        document.getElementById('pasteDoomCode').addEventListener('click', function() {
+            window.audioManager.playSound(window.audioManager.clickSound);
+            
+            // Try to read from clipboard
+            navigator.clipboard.readText()
+                .then(text => {
+                    // Format the text to look like a Doom Code if it doesn't already
+                    let formattedText = text.trim();
+                    
+                    // If it doesn't start with #, add it
+                    if (!formattedText.startsWith('#') && formattedText.length > 0) {
+                        formattedText = '#' + formattedText;
+                    }
+                    
+                    // Put the text in the input field
+                    document.getElementById('doomCodeInput').value = formattedText;
+                    
+                    // Add a glitch effect to the paste button
+                    const pasteButton = document.getElementById('pasteDoomCode');
+                    pasteButton.innerHTML = '<i class="fa-solid fa-check"></i> SECURED';
+                    pasteButton.style.backgroundColor = 'rgba(77, 110, 80, 0.3)';
+                    pasteButton.style.borderColor = 'var(--tertiary-color)';
+                    
+                    // Create temporary notification
+                    const notification = document.createElement('div');
+                    notification.style.position = 'fixed';
+                    notification.style.bottom = '20px';
+                    notification.style.right = '20px';
+                    notification.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+                    notification.style.border = '1px solid var(--tertiary-color)';
+                    notification.style.color = 'var(--tertiary-color)';
+                    notification.style.padding = '10px 15px';
+                    notification.style.fontFamily = "'Share Tech Mono', monospace";
+                    notification.style.fontSize = '14px';
+                    notification.style.zIndex = '9999';
+                    notification.style.opacity = '0';
+                    notification.style.transition = 'opacity 0.3s ease';
+                    
+                    // Add some absurd corporate humor
+                    const notificationMessages = [
+                        "DOOM CODE INTERCEPTED. Colleague's demise now linked to yours.",
+                        "CODE EXTRACTION SUCCESSFUL. Your betrayal has been noted.",
+                        "SIGNAL COPIED. Misery loves company - yours specifically.",
+                        "COORDINATE MATCH FOUND. Suffering synchronization imminent."
+                    ];
+                    
+                    notification.textContent = notificationMessages[Math.floor(Math.random() * notificationMessages.length)];
+                    document.body.appendChild(notification);
+                    
+                    setTimeout(() => {
+                        notification.style.opacity = '1';
+                    }, 100);
+                    
+                    setTimeout(() => {
+                        notification.style.opacity = '0';
+                        setTimeout(() => {
+                            if (notification.parentNode) {
+                                notification.parentNode.removeChild(notification);
+                            }
+                        }, 300);
+                    }, 3000);
+                    
+                    // Reset paste button after a delay
+                    setTimeout(() => {
+                        pasteButton.innerHTML = '<i class="fa-solid fa-clipboard"></i> RETRIEVE CODE';
+                        pasteButton.style.backgroundColor = '';
+                        pasteButton.style.borderColor = '';
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('Failed to read clipboard: ', err);
+                    // Show error message
+                    alert('ERROR: CLIPBOARD ACCESS DENIED\n\nUnable to access clipboard data. Management has been notified of your unauthorized access attempt.');
+                });
+        });
+    </script>
+</body>
+</html> 
