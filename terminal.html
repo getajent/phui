@@ -2274,6 +2274,12 @@
     </style>
 </head>
 <body>
+    <!-- Ambient Sound -->
+    <audio id="ambientSound" loop>
+        <source src="sounds/computer.wav" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+
     <!-- Simplified boot sequence -->
     <div class="boot-sequence" id="bootSequence">
         <div class="boot-logo">
@@ -2840,6 +2846,30 @@
 
     <script>
         // Optimized boot sequence
+        // Initialize and start ambient sound
+        function startAmbientSound() {
+            const ambientSound = document.getElementById('ambientSound');
+            if (ambientSound) {
+                ambientSound.volume = 0.3; // Set volume to 30%
+                
+                // Try to play
+                const playPromise = ambientSound.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        console.log('Ambient sound started');
+                    }).catch(error => {
+                        console.log('Autoplay blocked, waiting for user interaction');
+                        // If autoplay is blocked, play on first click
+                        document.body.addEventListener('click', function playOnClick() {
+                            ambientSound.play();
+                            document.body.removeEventListener('click', playOnClick);
+                        }, { once: true });
+                    });
+                }
+            }
+        }
+
         function runBootSequence() {
             const bootLog = document.getElementById('bootLog');
             const bootProgressBar = document.getElementById('bootProgressBar');
@@ -2862,6 +2892,8 @@
                         bootSequence.style.display = 'none';
                         enableFullAnimations();
                         showNotification("Systems ready.", "success");
+                        // Start ambient sound after boot sequence
+                        startAmbientSound();
                     }, 200);
                     return;
                 }

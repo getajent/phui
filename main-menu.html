@@ -265,14 +265,15 @@
             color: var(--primary-color);
             font-size: 1.2rem;
             letter-spacing: 2px;
-            opacity: 0.7;
+            opacity: 0.6;
             margin-top: 10px;
             text-transform: uppercase;
-            border-top: 1px solid rgba(194, 176, 28, 0.3);
-            border-bottom: 1px solid rgba(194, 176, 28, 0.3);
+            border-top: 1px dashed rgba(194, 176, 28, 0.25);
+            border-bottom: 1px dashed rgba(194, 176, 28, 0.25);
             padding: 5px 0;
             width: fit-content;
             margin: 15px auto 0;
+            filter: brightness(0.9);
         }
 
         .warning-text {
@@ -281,6 +282,8 @@
             margin-top: 10px;
             letter-spacing: 1px;
             text-transform: uppercase;
+            opacity: 0.7;
+            filter: brightness(0.85);
         }
 
         .terminal-container {
@@ -288,23 +291,49 @@
             z-index: 7;
             width: 90%;
             max-width: 500px;
-            background-color: rgba(16, 16, 14, 0.7);
-            padding: 25px;
-            border: 2px solid var(--primary-color);
+            background-color: rgba(18, 18, 16, 0.88);
+            padding: 30px;
+            border: none;
             box-shadow: 
-                0 0 20px rgba(0, 0, 0, 0.7), 
-                0 0 10px rgba(194, 176, 28, 0.2),
-                inset 0 0 40px rgba(162, 52, 48, 0.15),
-                inset 2px 2px 10px rgba(120, 60, 30, 0.3);
+                0 0 20px rgba(0, 0, 0, 0.9), 
+                0 0 2px rgba(194, 176, 28, 0.03),
+                inset 0 0 50px rgba(15, 15, 13, 0.98),
+                inset 3px 3px 15px rgba(10, 10, 8, 0.5),
+                inset -1px -1px 8px rgba(25, 25, 22, 0.2),
+                /* Worn border effect - top */
+                inset 0 1px 0 rgba(194, 176, 28, 0.25),
+                inset 0 0.5px 0 rgba(194, 176, 28, 0.15),
+                /* Worn border effect - right */
+                inset -1px 0 0 rgba(194, 176, 28, 0.18),
+                inset -0.5px 0 0 rgba(194, 176, 28, 0.12),
+                /* Worn border effect - bottom */
+                inset 0 -1px 0 rgba(194, 176, 28, 0.22),
+                inset 0 -0.5px 0 rgba(194, 176, 28, 0.1),
+                /* Worn border effect - left */
+                inset 1px 0 0 rgba(194, 176, 28, 0.2),
+                inset 0.5px 0 0 rgba(194, 176, 28, 0.14);
             overflow: hidden;
             animation: terminalAppear 0.6s cubic-bezier(0.19, 1, 0.22, 1);
             background-image: 
-                linear-gradient(135deg, transparent 30%, rgba(162, 52, 48, 0.05) 30%, rgba(162, 52, 48, 0.05) 35%, transparent 35%),
-                linear-gradient(45deg, transparent 60%, rgba(120, 60, 30, 0.08) 60%, rgba(120, 60, 30, 0.08) 65%, transparent 65%),
-                radial-gradient(circle at 15% 25%, rgba(162, 52, 48, 0.12) 0%, transparent 15%),
-                radial-gradient(circle at 85% 75%, rgba(120, 60, 30, 0.1) 0%, transparent 12%),
-                radial-gradient(circle at 45% 90%, rgba(162, 52, 48, 0.08) 0%, transparent 10%);
-            background-blend-mode: multiply;
+                /* Irregular border segments */
+                linear-gradient(0deg, rgba(194, 176, 28, 0.2) 0%, rgba(194, 176, 28, 0.2) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(194, 176, 28, 0.15) 0%, rgba(194, 176, 28, 0.15) 1px, transparent 1px),
+                linear-gradient(180deg, rgba(194, 176, 28, 0.18) 0%, rgba(194, 176, 28, 0.18) 1px, transparent 1px),
+                linear-gradient(270deg, rgba(194, 176, 28, 0.16) 0%, rgba(194, 176, 28, 0.16) 1px, transparent 1px),
+                /* Base gradients */
+                linear-gradient(135deg, rgba(25, 25, 22, 0.15) 0%, transparent 40%, rgba(15, 15, 13, 0.2) 100%),
+                linear-gradient(180deg, rgba(20, 20, 18, 0.1) 0%, rgba(15, 15, 13, 0.4) 100%),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 0, 0, 0.03) 2px,
+                    rgba(0, 0, 0, 0.03) 3px
+                );
+            background-blend-mode: normal, normal, normal, normal, multiply, multiply, overlay;
+            background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+            background-position: top, right, bottom, left, 0 0, 0 0, 0 0;
+            background-repeat: no-repeat;
         }
         
         .terminal-container::before {
@@ -313,12 +342,69 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(194, 176, 28, 0.5),
-                transparent);
-            animation: scanline 4s linear infinite;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+            background-image:
+                /* Worn/missing border sections - top */
+                linear-gradient(90deg,
+                    transparent 0%, 
+                    transparent 8%, 
+                    rgba(194, 176, 28, 0.22) 8%, 
+                    rgba(194, 176, 28, 0.22) 35%, 
+                    transparent 35%,
+                    transparent 42%,
+                    rgba(194, 176, 28, 0.18) 42%,
+                    rgba(194, 176, 28, 0.18) 68%,
+                    transparent 68%,
+                    transparent 75%,
+                    rgba(194, 176, 28, 0.2) 75%,
+                    rgba(194, 176, 28, 0.2) 92%,
+                    transparent 92%
+                ),
+                /* Worn/missing border sections - bottom */
+                linear-gradient(90deg,
+                    transparent 0%, 
+                    transparent 5%, 
+                    rgba(194, 176, 28, 0.18) 5%, 
+                    rgba(194, 176, 28, 0.18) 28%, 
+                    transparent 28%,
+                    transparent 38%,
+                    rgba(194, 176, 28, 0.22) 38%,
+                    rgba(194, 176, 28, 0.22) 72%,
+                    transparent 72%,
+                    transparent 78%,
+                    rgba(194, 176, 28, 0.16) 78%,
+                    rgba(194, 176, 28, 0.16) 95%,
+                    transparent 95%
+                ),
+                /* Worn/missing border sections - left */
+                linear-gradient(0deg,
+                    transparent 0%, 
+                    transparent 10%, 
+                    rgba(194, 176, 28, 0.2) 10%, 
+                    rgba(194, 176, 28, 0.2) 42%, 
+                    transparent 42%,
+                    transparent 55%,
+                    rgba(194, 176, 28, 0.18) 55%,
+                    rgba(194, 176, 28, 0.18) 88%,
+                    transparent 88%
+                ),
+                /* Worn/missing border sections - right */
+                linear-gradient(0deg,
+                    transparent 0%, 
+                    transparent 12%, 
+                    rgba(194, 176, 28, 0.16) 12%, 
+                    rgba(194, 176, 28, 0.16) 38%, 
+                    transparent 38%,
+                    transparent 48%,
+                    rgba(194, 176, 28, 0.2) 48%,
+                    rgba(194, 176, 28, 0.2) 85%,
+                    transparent 85%
+                );
+            background-size: 100% 1px, 100% 1px, 1px 100%, 1px 100%;
+            background-position: top, bottom, left, right;
+            background-repeat: no-repeat;
         }
         
         .terminal-container::after {
@@ -330,27 +416,49 @@
             bottom: 0;
             pointer-events: none;
             background-image: 
-                radial-gradient(circle at 2% 3%, rgba(162, 52, 48, 0.3) 0%, transparent 8%),
-                radial-gradient(circle at 98% 5%, rgba(120, 60, 30, 0.25) 0%, transparent 10%),
-                radial-gradient(circle at 3% 97%, rgba(162, 52, 48, 0.28) 0%, transparent 9%),
-                radial-gradient(circle at 96% 94%, rgba(120, 60, 30, 0.22) 0%, transparent 11%);
+                /* Dust spots */
+                radial-gradient(circle at 15% 12%, rgba(60, 55, 45, 0.15) 0%, transparent 2%),
+                radial-gradient(circle at 73% 8%, rgba(50, 48, 40, 0.12) 0%, transparent 1.5%),
+                radial-gradient(circle at 88% 25%, rgba(55, 52, 42, 0.1) 0%, transparent 2.5%),
+                radial-gradient(circle at 22% 78%, rgba(58, 54, 44, 0.14) 0%, transparent 2%),
+                radial-gradient(circle at 67% 82%, rgba(52, 50, 41, 0.11) 0%, transparent 1.8%),
+                radial-gradient(circle at 45% 35%, rgba(56, 53, 43, 0.09) 0%, transparent 1.2%),
+                radial-gradient(circle at 8% 50%, rgba(54, 51, 42, 0.13) 0%, transparent 2.2%),
+                radial-gradient(circle at 92% 65%, rgba(53, 50, 40, 0.1) 0%, transparent 1.5%),
+                radial-gradient(circle at 35% 92%, rgba(57, 53, 43, 0.12) 0%, transparent 1.9%),
+                /* Corner dust/wear */
+                radial-gradient(ellipse at 2% 2%, rgba(40, 40, 35, 0.12) 0%, transparent 10%),
+                radial-gradient(ellipse at 98% 2%, rgba(35, 35, 30, 0.09) 0%, transparent 9%),
+                radial-gradient(ellipse at 2% 98%, rgba(40, 40, 35, 0.14) 0%, transparent 11%),
+                radial-gradient(ellipse at 98% 98%, rgba(35, 35, 30, 0.1) 0%, transparent 10%),
+                /* Subtle edge fade */
+                linear-gradient(180deg, rgba(30, 30, 26, 0.08) 0%, transparent 15%, transparent 85%, rgba(20, 20, 18, 0.12) 100%),
+                linear-gradient(90deg, rgba(25, 25, 22, 0.06) 0%, transparent 10%, transparent 90%, rgba(25, 25, 22, 0.06) 100%);
             box-shadow: 
-                inset 0 -3px 8px rgba(162, 52, 48, 0.2),
-                inset 0 3px 8px rgba(120, 60, 30, 0.15),
-                inset -3px 0 8px rgba(162, 52, 48, 0.15),
-                inset 3px 0 8px rgba(120, 60, 30, 0.18);
-            border: 1px solid transparent;
-            border-image: linear-gradient(135deg, 
-                rgba(162, 52, 48, 0.3) 0%, 
-                transparent 20%,
-                transparent 40%,
-                rgba(120, 60, 30, 0.25) 60%,
-                transparent 80%,
-                rgba(162, 52, 48, 0.2) 100%) 1;
+                inset 0 0 20px rgba(10, 10, 8, 0.3),
+                inset 2px 2px 6px rgba(8, 8, 6, 0.25),
+                inset -1px -1px 4px rgba(30, 30, 26, 0.15);
+        }
+        
+        /* Scanline effect on separate layer */
+        .terminal-scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(194, 176, 28, 0.25),
+                transparent);
+            animation: scanline 4s linear infinite;
+            opacity: 0.5;
+            pointer-events: none;
+            z-index: 10;
         }
         
         @keyframes scanline {
-            0% { top: 0; opacity: 0.7; }
+            0% { top: 0; opacity: 0.6; }
             100% { top: 100%; opacity: 0; }
         }
 
@@ -358,14 +466,87 @@
             0% { opacity: 0; transform: translateY(20px); }
             100% { opacity: 1; transform: translateY(0); }
         }
+        
+        /* Terminal damage and scratch effects */
+        .terminal-damage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.4;
+            mix-blend-mode: multiply;
+            background-image:
+                /* Scratches */
+                linear-gradient(125deg, transparent 0%, transparent 28%, rgba(80, 75, 65, 0.3) 28.5%, rgba(80, 75, 65, 0.3) 29%, transparent 29.5%),
+                linear-gradient(78deg, transparent 0%, transparent 65%, rgba(70, 68, 58, 0.25) 65.3%, rgba(70, 68, 58, 0.25) 65.8%, transparent 66.3%),
+                linear-gradient(95deg, transparent 0%, transparent 42%, rgba(75, 72, 62, 0.2) 42.2%, rgba(75, 72, 62, 0.2) 42.5%, transparent 43%),
+                /* Worn areas */
+                radial-gradient(ellipse at 18% 15%, rgba(50, 48, 40, 0.15) 0%, transparent 8%),
+                radial-gradient(ellipse at 82% 78%, rgba(48, 46, 38, 0.12) 0%, transparent 7%);
+        }
+        
+        /* Dust overlay layer */
+        .terminal-dust {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0.3;
+            background-image:
+                /* Small dust particles */
+                radial-gradient(circle at 25% 20%, rgba(194, 176, 28, 0.08) 0%, transparent 0.3%),
+                radial-gradient(circle at 58% 15%, rgba(194, 176, 28, 0.06) 0%, transparent 0.25%),
+                radial-gradient(circle at 78% 32%, rgba(194, 176, 28, 0.07) 0%, transparent 0.28%),
+                radial-gradient(circle at 12% 45%, rgba(194, 176, 28, 0.09) 0%, transparent 0.35%),
+                radial-gradient(circle at 42% 55%, rgba(194, 176, 28, 0.05) 0%, transparent 0.22%),
+                radial-gradient(circle at 85% 48%, rgba(194, 176, 28, 0.08) 0%, transparent 0.3%),
+                radial-gradient(circle at 32% 72%, rgba(194, 176, 28, 0.06) 0%, transparent 0.26%),
+                radial-gradient(circle at 68% 68%, rgba(194, 176, 28, 0.07) 0%, transparent 0.29%),
+                radial-gradient(circle at 90% 85%, rgba(194, 176, 28, 0.05) 0%, transparent 0.24%),
+                radial-gradient(circle at 15% 88%, rgba(194, 176, 28, 0.08) 0%, transparent 0.32%),
+                radial-gradient(circle at 48% 28%, rgba(194, 176, 28, 0.06) 0%, transparent 0.27%),
+                radial-gradient(circle at 62% 92%, rgba(194, 176, 28, 0.07) 0%, transparent 0.28%),
+                /* Medium dust specks */
+                radial-gradient(circle at 8% 22%, rgba(170, 155, 30, 0.1) 0%, transparent 0.5%),
+                radial-gradient(circle at 94% 38%, rgba(170, 155, 30, 0.09) 0%, transparent 0.45%),
+                radial-gradient(circle at 38% 8%, rgba(170, 155, 30, 0.08) 0%, transparent 0.48%),
+                radial-gradient(circle at 72% 58%, rgba(170, 155, 30, 0.1) 0%, transparent 0.52%),
+                radial-gradient(circle at 20% 95%, rgba(170, 155, 30, 0.07) 0%, transparent 0.42%);
+        }
 
         .terminal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(194, 176, 28, 0.3);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(194, 176, 28, 0.2);
+            position: relative;
+            z-index: 3;
+            background-image: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(20, 20, 18, 0.15) 50%, 
+                transparent 100%);
+        }
+        
+        .terminal-header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                rgba(194, 176, 28, 0.1) 0%,
+                transparent 15%,
+                transparent 85%,
+                rgba(194, 176, 28, 0.08) 100%);
         }
         
         .terminal-title {
@@ -377,6 +558,8 @@
             color: var(--primary-color);
             font-size: 1.2em;
             margin-right: 10px;
+            opacity: 0.7;
+            filter: brightness(0.85) contrast(0.9);
         }
         
         .terminal-text {
@@ -384,15 +567,21 @@
             font-size: 1.5em;
             letter-spacing: 2px;
             text-transform: uppercase;
+            opacity: 0.85;
+            filter: brightness(0.9);
         }
 
         .terminal-status {
             font-size: 0.8em;
             color: var(--tertiary-color);
-            border: 1px solid var(--tertiary-color);
-            padding: 3px 8px;
+            border: 1px solid rgba(77, 110, 80, 0.35);
+            padding: 5px 10px;
             display: flex;
             align-items: center;
+            background: rgba(12, 12, 10, 0.5);
+            opacity: 0.75;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+            white-space: nowrap;
         }
         
         .status-dot {
@@ -402,6 +591,8 @@
             border-radius: 50%;
             margin-right: 6px;
             animation: blink 2s infinite;
+            opacity: 0.7;
+            box-shadow: 0 0 3px rgba(77, 110, 80, 0.3);
         }
         
         @keyframes blink {
@@ -411,25 +602,54 @@
         }
 
         .menu-item {
-            padding: 15px;
-            margin-bottom: 10px;
-            border: 1px solid rgba(194, 176, 28, 0.3);
+            padding: 17px 20px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(194, 176, 28, 0.22);
             color: var(--text-color);
-            transition: all 0.25s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-transform: uppercase;
             letter-spacing: 1px;
             cursor: pointer;
             position: relative;
+            z-index: 3;
             overflow: hidden;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: rgba(16, 16, 14, 0.4);
+            background-color: rgba(14, 14, 12, 0.6);
+            font-size: 18px;
+            outline: none;
+            background-image: 
+                /* Small scratches on buttons */
+                linear-gradient(88deg, transparent 0%, transparent 52%, rgba(60, 58, 50, 0.15) 52.2%, transparent 52.4%),
+                linear-gradient(110deg, transparent 0%, transparent 75%, rgba(55, 53, 45, 0.12) 75.1%, transparent 75.3%),
+                /* Dust spots on buttons */
+                radial-gradient(circle at 85% 20%, rgba(50, 48, 42, 0.08) 0%, transparent 3%),
+                radial-gradient(circle at 15% 80%, rgba(48, 46, 40, 0.07) 0%, transparent 2.5%),
+                /* Subtle wear gradient */
+                linear-gradient(135deg, 
+                    rgba(25, 25, 22, 0.2) 0%, 
+                    transparent 30%,
+                    rgba(18, 18, 16, 0.25) 70%, 
+                    transparent 100%),
+                /* Texture */
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 3px,
+                    rgba(0, 0, 0, 0.02) 3px,
+                    rgba(0, 0, 0, 0.02) 4px
+                );
+            box-shadow: 
+                inset 0 1px 3px rgba(0, 0, 0, 0.4),
+                inset 0 -1px 1px rgba(30, 30, 26, 0.1),
+                0 1px 0 rgba(194, 176, 28, 0.05);
         }
 
         .menu-item-content {
             display: flex;
             align-items: center;
+            gap: 0;
         }
 
         .menu-item::after {
@@ -441,26 +661,36 @@
             bottom: 0;
             background: linear-gradient(90deg, 
                 transparent 0%,
-                rgba(194, 176, 28, 0.1) 50%,
+                rgba(194, 176, 28, 0.15) 50%,
                 transparent 100%);
             transform: translateX(-100%);
-            transition: transform 0.5s;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
         }
 
         .menu-item:hover::after {
             transform: translateX(100%);
-        }
-
-        .menu-item:active {
-            transform: scale(0.98);
+            opacity: 1;
         }
 
         .menu-item:hover, .menu-item:focus, .menu-item[data-focus="true"] {
             color: var(--primary-color);
-            border-color: var(--primary-color);
-            background-color: rgba(20, 20, 18, 0.6);
-            box-shadow: var(--glow-effect);
-            outline: none;
+            border-color: rgba(194, 176, 28, 0.4);
+            background-color: rgba(18, 18, 16, 0.8);
+            box-shadow: 
+                0 0 15px rgba(194, 176, 28, 0.2),
+                inset 0 1px 3px rgba(0, 0, 0, 0.5),
+                inset 0 -1px 1px rgba(30, 30, 26, 0.15),
+                0 1px 0 rgba(194, 176, 28, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .menu-item:active {
+            transform: translateY(0) scale(0.98);
+            box-shadow: 
+                0 0 8px rgba(194, 176, 28, 0.15),
+                inset 0 1px 3px rgba(0, 0, 0, 0.6),
+                inset 0 -1px 1px rgba(30, 30, 26, 0.2);
         }
 
         .menu-item::before {
@@ -470,50 +700,95 @@
             top: 0;
             height: 100%;
             width: 3px;
-            background-color: var(--primary-color);
+            background: linear-gradient(180deg, 
+                rgba(194, 176, 28, 0.6) 0%,
+                rgba(194, 176, 28, 0.9) 50%,
+                rgba(194, 176, 28, 0.6) 100%);
             transform: scaleY(0);
-            transition: transform 0.3s;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
         }
 
         .menu-item:hover::before, .menu-item:focus::before, .menu-item[data-focus="true"]::before {
             transform: scaleY(1);
+            opacity: 1;
         }
 
         .menu-item i {
-            margin-right: 12px;
+            margin-right: 15px;
             font-size: 1.2em;
             color: var(--primary-color);
-            width: 20px;
+            width: 24px;
             text-align: center;
+            opacity: 0.65;
+            filter: brightness(0.8) saturate(0.85);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(0);
+        }
+        
+        .menu-item:hover i, .menu-item:focus i, .menu-item[data-focus="true"] i {
+            opacity: 1;
+            filter: brightness(1.1) saturate(1.1) drop-shadow(0 0 4px rgba(247, 185, 51, 0.4));
+            transform: translateX(3px);
         }
 
         .menu-item .status-tag {
-            background-color: rgba(16, 16, 14, 0.8);
+            background-color: rgba(12, 12, 10, 0.8);
             color: var(--tertiary-color);
-            padding: 3px 8px;
+            padding: 4px 10px;
             font-size: 0.7em;
-            border: 1px solid var(--tertiary-color);
+            border: 1px solid rgba(77, 110, 80, 0.3);
             margin-left: auto;
+            opacity: 0.7;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
         }
 
-        .menu-item:hover .status-tag {
+        .menu-item:hover .status-tag, .menu-item:focus .status-tag, .menu-item[data-focus="true"] .status-tag {
             color: var(--primary-color);
-            border-color: var(--primary-color);
+            border-color: rgba(194, 176, 28, 0.4);
+            opacity: 0.9;
+            background-color: rgba(12, 12, 10, 0.9);
+            box-shadow: 
+                inset 0 1px 2px rgba(0, 0, 0, 0.4),
+                0 0 8px rgba(194, 176, 28, 0.1);
         }
 
         .terminal-footer {
-            margin-top: 20px;
-            padding-top: 10px;
-            border-top: 1px solid rgba(194, 176, 28, 0.3);
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(194, 176, 28, 0.18);
             font-size: 0.8em;
             color: var(--text-color);
-            opacity: 0.7;
+            opacity: 0.55;
+            position: relative;
+            z-index: 3;
+            background-image: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(15, 15, 13, 0.2) 50%, 
+                transparent 100%);
+        }
+        
+        .terminal-footer::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                rgba(194, 176, 28, 0.08) 0%,
+                transparent 20%,
+                transparent 80%,
+                rgba(194, 176, 28, 0.06) 100%);
         }
         
         .warning-row {
             color: var(--secondary-color);
             font-style: italic;
-            margin-top: 5px;
+            margin-top: 8px;
+            opacity: 0.65;
+            filter: brightness(0.8);
         }
 
         .glitch-text {
@@ -592,9 +867,510 @@
                 opacity: 0;
             }
         }
+
+        /* Volumetric Fog Effect */
+        .fog-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .fog-layer {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(ellipse at center, 
+                rgba(40, 40, 35, 0.4) 0%, 
+                rgba(30, 30, 26, 0.3) 20%,
+                rgba(20, 20, 18, 0.2) 40%,
+                transparent 70%);
+            filter: blur(60px);
+            opacity: 0.6;
+        }
+
+        .fog-layer-1 {
+            animation: fogDrift1 45s ease-in-out infinite;
+            background: radial-gradient(ellipse at 30% 40%, 
+                rgba(45, 45, 38, 0.45) 0%, 
+                rgba(35, 35, 30, 0.3) 25%,
+                transparent 60%);
+        }
+
+        .fog-layer-2 {
+            animation: fogDrift2 55s ease-in-out infinite;
+            animation-delay: -15s;
+            background: radial-gradient(ellipse at 70% 60%, 
+                rgba(38, 38, 32, 0.4) 0%, 
+                rgba(28, 28, 24, 0.25) 30%,
+                transparent 65%);
+        }
+
+        .fog-layer-3 {
+            animation: fogDrift3 65s ease-in-out infinite;
+            animation-delay: -25s;
+            background: radial-gradient(ellipse at 50% 30%, 
+                rgba(42, 42, 36, 0.35) 0%, 
+                rgba(32, 32, 28, 0.2) 28%,
+                transparent 58%);
+            filter: blur(80px);
+        }
+
+        .fog-layer-4 {
+            animation: fogDrift4 50s ease-in-out infinite;
+            animation-delay: -35s;
+            background: radial-gradient(ellipse at 20% 70%, 
+                rgba(40, 40, 34, 0.38) 0%, 
+                rgba(30, 30, 26, 0.22) 32%,
+                transparent 62%);
+            filter: blur(70px);
+        }
+
+        .fog-layer-5 {
+            animation: fogDrift5 60s ease-in-out infinite;
+            animation-delay: -20s;
+            background: radial-gradient(ellipse at 80% 20%, 
+                rgba(36, 36, 30, 0.42) 0%, 
+                rgba(26, 26, 22, 0.28) 26%,
+                transparent 55%);
+            filter: blur(65px);
+            opacity: 0.5;
+        }
+
+        @keyframes fogDrift1 {
+            0% {
+                transform: translate(-5%, -5%) rotate(0deg) scale(1);
+            }
+            25% {
+                transform: translate(3%, -8%) rotate(3deg) scale(1.05);
+            }
+            50% {
+                transform: translate(8%, 2%) rotate(-2deg) scale(1.1);
+            }
+            75% {
+                transform: translate(-2%, 6%) rotate(4deg) scale(1.03);
+            }
+            100% {
+                transform: translate(-5%, -5%) rotate(0deg) scale(1);
+            }
+        }
+
+        @keyframes fogDrift2 {
+            0% {
+                transform: translate(5%, 8%) rotate(0deg) scale(1.05);
+            }
+            30% {
+                transform: translate(-4%, 3%) rotate(-3deg) scale(1);
+            }
+            60% {
+                transform: translate(-8%, -4%) rotate(2deg) scale(1.08);
+            }
+            85% {
+                transform: translate(2%, -7%) rotate(-4deg) scale(1.02);
+            }
+            100% {
+                transform: translate(5%, 8%) rotate(0deg) scale(1.05);
+            }
+        }
+
+        @keyframes fogDrift3 {
+            0% {
+                transform: translate(0%, 0%) rotate(1deg) scale(1);
+            }
+            33% {
+                transform: translate(-6%, 5%) rotate(-2deg) scale(1.06);
+            }
+            66% {
+                transform: translate(4%, -6%) rotate(3deg) scale(1.04);
+            }
+            100% {
+                transform: translate(0%, 0%) rotate(1deg) scale(1);
+            }
+        }
+
+        @keyframes fogDrift4 {
+            0% {
+                transform: translate(-3%, 4%) rotate(-1deg) scale(1.02);
+            }
+            40% {
+                transform: translate(6%, -2%) rotate(4deg) scale(1.07);
+            }
+            70% {
+                transform: translate(-5%, -6%) rotate(-3deg) scale(1);
+            }
+            100% {
+                transform: translate(-3%, 4%) rotate(-1deg) scale(1.02);
+            }
+        }
+
+        @keyframes fogDrift5 {
+            0% {
+                transform: translate(4%, -6%) rotate(2deg) scale(1.04);
+            }
+            35% {
+                transform: translate(-7%, 4%) rotate(-4deg) scale(1.09);
+            }
+            65% {
+                transform: translate(3%, 7%) rotate(3deg) scale(1.01);
+            }
+            100% {
+                transform: translate(4%, -6%) rotate(2deg) scale(1.04);
+            }
+        }
+
+        /* Horror Shadow Monster */
+        .shadow-monster {
+            position: fixed;
+            top: 0;
+            left: -120%;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .shadow-monster.active {
+            animation: monsterRun 4.5s linear;
+        }
+
+        @keyframes monsterRun {
+            0% {
+                left: -120%;
+                opacity: 0;
+                transform: translateY(0);
+            }
+            3% {
+                opacity: 0.75;
+            }
+            10% {
+                transform: translateY(-8px);
+            }
+            20% {
+                transform: translateY(8px);
+            }
+            30% {
+                transform: translateY(-6px);
+            }
+            40% {
+                transform: translateY(6px);
+            }
+            50% {
+                opacity: 0.85;
+                transform: translateY(-8px);
+            }
+            60% {
+                transform: translateY(8px);
+            }
+            70% {
+                transform: translateY(-6px);
+            }
+            80% {
+                transform: translateY(6px);
+            }
+            90% {
+                transform: translateY(-4px);
+            }
+            97% {
+                opacity: 0.75;
+                transform: translateY(0);
+            }
+            100% {
+                left: 120%;
+                opacity: 0;
+                transform: translateY(0);
+            }
+        }
+
+        .shadow-monster::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 100%;
+            left: 50%;
+            top: 20%;
+            z-index: 2;
+            background: 
+                /* Head/upper body - large and menacing */
+                radial-gradient(ellipse 180px 250px at 50% 25%, 
+                    rgba(0, 0, 0, 0.9) 0%,
+                    rgba(0, 0, 0, 0.7) 30%,
+                    rgba(0, 0, 0, 0.4) 50%,
+                    transparent 70%),
+                /* Hunched shoulders */
+                radial-gradient(ellipse 220px 180px at 30% 35%, 
+                    rgba(0, 0, 0, 0.85) 0%,
+                    rgba(0, 0, 0, 0.6) 40%,
+                    transparent 65%),
+                radial-gradient(ellipse 220px 180px at 70% 35%, 
+                    rgba(0, 0, 0, 0.85) 0%,
+                    rgba(0, 0, 0, 0.6) 40%,
+                    transparent 65%),
+                /* Elongated torso */
+                radial-gradient(ellipse 200px 400px at 50% 55%, 
+                    rgba(0, 0, 0, 0.88) 0%,
+                    rgba(0, 0, 0, 0.65) 35%,
+                    rgba(0, 0, 0, 0.35) 55%,
+                    transparent 70%);
+            filter: blur(25px);
+            transform: scaleY(1.2) skewX(-3deg);
+            animation: monsterRunning 0.6s ease-in-out infinite;
+        }
+        
+        /* Animated limbs */
+        .monster-arm-left, .monster-arm-right,
+        .monster-leg-left, .monster-leg-right {
+            position: absolute;
+            width: 500px;
+            height: 100%;
+            left: 50%;
+            top: 20%;
+            pointer-events: none;
+        }
+        
+        /* Layer limbs behind body */
+        .monster-leg-left, .monster-leg-right {
+            z-index: 1;
+        }
+        
+        .monster-arm-left, .monster-arm-right {
+            z-index: 3;
+        }
+        
+        .monster-arm-left {
+            background: radial-gradient(ellipse 70px 400px at 18% 48%, 
+                rgba(0, 0, 0, 0.82) 0%,
+                rgba(0, 0, 0, 0.55) 40%,
+                transparent 62%);
+            filter: blur(24px);
+            transform-origin: 18% 38%;
+            animation: armLeftRun 0.6s ease-in-out infinite;
+        }
+        
+        .monster-arm-right {
+            background: radial-gradient(ellipse 70px 400px at 82% 48%, 
+                rgba(0, 0, 0, 0.82) 0%,
+                rgba(0, 0, 0, 0.55) 40%,
+                transparent 62%);
+            filter: blur(24px);
+            transform-origin: 82% 38%;
+            animation: armRightRun 0.6s ease-in-out infinite;
+        }
+        
+        .monster-leg-left {
+            background: radial-gradient(ellipse 92px 360px at 35% 68%, 
+                rgba(0, 0, 0, 0.84) 0%,
+                rgba(0, 0, 0, 0.6) 45%,
+                transparent 66%);
+            filter: blur(26px);
+            transform-origin: 35% 58%;
+            animation: legLeftRun 0.6s ease-in-out infinite;
+        }
+        
+        .monster-leg-right {
+            background: radial-gradient(ellipse 92px 360px at 65% 68%, 
+                rgba(0, 0, 0, 0.84) 0%,
+                rgba(0, 0, 0, 0.6) 45%,
+                transparent 66%);
+            filter: blur(26px);
+            transform-origin: 65% 58%;
+            animation: legRightRun 0.6s ease-in-out infinite;
+        }
+        
+        /* Arm animations - running motion */
+        @keyframes armLeftRun {
+            0% {
+                transform: translate(-3%, 8%) rotate(-35deg) scaleY(1);
+                opacity: 0.78;
+            }
+            25% {
+                transform: translate(-4%, 2%) rotate(-10deg) scaleY(1.03);
+                opacity: 0.82;
+            }
+            50% {
+                transform: translate(-5%, -4%) rotate(28deg) scaleY(1.06);
+                opacity: 0.85;
+            }
+            75% {
+                transform: translate(-4%, 1%) rotate(5deg) scaleY(1.02);
+                opacity: 0.80;
+            }
+            100% {
+                transform: translate(-3%, 8%) rotate(-35deg) scaleY(1);
+                opacity: 0.78;
+            }
+        }
+        
+        @keyframes armRightRun {
+            0% {
+                transform: translate(5%, -4%) rotate(28deg) scaleY(1.06);
+                opacity: 0.85;
+            }
+            25% {
+                transform: translate(4%, 1%) rotate(5deg) scaleY(1.02);
+                opacity: 0.80;
+            }
+            50% {
+                transform: translate(3%, 8%) rotate(-35deg) scaleY(1);
+                opacity: 0.78;
+            }
+            75% {
+                transform: translate(4%, 2%) rotate(-10deg) scaleY(1.03);
+                opacity: 0.82;
+            }
+            100% {
+                transform: translate(5%, -4%) rotate(28deg) scaleY(1.06);
+                opacity: 0.85;
+            }
+        }
+        
+        /* Leg animations - running motion */
+        @keyframes legLeftRun {
+            0% {
+                transform: translate(-4%, 3%) rotate(-22deg) scaleY(0.98);
+                opacity: 0.82;
+            }
+            20% {
+                transform: translate(-3%, 0%) rotate(-12deg) scaleY(0.94);
+                opacity: 0.80;
+            }
+            40% {
+                transform: translate(-2%, -2%) rotate(5deg) scaleY(1.02);
+                opacity: 0.86;
+            }
+            60% {
+                transform: translate(-1%, 0%) rotate(18deg) scaleY(1.10);
+                opacity: 0.88;
+            }
+            80% {
+                transform: translate(-2%, 2%) rotate(8deg) scaleY(1.04);
+                opacity: 0.84;
+            }
+            100% {
+                transform: translate(-4%, 3%) rotate(-22deg) scaleY(0.98);
+                opacity: 0.82;
+            }
+        }
+        
+        @keyframes legRightRun {
+            0% {
+                transform: translate(1%, 0%) rotate(18deg) scaleY(1.10);
+                opacity: 0.88;
+            }
+            20% {
+                transform: translate(2%, 2%) rotate(8deg) scaleY(1.04);
+                opacity: 0.84;
+            }
+            40% {
+                transform: translate(4%, 3%) rotate(-22deg) scaleY(0.98);
+                opacity: 0.82;
+            }
+            60% {
+                transform: translate(3%, 0%) rotate(-12deg) scaleY(0.94);
+                opacity: 0.80;
+            }
+            80% {
+                transform: translate(2%, -2%) rotate(5deg) scaleY(1.02);
+                opacity: 0.86;
+            }
+            100% {
+                transform: translate(1%, 0%) rotate(18deg) scaleY(1.10);
+                opacity: 0.88;
+            }
+        }
+
+        /* Running motion - faster breathing/pulsing with forward lean */
+        @keyframes monsterRunning {
+            0% {
+                transform: scaleY(1.2) scaleX(1) skewX(-3deg);
+                filter: blur(25px);
+            }
+            25% {
+                transform: scaleY(1.18) scaleX(1.03) skewX(-4deg);
+                filter: blur(26px);
+            }
+            50% {
+                transform: scaleY(1.24) scaleX(0.99) skewX(-2deg);
+                filter: blur(24px);
+            }
+            75% {
+                transform: scaleY(1.19) scaleX(1.02) skewX(-4deg);
+                filter: blur(26px);
+            }
+            100% {
+                transform: scaleY(1.2) scaleX(1) skewX(-3deg);
+                filter: blur(25px);
+            }
+        }
+
+        /* Glowing eyes that appear when monster is visible */
+        .shadow-monster::after {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 100%;
+            left: 50%;
+            top: 20%;
+            z-index: 4;
+            background: 
+                /* Left eye */
+                radial-gradient(circle 8px at calc(50% - 30px) 22%, 
+                    rgba(162, 52, 48, 0.9) 0%,
+                    rgba(162, 52, 48, 0.6) 30%,
+                    rgba(162, 52, 48, 0.3) 50%,
+                    transparent 100%),
+                /* Right eye */
+                radial-gradient(circle 8px at calc(50% + 30px) 22%, 
+                    rgba(162, 52, 48, 0.9) 0%,
+                    rgba(162, 52, 48, 0.6) 30%,
+                    rgba(162, 52, 48, 0.3) 50%,
+                    transparent 100%);
+            filter: blur(2px);
+            animation: eyeGlowRun 0.8s ease-in-out infinite;
+        }
+
+        @keyframes eyeGlowRun {
+            0% {
+                opacity: 0.7;
+            }
+            40% {
+                opacity: 1;
+            }
+            60% {
+                opacity: 0.9;
+            }
+            100% {
+                opacity: 0.7;
+            }
+        }
+    
     </style>
 </head>
 <body>
+    <!-- Shadow Monster -->
+    <div class="shadow-monster" id="shadowMonster">
+        <div class="monster-leg-left"></div>
+        <div class="monster-leg-right"></div>
+        <div class="monster-arm-left"></div>
+        <div class="monster-arm-right"></div>
+    </div>
+    
+    <!-- Volumetric Fog -->
+    <div class="fog-container">
+        <div class="fog-layer fog-layer-1"></div>
+        <div class="fog-layer fog-layer-2"></div>
+        <div class="fog-layer fog-layer-3"></div>
+        <div class="fog-layer fog-layer-4"></div>
+        <div class="fog-layer fog-layer-5"></div>
+    </div>
+    
     <!-- CRT Effects -->
     <div class="crt-overlay">
         <div class="scanlines"></div>
@@ -610,6 +1386,11 @@
     </div>
 
     <div class="terminal-container">
+        <!-- Damage and dust overlays -->
+        <div class="terminal-damage"></div>
+        <div class="terminal-dust"></div>
+        <div class="terminal-scanline"></div>
+        
         <div class="terminal-header">
             <div class="terminal-title">
                 <div class="terminal-icon"><i class="fas fa-terminal"></i></div>
@@ -635,6 +1416,14 @@
                 <span>EMPLOYEE CONFIGURATION</span>
             </div>
             <div class="status-tag">CUSTOMIZABLE</div>
+        </div>
+
+        <div class="menu-item" onclick="window.location='credits.html'">
+            <div class="menu-item-content">
+                <i class="fas fa-users"></i>
+                <span>CORPORATE ACKNOWLEDGMENTS</span>
+            </div>
+            <div class="status-tag">ARCHIVED</div>
         </div>
 
         <div class="menu-item" onclick="confirmExit()">
@@ -712,6 +1501,29 @@
         // Start the random logo glitch effect
         randomLogoGlitch();
         
+        // Shadow Monster periodic appearance
+        function triggerShadowMonster() {
+            const monster = document.getElementById('shadowMonster');
+            const randomInterval = Math.random() * 15000 + 10000; // Between 10-25 seconds
+            
+            setTimeout(() => {
+                // Trigger the monster run
+                monster.classList.add('active');
+                
+                // Remove the class after animation completes
+                setTimeout(() => {
+                    monster.classList.remove('active');
+                    // Schedule next appearance
+                    triggerShadowMonster();
+                }, 4500); // Duration matches animation length (4.5s)
+            }, randomInterval);
+        }
+        
+        // Start the shadow monster effect with initial delay
+        setTimeout(() => {
+            triggerShadowMonster();
+        }, 8000); // First appearance after 8 seconds
+        
         // Function to confirm exit
         function confirmExit() {
             // Play select sound
@@ -740,7 +1552,7 @@
                         
                         // Fallback if window.close() doesn't work due to browser security
                         setTimeout(() => {
-                            document.body.innerHTML = "<div style='color: #c2b01c; text-align: center; margin-top: 40vh; font-family: VT323, monospace; font-size: 24px;'>SESSION TERMINATED<br>You may now close this window.</div>";
+                            document.body.innerHTML = "<div style='color: #f7b933; text-align: center; margin-top: 40vh; font-family: VT323, monospace; font-size: 24px;'>SESSION TERMINATED<br>You may now close this window.</div>";
                             document.body.style.background = "black";
                         }, 300);
                     }, 200);

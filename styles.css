@@ -529,10 +529,10 @@ body::before {
 
 .stamina-fill {
     background: repeating-linear-gradient(to right,
-            #a39218,
-            #c2b01c 10px,
-            #a39218 10px,
-            #a39218 20px);
+            #c89a1d,
+            #f7b933 10px,
+            #c89a1d 10px,
+            #c89a1d 20px);
     box-shadow: 0 0 5px rgba(194, 176, 28, 0.7);
 }
 
@@ -1369,10 +1369,10 @@ body::before {
     left: 0;
     height: 100%;
     background: repeating-linear-gradient(-45deg,
-            #a39218,
-            #c2b01c 10px,
-            #a39218 10px,
-            #a39218 20px);
+            #c89a1d,
+            #f7b933 10px,
+            #c89a1d 10px,
+            #c89a1d 20px);
     box-shadow: 0 0 5px rgba(194, 176, 28, 0.5);
     transition: width 0.5s ease;
     z-index: 1;
@@ -1455,7 +1455,7 @@ body::before {
     top: -12px;
     right: -8px;
     font-size: 12px;
-    color: #c2b01c;
+    color: #f7b933;
     animation: voice-warning-blink 1.5s ease-in-out infinite;
 }
 
@@ -4925,16 +4925,156 @@ body::before {
     width: 80%;
     max-width: 900px;
     max-height: 80vh;
-    background-color: var(--background-color);
-    border: 2px solid var(--primary-color);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5),
-        inset 0 0 15px rgba(0, 0, 0, 0.7);
-    position: relative;
+    background-color: rgba(18, 18, 16, 0.88);
     padding: 10px;
+    border: none;
+    box-shadow: 
+        0 0 20px rgba(0, 0, 0, 0.9), 
+        0 0 2px rgba(194, 176, 28, 0.03),
+        inset 0 0 50px rgba(15, 15, 13, 0.98),
+        inset 3px 3px 15px rgba(10, 10, 8, 0.5),
+        inset -1px -1px 8px rgba(25, 25, 22, 0.2),
+        /* Worn border effect - top */
+        inset 0 1px 0 rgba(194, 176, 28, 0.25),
+        inset 0 0.5px 0 rgba(194, 176, 28, 0.15),
+        /* Worn border effect - right */
+        inset -1px 0 0 rgba(194, 176, 28, 0.18),
+        inset -0.5px 0 0 rgba(194, 176, 28, 0.12),
+        /* Worn border effect - bottom */
+        inset 0 -1px 0 rgba(194, 176, 28, 0.22),
+        inset 0 -0.5px 0 rgba(194, 176, 28, 0.1),
+        /* Worn border effect - left */
+        inset 1px 0 0 rgba(194, 176, 28, 0.2),
+        inset 0.5px 0 0 rgba(194, 176, 28, 0.14);
+    position: relative;
     transform: translateY(20px);
     opacity: 0;
     transition: transform 0.3s ease, opacity 0.3s ease;
     overflow: hidden;
+    background-image: 
+        /* Irregular border segments */
+        linear-gradient(0deg, rgba(194, 176, 28, 0.2) 0%, rgba(194, 176, 28, 0.2) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(194, 176, 28, 0.15) 0%, rgba(194, 176, 28, 0.15) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(194, 176, 28, 0.18) 0%, rgba(194, 176, 28, 0.18) 1px, transparent 1px),
+        linear-gradient(270deg, rgba(194, 176, 28, 0.16) 0%, rgba(194, 176, 28, 0.16) 1px, transparent 1px),
+        /* Base gradients */
+        linear-gradient(135deg, rgba(25, 25, 22, 0.15) 0%, transparent 40%, rgba(15, 15, 13, 0.2) 100%),
+        linear-gradient(180deg, rgba(20, 20, 18, 0.1) 0%, rgba(15, 15, 13, 0.4) 100%),
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 0, 0, 0.03) 2px,
+            rgba(0, 0, 0, 0.03) 3px
+        );
+    background-blend-mode: normal, normal, normal, normal, multiply, multiply, overlay;
+    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+    background-position: top, right, bottom, left, 0 0, 0 0, 0 0;
+    background-repeat: no-repeat;
+}
+
+.menu-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+        /* Worn/missing border sections - top */
+        linear-gradient(90deg,
+            transparent 0%, 
+            transparent 8%, 
+            rgba(194, 176, 28, 0.22) 8%, 
+            rgba(194, 176, 28, 0.22) 35%, 
+            transparent 35%,
+            transparent 42%,
+            rgba(194, 176, 28, 0.18) 42%,
+            rgba(194, 176, 28, 0.18) 68%,
+            transparent 68%,
+            transparent 75%,
+            rgba(194, 176, 28, 0.2) 75%,
+            rgba(194, 176, 28, 0.2) 92%,
+            transparent 92%
+        ),
+        /* Worn/missing border sections - bottom */
+        linear-gradient(90deg,
+            transparent 0%, 
+            transparent 5%, 
+            rgba(194, 176, 28, 0.18) 5%, 
+            rgba(194, 176, 28, 0.18) 28%, 
+            transparent 28%,
+            transparent 38%,
+            rgba(194, 176, 28, 0.22) 38%,
+            rgba(194, 176, 28, 0.22) 72%,
+            transparent 72%,
+            transparent 78%,
+            rgba(194, 176, 28, 0.16) 78%,
+            rgba(194, 176, 28, 0.16) 95%,
+            transparent 95%
+        ),
+        /* Worn/missing border sections - left */
+        linear-gradient(0deg,
+            transparent 0%, 
+            transparent 10%, 
+            rgba(194, 176, 28, 0.2) 10%, 
+            rgba(194, 176, 28, 0.2) 42%, 
+            transparent 42%,
+            transparent 55%,
+            rgba(194, 176, 28, 0.18) 55%,
+            rgba(194, 176, 28, 0.18) 88%,
+            transparent 88%
+        ),
+        /* Worn/missing border sections - right */
+        linear-gradient(0deg,
+            transparent 0%, 
+            transparent 12%, 
+            rgba(194, 176, 28, 0.16) 12%, 
+            rgba(194, 176, 28, 0.16) 38%, 
+            transparent 38%,
+            transparent 48%,
+            rgba(194, 176, 28, 0.2) 48%,
+            rgba(194, 176, 28, 0.2) 85%,
+            transparent 85%
+        );
+    background-size: 100% 1px, 100% 1px, 1px 100%, 1px 100%;
+    background-position: top, bottom, left, right;
+    background-repeat: no-repeat;
+}
+
+.menu-content::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    background-image: 
+        /* Dust spots */
+        radial-gradient(circle at 15% 12%, rgba(60, 55, 45, 0.15) 0%, transparent 2%),
+        radial-gradient(circle at 73% 8%, rgba(50, 48, 40, 0.12) 0%, transparent 1.5%),
+        radial-gradient(circle at 88% 25%, rgba(55, 52, 42, 0.1) 0%, transparent 2.5%),
+        radial-gradient(circle at 22% 78%, rgba(58, 54, 44, 0.14) 0%, transparent 2%),
+        radial-gradient(circle at 67% 82%, rgba(52, 50, 41, 0.11) 0%, transparent 1.8%),
+        radial-gradient(circle at 45% 35%, rgba(56, 53, 43, 0.09) 0%, transparent 1.2%),
+        radial-gradient(circle at 8% 50%, rgba(54, 51, 42, 0.13) 0%, transparent 2.2%),
+        radial-gradient(circle at 92% 65%, rgba(53, 50, 40, 0.1) 0%, transparent 1.5%),
+        radial-gradient(circle at 35% 92%, rgba(57, 53, 43, 0.12) 0%, transparent 1.9%),
+        /* Corner dust/wear */
+        radial-gradient(ellipse at 2% 2%, rgba(40, 40, 35, 0.12) 0%, transparent 10%),
+        radial-gradient(ellipse at 98% 2%, rgba(35, 35, 30, 0.09) 0%, transparent 9%),
+        radial-gradient(ellipse at 2% 98%, rgba(40, 40, 35, 0.14) 0%, transparent 11%),
+        radial-gradient(ellipse at 98% 98%, rgba(35, 35, 30, 0.1) 0%, transparent 10%),
+        /* Subtle edge fade */
+        linear-gradient(180deg, rgba(30, 30, 26, 0.08) 0%, transparent 15%, transparent 85%, rgba(20, 20, 18, 0.12) 100%),
+        linear-gradient(90deg, rgba(25, 25, 22, 0.06) 0%, transparent 10%, transparent 90%, rgba(25, 25, 22, 0.06) 100%);
+    box-shadow: 
+        inset 0 0 20px rgba(10, 10, 8, 0.3),
+        inset 2px 2px 6px rgba(8, 8, 6, 0.25),
+        inset -1px -1px 4px rgba(30, 30, 26, 0.15);
 }
 
 .esc-menu.visible .menu-content {
@@ -4942,13 +5082,128 @@ body::before {
     opacity: 1;
 }
 
+/* Terminal damage and scratch effects */
+.terminal-damage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.4;
+    mix-blend-mode: multiply;
+    background-image:
+        /* Scratches */
+        linear-gradient(125deg, transparent 0%, transparent 28%, rgba(80, 75, 65, 0.3) 28.5%, rgba(80, 75, 65, 0.3) 29%, transparent 29.5%),
+        linear-gradient(78deg, transparent 0%, transparent 65%, rgba(70, 68, 58, 0.25) 65.3%, rgba(70, 68, 58, 0.25) 65.8%, transparent 66.3%),
+        linear-gradient(95deg, transparent 0%, transparent 42%, rgba(75, 72, 62, 0.2) 42.2%, rgba(75, 72, 62, 0.2) 42.5%, transparent 43%),
+        /* Worn areas */
+        radial-gradient(ellipse at 18% 15%, rgba(50, 48, 40, 0.15) 0%, transparent 8%),
+        radial-gradient(ellipse at 82% 78%, rgba(48, 46, 38, 0.12) 0%, transparent 7%);
+}
+
+/* Dust overlay layer */
+.terminal-dust {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.3;
+    background-image:
+        /* Small dust particles */
+        radial-gradient(circle at 25% 20%, rgba(194, 176, 28, 0.08) 0%, transparent 0.3%),
+        radial-gradient(circle at 58% 15%, rgba(194, 176, 28, 0.06) 0%, transparent 0.25%),
+        radial-gradient(circle at 78% 32%, rgba(194, 176, 28, 0.07) 0%, transparent 0.28%),
+        radial-gradient(circle at 12% 45%, rgba(194, 176, 28, 0.09) 0%, transparent 0.35%),
+        radial-gradient(circle at 42% 55%, rgba(194, 176, 28, 0.05) 0%, transparent 0.22%),
+        radial-gradient(circle at 85% 48%, rgba(194, 176, 28, 0.08) 0%, transparent 0.3%),
+        radial-gradient(circle at 32% 72%, rgba(194, 176, 28, 0.06) 0%, transparent 0.26%),
+        radial-gradient(circle at 68% 68%, rgba(194, 176, 28, 0.07) 0%, transparent 0.29%),
+        radial-gradient(circle at 90% 85%, rgba(194, 176, 28, 0.05) 0%, transparent 0.24%),
+        radial-gradient(circle at 15% 88%, rgba(194, 176, 28, 0.08) 0%, transparent 0.32%),
+        radial-gradient(circle at 48% 28%, rgba(194, 176, 28, 0.06) 0%, transparent 0.27%),
+        radial-gradient(circle at 62% 92%, rgba(194, 176, 28, 0.07) 0%, transparent 0.28%),
+        /* Medium dust specks */
+        radial-gradient(circle at 8% 22%, rgba(170, 155, 30, 0.1) 0%, transparent 0.5%),
+        radial-gradient(circle at 94% 38%, rgba(170, 155, 30, 0.09) 0%, transparent 0.45%),
+        radial-gradient(circle at 38% 8%, rgba(170, 155, 30, 0.08) 0%, transparent 0.48%),
+        radial-gradient(circle at 72% 58%, rgba(170, 155, 30, 0.1) 0%, transparent 0.52%),
+        radial-gradient(circle at 20% 95%, rgba(170, 155, 30, 0.07) 0%, transparent 0.42%);
+}
+
+/* Scanline effect on separate layer */
+.terminal-scanline {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(194, 176, 28, 0.25),
+        transparent);
+    animation: scanline 4s linear infinite;
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 10;
+}
+
+@keyframes scanline {
+    0% { top: 0; opacity: 0.6; }
+    100% { top: 100%; opacity: 0; }
+}
+
 .menu-header {
     position: relative;
     text-align: center;
     padding: 10px 0 15px;
-    border-bottom: 1px solid rgba(194, 176, 28, 0.3);
+    border-bottom: 1px solid rgba(194, 176, 28, 0.2);
     margin-bottom: 15px;
     overflow: hidden;
+    z-index: 3;
+    background-image: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(20, 20, 18, 0.15) 50%, 
+        transparent 100%);
+}
+
+.menu-header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        rgba(194, 176, 28, 0.1) 0%,
+        transparent 15%,
+        transparent 85%,
+        rgba(194, 176, 28, 0.08) 100%);
+}
+
+.menu-header .corner-element {
+    z-index: 11;
+    opacity: 0.6;
+    width: 15px;
+    height: 15px;
+}
+
+.menu-header .corner-element.top-left {
+    top: -1px;
+    left: -1px;
+    border-top: 1px solid rgba(194, 176, 28, 0.4);
+    border-left: 1px solid rgba(194, 176, 28, 0.4);
+}
+
+.menu-header .corner-element.top-right {
+    top: -1px;
+    right: -1px;
+    border-top: 1px solid rgba(194, 176, 28, 0.4);
+    border-right: 1px solid rgba(194, 176, 28, 0.4);
 }
 
 .menu-title {
@@ -4959,6 +5214,8 @@ body::before {
     text-transform: uppercase;
     position: relative;
     display: inline-block;
+    opacity: 0.85;
+    filter: brightness(0.9);
 }
 
 .menu-title::before {
@@ -4967,7 +5224,7 @@ body::before {
     left: -2px;
     top: 0;
     width: 100%;
-    color: #c2b01c;
+    color: #f7b933;
     overflow: hidden;
     clip: rect(0, 900px, 0, 0);
     animation: menu-title-glitch 3s infinite linear alternate-reverse;
@@ -5020,7 +5277,8 @@ body::before {
     font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 1px;
-    opacity: 0.8;
+    opacity: 0.7;
+    filter: brightness(0.85);
 }
 
 .menu-warning {
@@ -5029,6 +5287,8 @@ body::before {
     margin-top: 5px;
     text-transform: uppercase;
     letter-spacing: 1px;
+    opacity: 0.7;
+    filter: brightness(0.85);
     animation: warning-flash 2s infinite;
 }
 
@@ -5301,9 +5561,29 @@ body::before {
 /* Menu Footer */
 .menu-footer {
     margin-top: 15px;
-    border-top: 1px dashed rgba(173, 173, 173, 0.2);
+    border-top: 1px solid rgba(194, 176, 28, 0.2);
     padding-top: 10px;
     text-align: center;
+    position: relative;
+    z-index: 3;
+    background-image: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(20, 20, 18, 0.15) 50%, 
+        transparent 100%);
+}
+
+.menu-footer::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        rgba(194, 176, 28, 0.1) 0%,
+        transparent 15%,
+        transparent 85%,
+        rgba(194, 176, 28, 0.08) 100%);
 }
 
 .personnel-note {
@@ -5428,16 +5708,36 @@ body::before {
     align-items: center;
     gap: 10px;
     padding: 10px 15px;
-    background-color: rgba(20, 20, 18, 0.8);
-    border: 1px solid var(--primary-color);
-    color: var(--text-color);
+    background-color: rgba(14, 14, 12, 0.6);
+    border: 1px solid rgba(194, 176, 28, 0.22);
+    color: var(--primary-color);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.25s;
+    position: relative;
+    z-index: 3;
+    overflow: hidden;
+    opacity: 0.85;
+    background-image: 
+        linear-gradient(135deg, 
+            rgba(25, 25, 22, 0.2) 0%, 
+            transparent 30%,
+            rgba(18, 18, 16, 0.25) 70%, 
+            transparent 100%);
+    box-shadow: 
+        inset 0 1px 2px rgba(0, 0, 0, 0.3),
+        inset 0 -1px 1px rgba(30, 30, 26, 0.1),
+        0 1px 0 rgba(194, 176, 28, 0.05);
 }
 
 .menu-button:hover {
-    background-color: rgba(30, 30, 28, 0.9);
-    box-shadow: 0 0 10px rgba(194, 176, 28, 0.3);
+    background-color: rgba(18, 18, 16, 0.7);
+    border-color: rgba(194, 176, 28, 0.38);
+    box-shadow: 
+        0 0 6px rgba(194, 176, 28, 0.15),
+        inset 0 1px 2px rgba(0, 0, 0, 0.4),
+        inset 0 -1px 1px rgba(30, 30, 26, 0.15),
+        0 1px 0 rgba(194, 176, 28, 0.08);
+    opacity: 1;
 }
 
 .menu-button:hover span {
@@ -5445,11 +5745,22 @@ body::before {
 }
 
 #logoutButton {
-    border-color: var(--secondary-color);
+    border-color: rgba(162, 52, 48, 0.3);
+    color: var(--secondary-color);
+    box-shadow: 
+        inset 0 1px 2px rgba(0, 0, 0, 0.3),
+        inset 0 -1px 1px rgba(30, 30, 26, 0.1),
+        0 1px 0 rgba(162, 52, 48, 0.05);
 }
 
 #logoutButton:hover {
-    box-shadow: 0 0 10px rgba(162, 52, 48, 0.3);
+    background-color: rgba(18, 18, 16, 0.7);
+    border-color: rgba(162, 52, 48, 0.4);
+    box-shadow: 
+        0 0 6px rgba(162, 52, 48, 0.15),
+        inset 0 1px 2px rgba(0, 0, 0, 0.4),
+        inset 0 -1px 1px rgba(30, 30, 26, 0.15),
+        0 1px 0 rgba(162, 52, 48, 0.08);
 }
 
 #logoutButton:hover span {
@@ -5457,8 +5768,13 @@ body::before {
 }
 
 #optionsButton {
-    border-color: var(--tertiary-color);
+    border-color: rgba(77, 110, 80, 0.3);
+    color: var(--tertiary-color);
     position: relative;
+    box-shadow: 
+        inset 0 1px 2px rgba(0, 0, 0, 0.3),
+        inset 0 -1px 1px rgba(30, 30, 26, 0.1),
+        0 1px 0 rgba(77, 110, 80, 0.05);
     overflow: hidden;
 }
 
@@ -5487,8 +5803,13 @@ body::before {
 }
 
 #optionsButton:hover {
-    box-shadow: 0 0 10px rgba(77, 110, 80, 0.4);
-    background-color: rgba(20, 30, 20, 0.4);
+    background-color: rgba(18, 18, 16, 0.7);
+    border-color: rgba(77, 110, 80, 0.4);
+    box-shadow: 
+        0 0 6px rgba(77, 110, 80, 0.15),
+        inset 0 1px 2px rgba(0, 0, 0, 0.4),
+        inset 0 -1px 1px rgba(30, 30, 26, 0.15),
+        0 1px 0 rgba(77, 110, 80, 0.08);
 }
 
 #optionsButton:hover span {
