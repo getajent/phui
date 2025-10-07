@@ -340,6 +340,10 @@
                     <div class="key-button small">D</div>
                     <span>Simulate Death</span>
                 </div>
+                <div class="hint-item" data-action="player-death">
+                    <div class="key-button small">K</div>
+                    <span>Player Death Alert</span>
+                </div>
                 <div class="hint-item" data-action="esc-menu">
                     <div class="key-button small">ESC</div>
                     <span>System Access</span>
@@ -356,9 +360,16 @@
     <!-- Death Screen -->
     <div id="deathScreen" class="death-screen">
         <div class="death-content">
+            <!-- Damage and dust overlays -->
+            <div class="terminal-damage"></div>
+            <div class="terminal-dust"></div>
+            <div class="terminal-scanline"></div>
+            
             <div class="death-header">
                 <h1 class="glitch-text" data-text="SYSTEMS OFFLINE">SYSTEMS OFFLINE</h1>
-                <h2 data-binary="01000100 01000101 01000001 01000100">MISSION STATUS: <span class="text-danger">CATASTROPHIC FAILURE</span> <span class="binary-code">01000100 01000101 01000001 01000100</span></h2>
+                <h2 data-binary="01000100 01000101 01000001 01000100">MISSION STATUS: <span class="text-danger">CATASTROPHIC FAILURE</span></h2>
+                <div class="corner-element top-left"></div>
+                <div class="corner-element top-right"></div>
             </div>
             
             <div class="death-stats">

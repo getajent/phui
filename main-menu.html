@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PLANET HOARDERS - EMPLOYEE TERMINAL</title>
-    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="audio-manager.js"></script>
     <style>
@@ -57,7 +57,7 @@
         }
 
         body {
-            font-family: 'VT323', 'Share Tech Mono', monospace;
+            font-family: 'Share Tech Mono', monospace;
             color: var(--text-color);
             height: 100vh;
             overflow: hidden;
@@ -68,6 +68,8 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            font-size: 14px;
+            line-height: 1.4;
         }
 
         body::before {
@@ -263,27 +265,29 @@
 
         .company-id {
             color: var(--primary-color);
-            font-size: 1.2rem;
-            letter-spacing: 2px;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
             opacity: 0.6;
             margin-top: 10px;
             text-transform: uppercase;
             border-top: 1px dashed rgba(194, 176, 28, 0.25);
             border-bottom: 1px dashed rgba(194, 176, 28, 0.25);
-            padding: 5px 0;
+            padding: 6px 0;
             width: fit-content;
             margin: 15px auto 0;
             filter: brightness(0.9);
+            font-weight: 500;
         }
 
         .warning-text {
             color: var(--secondary-color);
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             margin-top: 10px;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             text-transform: uppercase;
             opacity: 0.7;
             filter: brightness(0.85);
+            font-weight: 500;
         }
 
         .terminal-container {
@@ -292,7 +296,7 @@
             width: 90%;
             max-width: 500px;
             background-color: rgba(18, 18, 16, 0.88);
-            padding: 30px;
+            padding: 32px;
             border: none;
             box-shadow: 
                 0 0 20px rgba(0, 0, 0, 0.9), 
@@ -524,8 +528,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
+            margin-bottom: 28px;
+            padding-bottom: 18px;
             border-bottom: 1px solid rgba(194, 176, 28, 0.2);
             position: relative;
             z-index: 3;
@@ -556,32 +560,38 @@
         
         .terminal-icon {
             color: var(--primary-color);
-            font-size: 1.2em;
-            margin-right: 10px;
+            font-size: 1.1em;
+            margin-right: 12px;
             opacity: 0.7;
             filter: brightness(0.85) contrast(0.9);
         }
         
         .terminal-text {
             color: var(--primary-color);
-            font-size: 1.5em;
-            letter-spacing: 2px;
+            font-size: 1.3em;
+            letter-spacing: 1px;
             text-transform: uppercase;
-            opacity: 0.85;
-            filter: brightness(0.9);
+            opacity: 1;
+            filter: none;
+            font-weight: 600;
         }
 
         .terminal-status {
-            font-size: 0.8em;
+            font-size: 0.7em;
             color: var(--tertiary-color);
             border: 1px solid rgba(77, 110, 80, 0.35);
-            padding: 5px 10px;
-            display: flex;
+            padding: 7px 12px 6px;
+            display: inline-flex;
             align-items: center;
+            justify-content: center;
             background: rgba(12, 12, 10, 0.5);
             opacity: 0.75;
+            letter-spacing: 0.3px;
+            font-weight: 500;
             box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
             white-space: nowrap;
+            line-height: 1;
+            vertical-align: middle;
         }
         
         .status-dot {
@@ -602,13 +612,13 @@
         }
 
         .menu-item {
-            padding: 17px 20px;
+            padding: 18px 22px;
             margin-bottom: 12px;
             border: 1px solid rgba(194, 176, 28, 0.22);
             color: var(--text-color);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             cursor: pointer;
             position: relative;
             z-index: 3;
@@ -617,7 +627,9 @@
             justify-content: space-between;
             align-items: center;
             background-color: rgba(14, 14, 12, 0.6);
-            font-size: 18px;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            font-weight: 600;
             outline: none;
             background-image: 
                 /* Small scratches on buttons */
@@ -715,10 +727,10 @@
         }
 
         .menu-item i {
-            margin-right: 15px;
-            font-size: 1.2em;
+            margin-right: 16px;
+            font-size: 1.1em;
             color: var(--primary-color);
-            width: 24px;
+            width: 22px;
             text-align: center;
             opacity: 0.65;
             filter: brightness(0.8) saturate(0.85);
@@ -735,13 +747,20 @@
         .menu-item .status-tag {
             background-color: rgba(12, 12, 10, 0.8);
             color: var(--tertiary-color);
-            padding: 4px 10px;
-            font-size: 0.7em;
+            padding: 7px 12px 6px;
+            font-size: 0.65em;
             border: 1px solid rgba(77, 110, 80, 0.3);
             margin-left: auto;
             opacity: 0.7;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.2px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            vertical-align: middle;
         }
 
         .menu-item:hover .status-tag, .menu-item:focus .status-tag, .menu-item[data-focus="true"] .status-tag {
@@ -755,12 +774,15 @@
         }
 
         .terminal-footer {
-            margin-top: 25px;
-            padding-top: 15px;
+            margin-top: 28px;
+            padding-top: 18px;
             border-top: 1px solid rgba(194, 176, 28, 0.18);
-            font-size: 0.8em;
+            font-size: 0.7em;
             color: var(--text-color);
+            letter-spacing: 0.2px;
+            font-weight: 500;
             opacity: 0.55;
+            line-height: 1.5;
             position: relative;
             z-index: 3;
             background-image: linear-gradient(90deg, 
@@ -786,9 +808,11 @@
         .warning-row {
             color: var(--secondary-color);
             font-style: italic;
-            margin-top: 8px;
+            margin-top: 10px;
             opacity: 0.65;
             filter: brightness(0.8);
+            letter-spacing: 0.2px;
+            font-size: 0.95em;
         }
 
         .glitch-text {
@@ -1350,6 +1374,28 @@
                 opacity: 0.7;
             }
         }
+        
+        /* Share Tech Mono font optimizations */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        button, .button {
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+        
+        /* Improve text readability with Share Tech Mono */
+        .menu-item span {
+            letter-spacing: 0.3px;
+        }
+        
+        /* Better spacing for monospace font */
+        p {
+            line-height: 1.5;
+            letter-spacing: 0.2px;
+        }
     
     </style>
 </head>
@@ -1552,7 +1598,7 @@
                         
                         // Fallback if window.close() doesn't work due to browser security
                         setTimeout(() => {
-                            document.body.innerHTML = "<div style='color: #f7b933; text-align: center; margin-top: 40vh; font-family: VT323, monospace; font-size: 24px;'>SESSION TERMINATED<br>You may now close this window.</div>";
+                            document.body.innerHTML = "<div style='color: #f7b933; text-align: center; margin-top: 40vh; font-family: \"Share Tech Mono\", monospace; font-size: 20px; letter-spacing: 0.5px;'>SESSION TERMINATED<br>You may now close this window.</div>";
                             document.body.style.background = "black";
                         }, 300);
                     }, 200);

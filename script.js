@@ -781,6 +781,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'd' || e.key === 'D') {
             toggleDeathScreen();
         }
+        // Add test for player death notification (press K key)
+        if (e.key === 'k' || e.key === 'K') {
+            const playerNames = ['CHEN, L.', 'RODRIGUEZ, M.', 'SMITH, J.', 'PATEL, R.', 'JOHNSON, K.', 'BROWN, T.', 'WILSON, A.'];
+            const randomName = playerNames[Math.floor(Math.random() * playerNames.length)];
+            if (typeof window.showNotification === 'function') {
+                window.showNotification(`☠ ${randomName} has been eliminated`, window.notificationTypes.DEATH, 7000);
+            }
+        }
     });
 
     // Death screen restart button
@@ -796,8 +804,12 @@ document.addEventListener('DOMContentLoaded', () => {
         WARNING: 'warning',
         DANGER: 'danger',
         SUCCESS: 'success',
-        SYSTEM: 'system'
+        SYSTEM: 'system',
+        DEATH: 'death'
     };
+    
+    // Make notification types globally accessible
+    window.notificationTypes = notificationTypes;
 
     // Create notification container if it doesn't exist
     createNotificationContainer();
@@ -808,11 +820,12 @@ document.addEventListener('DOMContentLoaded', () => {
         warning: new Audio('audio/notification-warning.mp3'),
         danger: new Audio('audio/notification-danger.mp3'),
         success: new Audio('audio/notification-success.mp3'),
-        system: new Audio('audio/notification-system.mp3')
+        system: new Audio('audio/notification-system.mp3'),
+        death: new Audio('audio/notification-danger.mp3') // Using danger sound for death
     };
 
     // Notification functions
-    function showNotification(message, type = notificationTypes.INFO, duration = 5000, icon = null) {
+    window.showNotification = function(message, type = notificationTypes.INFO, duration = 5000, icon = null) {
         const container = document.querySelector('.notification-container');
 
         // Create notification element
@@ -839,6 +852,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     break;
                 case notificationTypes.SYSTEM:
                     iconHTML = '<i class="fa-solid fa-microchip"></i>';
+                    break;
+                case notificationTypes.DEATH:
+                    iconHTML = '<i class="fa-solid fa-skull-crossbones"></i>';
                     break;
             }
         }
@@ -1846,12 +1862,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // ESC Menu System
+    // ==========================
+    // ENHANCED ESC MENU SYSTEM WITH UX IMPROVEMENTS
+    // ==========================
+    
     const escMenu = document.getElementById('escMenu');
     const resumeButton = document.getElementById('resumeButton');
     const logoutButton = document.getElementById('logoutButton');
+    const optionsButton = document.getElementById('optionsButton');
     const menuTabs = document.querySelectorAll('.menu-tab');
     const tabContents = document.querySelectorAll('.tab-content');
+    const quitConfirmModal = document.getElementById('quitConfirmModal');
+    const cancelQuitBtn = document.getElementById('cancelQuit');
+    const confirmQuitBtn = document.getElementById('confirmQuit');
 
     // Volume sliders
     const volumeSliders = document.querySelectorAll('.volume-slider');
@@ -1868,13 +1891,24 @@ document.addEventListener('DOMContentLoaded', () => {
         escMenu.classList.remove('visible');
     }
 
-    // Toggle ESC menu visibility
+    // Track if we're in quit confirmation
+    let isInQuitConfirmation = false;
+
+    // Toggle ESC menu visibility with focus management
     function toggleEscMenu() {
         if (escMenu) {
+            const isOpening = !escMenu.classList.contains('visible');
             escMenu.classList.toggle('visible');
 
-            // Add glitch effect to menu content when opening
-            if (escMenu.classList.contains('visible')) {
+            // If opening, focus the resume button for accessibility
+            if (isOpening) {
+                setTimeout(() => {
+                    if (resumeButton) {
+                        resumeButton.focus();
+                    }
+                }, 100);
+
+                // Add glitch effect to menu content when opening
                 const menuContent = escMenu.querySelector('.menu-content');
 
                 // Simulate system scanning effect
@@ -1903,45 +1937,170 @@ document.addEventListener('DOMContentLoaded', () => {
                         }, 100);
                     }, 100);
                 }, 50);
+            } else {
+                // When closing, hide quit confirmation if open
+                if (quitConfirmModal) {
+                    quitConfirmModal.classList.remove('visible');
+                    isInQuitConfirmation = false;
+                }
             }
         }
     }
 
-    // Tab switching functionality
-    menuTabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            // Remove active class from all tabs and contents
-            menuTabs.forEach(t => t.classList.remove('active'));
-            tabContents.forEach(c => c.classList.remove('active'));
+    // Tab switching functionality with keyboard shortcuts
+    function switchTab(tabElement) {
+        if (!tabElement) return;
 
-            // Add active class to clicked tab
-            tab.classList.add('active');
+        // Remove active class from all tabs and contents
+        menuTabs.forEach(t => {
+            t.classList.remove('active');
+            t.setAttribute('aria-selected', 'false');
+        });
+        tabContents.forEach(c => c.classList.remove('active'));
 
-            // Get corresponding content and activate it
-            const tabId = tab.getAttribute('data-tab');
-            const content = document.getElementById(`${tabId}Tab`);
-            if (content) {
-                content.classList.add('active');
+        // Add active class to selected tab
+        tabElement.classList.add('active');
+        tabElement.setAttribute('aria-selected', 'true');
 
-                // Add glitch effect when switching tabs
-                content.style.opacity = '0.7';
+        // Get corresponding content and activate it
+        const tabId = tabElement.getAttribute('data-tab');
+        const content = document.getElementById(`${tabId}Tab`);
+        if (content) {
+            content.classList.add('active');
+
+            // Add glitch effect when switching tabs
+            content.style.opacity = '0.7';
+            setTimeout(() => {
+                content.style.transform = 'translateX(2px)';
                 setTimeout(() => {
-                    content.style.transform = 'translateX(2px)';
+                    content.style.transform = 'translateX(-2px)';
                     setTimeout(() => {
-                        content.style.transform = 'translateX(-2px)';
-                        setTimeout(() => {
-                            content.style.transform = 'translateX(0)';
-                            content.style.opacity = '1';
-                        }, 50);
+                        content.style.transform = 'translateX(0)';
+                        content.style.opacity = '1';
                     }, 50);
                 }, 50);
+            }, 50);
+        }
+    }
+
+    // Tab click handlers
+    menuTabs.forEach(tab => {
+        tab.addEventListener('click', () => switchTab(tab));
+        
+        // Keyboard navigation for tabs
+        tab.addEventListener('keydown', (e) => {
+            let targetTab = null;
+            const currentIndex = Array.from(menuTabs).indexOf(tab);
+            
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                targetTab = menuTabs[(currentIndex + 1) % menuTabs.length];
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                targetTab = menuTabs[(currentIndex - 1 + menuTabs.length) % menuTabs.length];
+            } else if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                switchTab(tab);
+            }
+            
+            if (targetTab) {
+                targetTab.focus();
+                switchTab(targetTab);
             }
         });
     });
 
-    // ESC key handler
+    // Quit confirmation modal functions
+    function showQuitConfirmation() {
+        if (quitConfirmModal) {
+            quitConfirmModal.classList.add('visible');
+            isInQuitConfirmation = true;
+            
+            // Focus cancel button by default (safer option)
+            setTimeout(() => {
+                if (cancelQuitBtn) {
+                    cancelQuitBtn.focus();
+                }
+            }, 100);
+        }
+    }
+
+    function hideQuitConfirmation() {
+        if (quitConfirmModal) {
+            quitConfirmModal.classList.remove('visible');
+            isInQuitConfirmation = false;
+            
+            // Return focus to logout button
+            if (logoutButton) {
+                logoutButton.focus();
+            }
+        }
+    }
+
+    function performQuit() {
+        // Show a flicker effect before redirecting
+        document.body.style.opacity = '0.5';
+        setTimeout(() => {
+            document.body.style.opacity = '1';
+            setTimeout(() => {
+                document.body.style.opacity = '0.2';
+                setTimeout(() => {
+                    document.body.style.opacity = '1';
+                    // Redirect to main menu
+                    window.location.href = 'main-menu.html';
+                }, 100);
+            }, 100);
+        }, 100);
+    }
+
+    // Global keyboard handler for ESC menu
     document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') {
+        // If in quit confirmation
+        if (isInQuitConfirmation) {
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                hideQuitConfirmation();
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                // Check which button has focus
+                if (document.activeElement === confirmQuitBtn) {
+                    performQuit();
+                } else {
+                    hideQuitConfirmation();
+                }
+            }
+            return;
+        }
+
+        // If menu is open
+        if (escMenu && escMenu.classList.contains('visible')) {
+            // Tab switching with number keys
+            if (e.key === '1') {
+                e.preventDefault();
+                switchTab(menuTabs[0]);
+            } else if (e.key === '2') {
+                e.preventDefault();
+                switchTab(menuTabs[1]);
+            }
+            // Options shortcut
+            else if (e.key === 'o' || e.key === 'O') {
+                e.preventDefault();
+                if (optionsButton) optionsButton.click();
+            }
+            // Quit shortcut
+            else if (e.key === 'q' || e.key === 'Q') {
+                e.preventDefault();
+                showQuitConfirmation();
+            }
+            // Resume/Close menu
+            else if (e.key === 'Escape') {
+                e.preventDefault();
+                toggleEscMenu();
+            }
+        }
+        // If menu is closed, ESC opens it
+        else if (e.key === 'Escape') {
+            e.preventDefault();
             toggleEscMenu();
         }
     });
@@ -1952,7 +2111,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Options button handler
-    const optionsButton = document.getElementById('optionsButton');
     if (optionsButton) {
         optionsButton.addEventListener('click', () => {
             // Add glitch effect before redirecting
@@ -1977,23 +2135,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Logout button handler
+    // Logout button handler - now shows confirmation
     if (logoutButton) {
-        logoutButton.addEventListener('click', () => {
-            // Show a flicker effect before redirecting
-            document.body.style.opacity = '0.5';
-            setTimeout(() => {
-                document.body.style.opacity = '1';
-                setTimeout(() => {
-                    document.body.style.opacity = '0.2';
-                    setTimeout(() => {
-                        document.body.style.opacity = '1';
-                        // Redirect to main menu or reload
-                        window.location.reload();
-                    }, 100);
-                }, 100);
-            }, 100);
+        logoutButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            showQuitConfirmation();
         });
+    }
+
+    // Quit confirmation handlers
+    if (cancelQuitBtn) {
+        cancelQuitBtn.addEventListener('click', hideQuitConfirmation);
+    }
+
+    if (confirmQuitBtn) {
+        confirmQuitBtn.addEventListener('click', performQuit);
     }
 
     // Volume slider functionality

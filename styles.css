@@ -17,7 +17,7 @@
 }
 
 body {
-    font-family: 'VT323', 'Share Tech Mono', monospace;
+    font-family: 'Share Tech Mono', monospace;
     color: var(--text-color);
     height: 100vh;
     overflow: hidden;
@@ -317,43 +317,144 @@ body::before {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    background: linear-gradient(135deg, var(--background-color), rgba(20, 20, 18, 0.8));
-    border: 1px solid rgba(194, 176, 28, 0.4);
+    background-color: rgba(18, 18, 16, 0.92);
+    border: none;
     border-radius: var(--border-radius);
-    padding: 8px;
-    box-shadow: var(--shadow-subtle), inset 0 0 12px rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    box-shadow: 
+        0 0 18px rgba(0, 0, 0, 0.85),
+        inset 0 1px 0 rgba(194, 176, 28, 0.22),
+        inset -2px 0 0 rgba(194, 176, 28, 0.25),
+        inset 0 -1px 0 rgba(194, 176, 28, 0.2),
+        inset 1px 0 0 rgba(194, 176, 28, 0.18),
+        inset 0 0 45px rgba(15, 15, 13, 0.98),
+        inset 3px 3px 12px rgba(10, 10, 8, 0.5);
     backdrop-filter: blur(2px);
     position: relative;
+    overflow: hidden;
 }
 
 .vitals-container::before {
     content: '';
     position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg, var(--primary-color), var(--primary-bright), var(--primary-color));
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image:
+        /* Upgrade glow (shown when upgradable) */
+        linear-gradient(45deg, transparent, transparent),
+        /* Worn border segments - top */
+        linear-gradient(90deg, transparent 0%, transparent 8%, rgba(194, 176, 28, 0.26) 8%, rgba(194, 176, 28, 0.26) 36%, transparent 36%, transparent 40%, rgba(194, 176, 28, 0.22) 40%, rgba(194, 176, 28, 0.22) 68%, transparent 68%, transparent 72%, rgba(194, 176, 28, 0.24) 72%, rgba(194, 176, 28, 0.24) 92%, transparent 92%),
+        /* Worn border segments - right */
+        linear-gradient(0deg, transparent 0%, transparent 10%, rgba(194, 176, 28, 0.3) 10%, rgba(194, 176, 28, 0.3) 42%, transparent 42%, transparent 46%, rgba(194, 176, 28, 0.26) 46%, rgba(194, 176, 28, 0.26) 88%, transparent 88%),
+        /* Worn border segments - bottom */
+        linear-gradient(90deg, transparent 0%, transparent 15%, rgba(194, 176, 28, 0.24) 15%, rgba(194, 176, 28, 0.24) 48%, transparent 48%, transparent 52%, rgba(194, 176, 28, 0.2) 52%, rgba(194, 176, 28, 0.2) 82%, transparent 82%),
+        /* Worn border segments - left */
+        linear-gradient(0deg, transparent 0%, transparent 18%, rgba(194, 176, 28, 0.22) 18%, rgba(194, 176, 28, 0.22) 52%, transparent 52%, transparent 58%, rgba(194, 176, 28, 0.18) 58%, rgba(194, 176, 28, 0.18) 90%, transparent 90%),
+        /* Scratches */
+        linear-gradient(120deg, transparent 0%, transparent 30%, rgba(80, 75, 65, 0.32) 30.4%, rgba(80, 75, 65, 0.32) 30.8%, transparent 31.2%),
+        linear-gradient(78deg, transparent 0%, transparent 58%, rgba(70, 68, 58, 0.26) 58.3%, rgba(70, 68, 58, 0.26) 58.7%, transparent 59.2%),
+        linear-gradient(95deg, transparent 0%, transparent 72%, rgba(75, 72, 62, 0.24) 72.2%, rgba(75, 72, 62, 0.24) 72.5%, transparent 73%),
+        /* Worn areas */
+        radial-gradient(ellipse at 15% 12%, rgba(50, 48, 40, 0.16) 0%, transparent 12%),
+        radial-gradient(ellipse at 85% 82%, rgba(48, 46, 38, 0.14) 0%, transparent 10%),
+        radial-gradient(ellipse at 42% 48%, rgba(45, 43, 36, 0.1) 0%, transparent 15%);
+    background-size:
+        100% 100%,
+        100% 2px,
+        3px 100%,
+        100% 2px,
+        2px 100%,
+        100% 100%,
+        100% 100%,
+        100% 100%,
+        100% 100%,
+        100% 100%,
+        100% 100%;
+    background-position:
+        0 0,
+        top left,
+        top right,
+        bottom left,
+        top left,
+        0 0,
+        0 0,
+        0 0,
+        0 0,
+        0 0,
+        0 0;
+    background-repeat: no-repeat;
+    opacity: 0.65;
+    mix-blend-mode: screen;
     border-radius: var(--border-radius);
-    opacity: 0;
-    transition: opacity var(--transition-medium);
-    z-index: -1;
-    animation: upgrade-available-glow 3s infinite;
+}
+
+.vitals-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.32;
+    background-image:
+        /* Small dust particles */
+        radial-gradient(circle at 20% 15%, rgba(194, 176, 28, 0.1) 0%, transparent 0.6%),
+        radial-gradient(circle at 55% 12%, rgba(194, 176, 28, 0.08) 0%, transparent 0.5%),
+        radial-gradient(circle at 75% 22%, rgba(194, 176, 28, 0.09) 0%, transparent 0.55%),
+        radial-gradient(circle at 12% 35%, rgba(194, 176, 28, 0.11) 0%, transparent 0.7%),
+        radial-gradient(circle at 38% 42%, rgba(194, 176, 28, 0.07) 0%, transparent 0.45%),
+        radial-gradient(circle at 82% 38%, rgba(194, 176, 28, 0.1) 0%, transparent 0.6%),
+        radial-gradient(circle at 25% 58%, rgba(194, 176, 28, 0.08) 0%, transparent 0.5%),
+        radial-gradient(circle at 68% 55%, rgba(194, 176, 28, 0.09) 0%, transparent 0.55%),
+        radial-gradient(circle at 88% 68%, rgba(194, 176, 28, 0.07) 0%, transparent 0.48%),
+        radial-gradient(circle at 15% 78%, rgba(194, 176, 28, 0.1) 0%, transparent 0.65%),
+        radial-gradient(circle at 45% 72%, rgba(194, 176, 28, 0.08) 0%, transparent 0.52%),
+        radial-gradient(circle at 62% 85%, rgba(194, 176, 28, 0.09) 0%, transparent 0.58%),
+        radial-gradient(circle at 92% 88%, rgba(194, 176, 28, 0.08) 0%, transparent 0.5%),
+        /* Medium dust specks */
+        radial-gradient(circle at 8% 25%, rgba(170, 155, 30, 0.12) 0%, transparent 0.9%),
+        radial-gradient(circle at 90% 32%, rgba(170, 155, 30, 0.11) 0%, transparent 0.85%),
+        radial-gradient(circle at 32% 8%, rgba(170, 155, 30, 0.1) 0%, transparent 0.88%),
+        radial-gradient(circle at 65% 48%, rgba(170, 155, 30, 0.13) 0%, transparent 0.95%),
+        radial-gradient(circle at 18% 92%, rgba(170, 155, 30, 0.09) 0%, transparent 0.8%),
+        radial-gradient(circle at 48% 28%, rgba(170, 155, 30, 0.11) 0%, transparent 0.85%);
+    border-radius: var(--border-radius);
 }
 
 .vitals-container.upgradable::before {
     opacity: 0.3;
+    background-image:
+        /* Pulsing upgrade glow */
+        linear-gradient(45deg, rgba(194, 176, 28, 0.15), rgba(194, 176, 28, 0.25), rgba(194, 176, 28, 0.15)),
+        /* Worn border segments - keep all other layers */
+        linear-gradient(90deg, transparent 0%, transparent 8%, rgba(194, 176, 28, 0.26) 8%, rgba(194, 176, 28, 0.26) 36%, transparent 36%, transparent 40%, rgba(194, 176, 28, 0.22) 40%, rgba(194, 176, 28, 0.22) 68%, transparent 68%, transparent 72%, rgba(194, 176, 28, 0.24) 72%, rgba(194, 176, 28, 0.24) 92%, transparent 92%),
+        linear-gradient(0deg, transparent 0%, transparent 10%, rgba(194, 176, 28, 0.3) 10%, rgba(194, 176, 28, 0.3) 42%, transparent 42%, transparent 46%, rgba(194, 176, 28, 0.26) 46%, rgba(194, 176, 28, 0.26) 88%, transparent 88%),
+        linear-gradient(90deg, transparent 0%, transparent 15%, rgba(194, 176, 28, 0.24) 15%, rgba(194, 176, 28, 0.24) 48%, transparent 48%, transparent 52%, rgba(194, 176, 28, 0.2) 52%, rgba(194, 176, 28, 0.2) 82%, transparent 82%),
+        linear-gradient(0deg, transparent 0%, transparent 18%, rgba(194, 176, 28, 0.22) 18%, rgba(194, 176, 28, 0.22) 52%, transparent 52%, transparent 58%, rgba(194, 176, 28, 0.18) 58%, rgba(194, 176, 28, 0.18) 90%, transparent 90%),
+        linear-gradient(120deg, transparent 0%, transparent 30%, rgba(80, 75, 65, 0.32) 30.4%, rgba(80, 75, 65, 0.32) 30.8%, transparent 31.2%),
+        linear-gradient(78deg, transparent 0%, transparent 58%, rgba(70, 68, 58, 0.26) 58.3%, rgba(70, 68, 58, 0.26) 58.7%, transparent 59.2%),
+        linear-gradient(95deg, transparent 0%, transparent 72%, rgba(75, 72, 62, 0.24) 72.2%, rgba(75, 72, 62, 0.24) 72.5%, transparent 73%),
+        radial-gradient(ellipse at 15% 12%, rgba(50, 48, 40, 0.16) 0%, transparent 12%),
+        radial-gradient(ellipse at 85% 82%, rgba(48, 46, 38, 0.14) 0%, transparent 10%),
+        radial-gradient(ellipse at 42% 48%, rgba(45, 43, 36, 0.1) 0%, transparent 15%);
+    animation: upgrade-available-glow 3s infinite;
 }
 
 @keyframes upgrade-available-glow {
 
     0%,
     100% {
-        opacity: 0.1;
+        opacity: 0.3;
     }
 
     50% {
-        opacity: 0.4;
+        opacity: 0.6;
     }
 }
 
@@ -368,6 +469,7 @@ body::before {
     border-bottom: 1px dashed rgba(194, 176, 28, 0.2);
     padding-bottom: 4px;
     position: relative;
+    z-index: 2;
 }
 
 .vital-bar-container.upgradable {
@@ -452,14 +554,17 @@ body::before {
 }
 
 .vital-bar {
-    height: 12px;
+    height: 14px;
     width: 160px;
-    background: rgba(20, 20, 18, 0.7);
+    background: rgba(15, 15, 13, 0.85);
     border-radius: var(--border-radius-small);
     overflow: hidden;
     position: relative;
     border: 1px solid rgba(162, 52, 48, 0.4);
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6);
+    box-shadow: 
+        inset 0 0 8px rgba(0, 0, 0, 0.7),
+        inset 0 1px 0 rgba(0, 0, 0, 0.4),
+        0 1px 0 rgba(194, 176, 28, 0.08);
     flex: 1;
 }
 
@@ -494,7 +599,7 @@ body::before {
 }
 
 .health-bar {
-    border-color: rgba(162, 52, 48, 0.5);
+    border-color: rgba(162, 52, 48, 0.45);
 }
 
 .health-bar.upgradable {
@@ -503,7 +608,11 @@ body::before {
 }
 
 .stamina-bar {
-    border-color: rgba(194, 176, 28, 0.5);
+    border-color: rgba(194, 176, 28, 0.45);
+    box-shadow: 
+        inset 0 0 8px rgba(0, 0, 0, 0.7),
+        inset 0 1px 0 rgba(0, 0, 0, 0.4),
+        0 1px 0 rgba(194, 176, 28, 0.1);
 }
 
 .stamina-bar.upgradable {
@@ -677,12 +786,20 @@ body::before {
     display: flex;
     align-items: center;
     padding: 5px 10px;
-    background-color: var(--background-color);
-    border: 1px solid rgba(194, 176, 28, 0.4);
-    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.6);
+    background-color: rgba(18, 18, 16, 0.88);
+    border: none;
+    box-shadow: 
+        0 0 15px rgba(0, 0, 0, 0.8),
+        inset 0 1px 0 rgba(194, 176, 28, 0.2),
+        inset -2px 0 0 rgba(194, 176, 28, 0.22),
+        inset 0 -1px 0 rgba(194, 176, 28, 0.18),
+        inset 1px 0 0 rgba(194, 176, 28, 0.15),
+        inset 0 0 35px rgba(15, 15, 13, 0.95),
+        inset 2px 2px 10px rgba(10, 10, 8, 0.4);
     border-radius: 0px;
     position: relative;
     pointer-events: auto;
+    overflow: hidden;
 }
 
 .time-container.broken {
@@ -728,15 +845,78 @@ body::before {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: repeating-linear-gradient(45deg,
-            transparent,
-            transparent 10px,
-            rgba(0, 0, 0, 0.1) 10px,
-            rgba(0, 0, 0, 0.1) 15px);
-    opacity: 0.2;
-    z-index: -1;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+        /* Worn border segments */
+        linear-gradient(90deg, transparent 0%, transparent 12%, rgba(194, 176, 28, 0.24) 12%, rgba(194, 176, 28, 0.24) 42%, transparent 42%, transparent 48%, rgba(194, 176, 28, 0.2) 48%, rgba(194, 176, 28, 0.2) 82%, transparent 82%),
+        linear-gradient(0deg, transparent 0%, transparent 8%, rgba(194, 176, 28, 0.28) 8%, rgba(194, 176, 28, 0.28) 100%),
+        linear-gradient(90deg, transparent 0%, transparent 18%, rgba(194, 176, 28, 0.22) 18%, rgba(194, 176, 28, 0.22) 58%, transparent 58%, transparent 62%, rgba(194, 176, 28, 0.19) 62%, rgba(194, 176, 28, 0.19) 88%, transparent 88%),
+        linear-gradient(0deg, transparent 0%, transparent 12%, rgba(194, 176, 28, 0.2) 12%, rgba(194, 176, 28, 0.2) 90%, transparent 90%),
+        /* Scratches */
+        linear-gradient(115deg, transparent 0%, transparent 32%, rgba(80, 75, 65, 0.28) 32.3%, rgba(80, 75, 65, 0.28) 32.7%, transparent 33%),
+        linear-gradient(82deg, transparent 0%, transparent 62%, rgba(70, 68, 58, 0.22) 62.2%, rgba(70, 68, 58, 0.22) 62.6%, transparent 63%),
+        /* Worn areas */
+        radial-gradient(ellipse at 22% 18%, rgba(50, 48, 40, 0.14) 0%, transparent 10%),
+        radial-gradient(ellipse at 78% 72%, rgba(48, 46, 38, 0.11) 0%, transparent 8%);
+    background-size:
+        100% 2px,
+        3px 100%,
+        100% 2px,
+        2px 100%,
+        100% 100%,
+        100% 100%,
+        100% 100%,
+        100% 100%;
+    background-position:
+        top left,
+        top right,
+        bottom left,
+        top left,
+        0 0,
+        0 0,
+        0 0,
+        0 0;
+    background-repeat:
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat;
+    opacity: 0.6;
+    mix-blend-mode: screen;
+}
+
+.time-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.28;
+    background-image:
+        /* Small dust particles */
+        radial-gradient(circle at 28% 22%, rgba(194, 176, 28, 0.08) 0%, transparent 0.5%),
+        radial-gradient(circle at 62% 18%, rgba(194, 176, 28, 0.06) 0%, transparent 0.4%),
+        radial-gradient(circle at 82% 35%, rgba(194, 176, 28, 0.07) 0%, transparent 0.45%),
+        radial-gradient(circle at 18% 58%, rgba(194, 176, 28, 0.09) 0%, transparent 0.55%),
+        radial-gradient(circle at 45% 68%, rgba(194, 176, 28, 0.05) 0%, transparent 0.35%),
+        radial-gradient(circle at 88% 48%, rgba(194, 176, 28, 0.08) 0%, transparent 0.48%),
+        radial-gradient(circle at 32% 78%, rgba(194, 176, 28, 0.06) 0%, transparent 0.42%),
+        radial-gradient(circle at 68% 75%, rgba(194, 176, 28, 0.07) 0%, transparent 0.46%),
+        /* Medium dust specks */
+        radial-gradient(circle at 12% 28%, rgba(170, 155, 30, 0.1) 0%, transparent 0.7%),
+        radial-gradient(circle at 92% 42%, rgba(170, 155, 30, 0.09) 0%, transparent 0.65%),
+        radial-gradient(circle at 38% 12%, rgba(170, 155, 30, 0.08) 0%, transparent 0.68%),
+        radial-gradient(circle at 72% 65%, rgba(170, 155, 30, 0.1) 0%, transparent 0.72%);
 }
 
 .time-icon {
@@ -744,6 +924,8 @@ body::before {
     margin-right: 8px;
     filter: sepia(60%) hue-rotate(350deg) saturate(100%);
     animation: broken-clock-icon 15s infinite;
+    position: relative;
+    z-index: 2;
 }
 
 @keyframes broken-clock-icon {
@@ -794,10 +976,11 @@ body::before {
 
 #game-time {
     font-size: 18px;
-    font-family: 'VT323', monospace;
+    font-family: 'Share Tech Mono', monospace;
     color: var(--primary-color);
     letter-spacing: 1px;
     position: relative;
+    z-index: 2;
 }
 
 .time-period {
@@ -805,6 +988,8 @@ body::before {
     margin-left: 2px;
     color: var(--text-color);
     opacity: 0.7;
+    position: relative;
+    z-index: 2;
 }
 
 .monster-cost-container {
@@ -930,15 +1115,22 @@ body::before {
     align-items: center;
     gap: 8px;
     padding: 8px 12px;
-    background-color: var(--background-color);
-    border: 1px solid rgba(194, 176, 28, 0.4);
-    border-left: 3px solid var(--primary-color);
+    background-color: rgba(18, 18, 16, 0.88);
+    border: none;
     cursor: pointer;
     pointer-events: auto;
     position: relative;
-    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.6);
+    box-shadow: 
+        0 0 15px rgba(0, 0, 0, 0.8),
+        inset 0 1px 0 rgba(194, 176, 28, 0.2),
+        inset -2px 0 0 rgba(194, 176, 28, 0.25),
+        inset 0 -1px 0 rgba(194, 176, 28, 0.18),
+        inset 1px 0 0 rgba(194, 176, 28, 0.15),
+        inset 0 0 40px rgba(15, 15, 13, 0.95),
+        inset 2px 2px 10px rgba(10, 10, 8, 0.4);
     transform: rotate(1deg);
-    font-family: 'VT323', monospace;
+    font-family: 'Share Tech Mono', monospace;
+    overflow: hidden;
 }
 
 .objectives-hint::before {
@@ -948,17 +1140,80 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    background: repeating-linear-gradient(-45deg,
-            transparent,
-            transparent 10px,
-            rgba(194, 176, 28, 0.05) 10px,
-            rgba(194, 176, 28, 0.05) 20px);
     pointer-events: none;
-    z-index: -1;
+    z-index: 0;
+    background-image:
+        /* Worn border segments */
+        linear-gradient(90deg, transparent 0%, transparent 15%, rgba(194, 176, 28, 0.25) 15%, rgba(194, 176, 28, 0.25) 45%, transparent 45%, transparent 50%, rgba(194, 176, 28, 0.2) 50%, rgba(194, 176, 28, 0.2) 85%, transparent 85%),
+        linear-gradient(0deg, transparent 0%, transparent 10%, rgba(194, 176, 28, 0.3) 10%, rgba(194, 176, 28, 0.3) 100%),
+        linear-gradient(90deg, transparent 0%, transparent 20%, rgba(194, 176, 28, 0.22) 20%, rgba(194, 176, 28, 0.22) 60%, transparent 60%, transparent 65%, rgba(194, 176, 28, 0.18) 65%, rgba(194, 176, 28, 0.18) 90%, transparent 90%),
+        linear-gradient(0deg, transparent 0%, transparent 15%, rgba(194, 176, 28, 0.2) 15%, rgba(194, 176, 28, 0.2) 88%, transparent 88%),
+        /* Scratches */
+        linear-gradient(110deg, transparent 0%, transparent 35%, rgba(80, 75, 65, 0.25) 35.2%, rgba(80, 75, 65, 0.25) 35.6%, transparent 36%),
+        linear-gradient(85deg, transparent 0%, transparent 68%, rgba(70, 68, 58, 0.2) 68.2%, rgba(70, 68, 58, 0.2) 68.5%, transparent 69%),
+        /* Worn areas */
+        radial-gradient(ellipse at 20% 20%, rgba(50, 48, 40, 0.12) 0%, transparent 8%),
+        radial-gradient(ellipse at 80% 75%, rgba(48, 46, 38, 0.1) 0%, transparent 6%);
+    background-size:
+        100% 2px,
+        3px 100%,
+        100% 2px,
+        2px 100%,
+        100% 100%,
+        100% 100%,
+        100% 100%,
+        100% 100%;
+    background-position:
+        top left,
+        top right,
+        bottom left,
+        top left,
+        0 0,
+        0 0,
+        0 0,
+        0 0;
+    background-repeat:
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat;
+    opacity: 0.6;
+    mix-blend-mode: screen;
+}
+
+.objectives-hint::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.25;
+    background-image:
+        radial-gradient(circle at 25% 20%, rgba(194, 176, 28, 0.08) 0%, transparent 0.4%),
+        radial-gradient(circle at 70% 15%, rgba(194, 176, 28, 0.06) 0%, transparent 0.35%),
+        radial-gradient(circle at 85% 40%, rgba(194, 176, 28, 0.07) 0%, transparent 0.38%),
+        radial-gradient(circle at 15% 65%, rgba(194, 176, 28, 0.09) 0%, transparent 0.45%),
+        radial-gradient(circle at 50% 75%, rgba(194, 176, 28, 0.05) 0%, transparent 0.3%),
+        radial-gradient(circle at 18% 30%, rgba(170, 155, 30, 0.1) 0%, transparent 0.6%),
+        radial-gradient(circle at 80% 70%, rgba(170, 155, 30, 0.08) 0%, transparent 0.55%);
 }
 
 .objectives-hint:hover {
-    box-shadow: 0 0 10px rgba(194, 176, 28, 0.2), inset 0 0 8px rgba(0, 0, 0, 0.6);
+    box-shadow: 
+        0 0 12px rgba(194, 176, 28, 0.2),
+        inset 0 1px 0 rgba(194, 176, 28, 0.25),
+        inset -2px 0 0 rgba(194, 176, 28, 0.3),
+        inset 0 -1px 0 rgba(194, 176, 28, 0.22),
+        inset 1px 0 0 rgba(194, 176, 28, 0.18),
+        inset 0 0 40px rgba(15, 15, 13, 0.95),
+        inset 2px 2px 10px rgba(10, 10, 8, 0.4);
     transform: rotate(0deg);
 }
 
@@ -966,6 +1221,8 @@ body::before {
     color: var(--primary-color);
     font-size: 16px;
     animation: icon-pulse 3s infinite;
+    position: relative;
+    z-index: 2;
 }
 
 .objectives-hint:hover i {
@@ -977,11 +1234,14 @@ body::before {
     font-size: 16px;
     letter-spacing: 1px;
     white-space: nowrap;
+    position: relative;
+    z-index: 2;
 }
 
 .objectives-hint .key-hint {
-    background: linear-gradient(to bottom, rgba(30, 30, 28, 0.95), rgba(20, 20, 18, 0.9));
-    border: 1px solid rgba(194, 176, 28, 0.5);
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(194, 176, 28, 0.3);
+    border-radius: 3px;
     color: var(--primary-color);
     padding: 3px 8px;
     font-size: 12px;
@@ -990,16 +1250,15 @@ body::before {
     align-items: center;
     justify-content: center;
     position: relative;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.8);
+    box-shadow: none;
     min-width: 35px;
-    min-height: 22px;
-    font-family: 'VT323', monospace;
+    min-height: auto;
+    font-family: 'Share Tech Mono', monospace;
     letter-spacing: 1px;
-    text-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
-    border-radius: 1px;
-    transition: all 0.2s ease;
+    transition: all 0.25s ease;
     font-weight: bold;
     overflow: hidden;
+    z-index: 2;
 }
 
 .objectives-hint .key-hint::before {
@@ -1008,14 +1267,8 @@ body::before {
     top: 0;
     left: 0;
     right: 0;
-    height: 2px;
-    background: linear-gradient(to right,
-            transparent,
-            rgba(194, 176, 28, 0.4),
-            rgba(194, 176, 28, 0.8),
-            rgba(194, 176, 28, 0.4),
-            transparent);
-    box-shadow: 0 0 5px rgba(194, 176, 28, 0.3);
+    bottom: 0;
+    background: transparent;
     pointer-events: none;
 }
 
@@ -1026,36 +1279,30 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at center,
-            transparent 70%,
-            rgba(194, 176, 28, 0.1) 100%);
+    background: transparent;
     opacity: 0;
     transition: opacity 0.3s ease;
 }
 
 .objectives-hint:hover .key-hint {
-    transform: scale(1.05);
-    border-color: rgba(194, 176, 28, 0.7);
-    box-shadow: 0 0 8px rgba(194, 176, 28, 0.2), inset 0 0 5px rgba(0, 0, 0, 0.8);
+    background: rgba(194, 176, 28, 0.15);
+    border-color: rgba(194, 176, 28, 0.5);
+    box-shadow: 0 0 6px rgba(194, 176, 28, 0.2);
     color: var(--primary-color);
-    text-shadow: 0 0 5px rgba(194, 176, 28, 0.4);
-}
-
-.objectives-hint:hover .key-hint::after {
-    opacity: 1;
 }
 
 .objectives-hint .notification-dot {
-    width: 8px;
-    height: 8px;
+    width: 9px;
+    height: 9px;
     background-color: var(--secondary-color);
     border-radius: 50%;
     position: absolute;
-    top: 5px;
-    right: 5px;
+    top: 6px;
+    right: 6px;
     opacity: 0;
-    box-shadow: 0 0 5px rgba(162, 52, 48, 0.8);
-    z-index: 1;
+    box-shadow: 0 0 6px rgba(162, 52, 48, 0.9),
+                0 0 12px rgba(162, 52, 48, 0.5);
+    z-index: 3;
 }
 
 .objectives-hint.has-update .notification-dot {
@@ -1067,22 +1314,25 @@ body::before {
 
     0%,
     100% {
-        transform: scale(0.8);
+        transform: scale(0.85);
         opacity: 0.7;
+        box-shadow: 0 0 6px rgba(162, 52, 48, 0.9),
+                    0 0 12px rgba(162, 52, 48, 0.5);
     }
 
     50% {
-        transform: scale(1.2);
+        transform: scale(1.25);
         opacity: 1;
+        box-shadow: 0 0 8px rgba(162, 52, 48, 1),
+                    0 0 16px rgba(162, 52, 48, 0.7);
     }
 }
 
 .objectives-panel {
-    width: 350px;
-    padding: 15px;
-    background-color: var(--background-color);
-    border: 1px solid rgba(194, 176, 28, 0.4);
-    border-right: 3px solid var(--primary-color);
+    width: 365px;
+    padding: 18px 20px 16px 20px;
+    background-color: rgba(18, 18, 16, 0.88);
+    border: none;
     margin-top: 10px;
     opacity: 0;
     visibility: hidden;
@@ -1091,8 +1341,26 @@ body::before {
     pointer-events: none;
     overflow: hidden;
     position: relative;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7);
-    font-family: 'VT323', monospace;
+    box-shadow: 
+        /* Outer darkness */
+        0 0 20px rgba(0, 0, 0, 0.9),
+        /* Worn border sections - top */
+        inset 0 1px 0 rgba(194, 176, 28, 0.25),
+        inset 0 0.5px 0 rgba(194, 176, 28, 0.15),
+        /* Worn border sections - right (stronger) */
+        inset -2px 0 0 rgba(194, 176, 28, 0.22),
+        inset -1px 0 0 rgba(194, 176, 28, 0.18),
+        /* Worn border sections - bottom */
+        inset 0 -1px 0 rgba(194, 176, 28, 0.22),
+        inset 0 -0.5px 0 rgba(194, 176, 28, 0.12),
+        /* Worn border sections - left */
+        inset 1px 0 0 rgba(194, 176, 28, 0.2),
+        inset 0.5px 0 0 rgba(194, 176, 28, 0.1),
+        /* Deep inset shadows */
+        inset 0 0 50px rgba(15, 15, 13, 0.98),
+        inset 3px 3px 15px rgba(10, 10, 8, 0.5),
+        inset -1px -1px 8px rgba(25, 25, 22, 0.2);
+    font-family: 'Share Tech Mono', monospace;
 }
 
 .objectives-panel:before {
@@ -1102,12 +1370,126 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    background: repeating-linear-gradient(-45deg,
-            transparent,
-            transparent 10px,
-            rgba(194, 176, 28, 0.02) 10px,
-            rgba(194, 176, 28, 0.02) 20px);
-    z-index: -1;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+        /* Worn/missing border sections - top */
+        linear-gradient(90deg,
+            transparent 0%, 
+            transparent 10%, 
+            rgba(194, 176, 28, 0.22) 10%, 
+            rgba(194, 176, 28, 0.22) 38%, 
+            transparent 38%, 
+            transparent 42%,
+            rgba(194, 176, 28, 0.18) 42%,
+            rgba(194, 176, 28, 0.18) 75%,
+            transparent 75%,
+            transparent 78%,
+            rgba(194, 176, 28, 0.2) 78%,
+            rgba(194, 176, 28, 0.2) 100%),
+        /* Worn/missing border sections - right (stronger accent) */
+        linear-gradient(0deg,
+            transparent 0%,
+            transparent 8%,
+            rgba(194, 176, 28, 0.35) 8%,
+            rgba(194, 176, 28, 0.35) 45%,
+            transparent 45%,
+            transparent 48%,
+            rgba(194, 176, 28, 0.3) 48%,
+            rgba(194, 176, 28, 0.3) 100%),
+        /* Worn/missing border sections - bottom */
+        linear-gradient(90deg,
+            transparent 0%,
+            transparent 15%,
+            rgba(194, 176, 28, 0.2) 15%,
+            rgba(194, 176, 28, 0.2) 52%,
+            transparent 52%,
+            transparent 55%,
+            rgba(194, 176, 28, 0.18) 55%,
+            rgba(194, 176, 28, 0.18) 90%,
+            transparent 90%),
+        /* Worn/missing border sections - left */
+        linear-gradient(0deg,
+            transparent 0%,
+            transparent 12%,
+            rgba(194, 176, 28, 0.18) 12%,
+            rgba(194, 176, 28, 0.18) 58%,
+            transparent 58%,
+            transparent 62%,
+            rgba(194, 176, 28, 0.15) 62%,
+            rgba(194, 176, 28, 0.15) 95%,
+            transparent 95%),
+        /* Scratches */
+        linear-gradient(125deg, transparent 0%, transparent 28%, rgba(80, 75, 65, 0.3) 28.5%, rgba(80, 75, 65, 0.3) 29%, transparent 29.5%),
+        linear-gradient(78deg, transparent 0%, transparent 65%, rgba(70, 68, 58, 0.25) 65.3%, rgba(70, 68, 58, 0.25) 65.8%, transparent 66.3%),
+        linear-gradient(95deg, transparent 0%, transparent 42%, rgba(75, 72, 62, 0.2) 42.2%, rgba(75, 72, 62, 0.2) 42.5%, transparent 43%),
+        /* Worn areas */
+        radial-gradient(ellipse at 18% 15%, rgba(50, 48, 40, 0.15) 0%, transparent 8%),
+        radial-gradient(ellipse at 82% 78%, rgba(48, 46, 38, 0.12) 0%, transparent 7%);
+    background-size:
+        100% 2px,
+        3px 100%,
+        100% 2px,
+        2px 100%,
+        100% 100%,
+        100% 100%,
+        100% 100%,
+        100% 100%,
+        100% 100%;
+    background-position:
+        top left,
+        top right,
+        bottom left,
+        top left,
+        0 0,
+        0 0,
+        0 0,
+        0 0,
+        0 0;
+    background-repeat:
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat;
+    opacity: 0.6;
+    mix-blend-mode: screen;
+}
+
+.objectives-panel::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.3;
+    background-image:
+        /* Small dust particles */
+        radial-gradient(circle at 22% 18%, rgba(194, 176, 28, 0.08) 0%, transparent 0.3%),
+        radial-gradient(circle at 65% 12%, rgba(194, 176, 28, 0.06) 0%, transparent 0.25%),
+        radial-gradient(circle at 85% 28%, rgba(194, 176, 28, 0.07) 0%, transparent 0.28%),
+        radial-gradient(circle at 15% 42%, rgba(194, 176, 28, 0.09) 0%, transparent 0.35%),
+        radial-gradient(circle at 48% 58%, rgba(194, 176, 28, 0.05) 0%, transparent 0.22%),
+        radial-gradient(circle at 88% 52%, rgba(194, 176, 28, 0.08) 0%, transparent 0.3%),
+        radial-gradient(circle at 28% 75%, rgba(194, 176, 28, 0.06) 0%, transparent 0.26%),
+        radial-gradient(circle at 72% 72%, rgba(194, 176, 28, 0.07) 0%, transparent 0.29%),
+        radial-gradient(circle at 92% 88%, rgba(194, 176, 28, 0.05) 0%, transparent 0.24%),
+        radial-gradient(circle at 12% 92%, rgba(194, 176, 28, 0.08) 0%, transparent 0.32%),
+        radial-gradient(circle at 52% 25%, rgba(194, 176, 28, 0.06) 0%, transparent 0.27%),
+        radial-gradient(circle at 38% 65%, rgba(194, 176, 28, 0.07) 0%, transparent 0.28%),
+        /* Medium dust specks */
+        radial-gradient(circle at 10% 25%, rgba(170, 155, 30, 0.1) 0%, transparent 0.5%),
+        radial-gradient(circle at 92% 35%, rgba(170, 155, 30, 0.09) 0%, transparent 0.45%),
+        radial-gradient(circle at 35% 10%, rgba(170, 155, 30, 0.08) 0%, transparent 0.48%),
+        radial-gradient(circle at 68% 62%, rgba(170, 155, 30, 0.1) 0%, transparent 0.52%),
+        radial-gradient(circle at 18% 82%, rgba(170, 155, 30, 0.07) 0%, transparent 0.42%);
 }
 
 .objectives-panel.visible {
@@ -1209,12 +1591,18 @@ body::before {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
+    padding-bottom: 12px;
+    margin-bottom: 18px;
     border-bottom: 1px solid rgba(194, 176, 28, 0.3);
     position: relative;
     text-transform: uppercase;
     font-weight: bold;
+    z-index: 2;
+}
+
+.objectives-header span {
+    font-size: 15px;
+    letter-spacing: 1.5px;
 }
 
 .objectives-header:after {
@@ -1229,27 +1617,41 @@ body::before {
 }
 
 .objectives-counter {
-    padding: 2px 6px;
+    padding: 3px 8px;
     background-color: rgba(20, 20, 18, 0.7);
     border: 1px solid rgba(194, 176, 28, 0.4);
     color: var(--primary-color);
-    font-size: 12px;
+    font-size: 13px;
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.8);
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
 .objective {
     display: flex;
-    gap: 10px;
-    padding: 10px 0;
+    gap: 12px;
+    padding: 14px 0;
     position: relative;
     border-bottom: 1px dashed rgba(194, 176, 28, 0.2);
+    z-index: 2;
+}
+
+.objective:first-of-type {
+    padding-top: 0;
+}
+
+.objective:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
 }
 
 .objective-icon-container {
-    width: 24px;
+    width: 26px;
+    min-width: 26px;
     display: flex;
     justify-content: center;
-    padding-top: 2px;
+    align-items: flex-start;
+    padding-top: 3px;
 }
 
 .objective-content {
@@ -1258,51 +1660,58 @@ body::before {
 
 .icon-objective {
     color: var(--primary-color);
-    font-size: 16px;
-    opacity: 0.8;
+    font-size: 17px;
+    opacity: 0.85;
+    filter: drop-shadow(0 0 2px rgba(194, 176, 28, 0.3));
 }
 
 .objective-text {
     color: var(--primary-color);
-    font-size: 16px;
-    margin-bottom: 3px;
-    letter-spacing: 1px;
+    font-size: 15px;
+    margin-bottom: 6px;
+    letter-spacing: 1.2px;
     text-transform: uppercase;
-    font-weight: bold;
+    font-weight: 700;
+    line-height: 1.3;
 }
 
 .objective-subtext {
     color: var(--text-color);
-    font-size: 14px;
-    margin-bottom: 8px;
+    font-size: 13px;
+    margin-bottom: 10px;
     font-style: italic;
-    opacity: 0.8;
+    opacity: 0.75;
+    line-height: 1.5;
 }
 
 .progress-counter {
     color: var(--primary-color);
-    opacity: 0.8;
+    opacity: 0.85;
+    font-style: normal;
+    font-weight: 600;
 }
 
 .objective-footer {
-    margin-top: 15px;
+    margin-top: 18px;
     text-align: center;
     position: relative;
-    padding-top: 20px;
+    padding-top: 16px;
     border-top: 1px dashed rgba(194, 176, 28, 0.2);
+    z-index: 2;
 }
 
 .connection-status {
     color: var(--tertiary-color);
-    font-size: 12px;
-    letter-spacing: 1px;
+    font-size: 11px;
+    letter-spacing: 1.2px;
     text-transform: uppercase;
     position: relative;
     display: inline-block;
-    padding: 2px 8px;
+    padding: 4px 10px;
     background-color: rgba(20, 20, 18, 0.7);
     border: 1px solid rgba(77, 110, 80, 0.4);
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.8);
+    line-height: 1.2;
 }
 
 .connection-status::before {
@@ -1333,8 +1742,9 @@ body::before {
 
 .progress-indicator {
     position: relative;
-    height: 6px;
+    height: 7px;
     overflow: hidden;
+    margin-top: 2px;
 }
 
 .progress-track {
@@ -1512,7 +1922,7 @@ body::before {
 }
 
 .voice-status-text {
-    font-family: 'VT323', monospace;
+    font-family: 'Share Tech Mono', monospace;
     font-size: 10px;
     color: var(--primary-color);
     letter-spacing: 2px;
@@ -1900,7 +2310,7 @@ body::before {
 .error-text {
     color: var(--secondary-color);
     font-size: 14px;
-    font-family: 'VT323', monospace;
+    font-family: 'Share Tech Mono', monospace;
     letter-spacing: 2px;
     text-transform: uppercase;
     animation: error-text-blink 2s infinite;
@@ -2095,7 +2505,7 @@ body::before {
     letter-spacing: 1px;
     text-transform: uppercase;
     font-weight: bold;
-    font-family: 'VT323', monospace;
+    font-family: 'Share Tech Mono', monospace;
     position: relative;
 }
 
@@ -2150,7 +2560,7 @@ body::before {
     font-size: 14px;
     opacity: 0.8;
     font-style: italic;
-    font-family: 'VT323', monospace;
+    font-family: 'Share Tech Mono', monospace;
     letter-spacing: 0.5px;
     text-transform: uppercase;
 }
@@ -2162,38 +2572,26 @@ body::before {
     position: relative;
 }
 
-.interaction-container::before {
-    content: '�?�';
-    position: absolute;
-    left: -15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--primary-color);
-    font-size: 10px;
-    opacity: 0.7;
-}
 
 .key-button {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 8px 12px;
-    background: linear-gradient(to bottom, rgba(30, 30, 28, 0.95), rgba(20, 20, 18, 0.9));
-    border: 1px solid rgba(194, 176, 28, 0.5);
+    padding: 6px 10px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(194, 176, 28, 0.3);
+    border-radius: 3px;
     color: var(--primary-color);
-    font-size: 18px;
+    font-size: 16px;
     min-width: 40px;
-    min-height: 32px;
-    font-family: 'VT323', monospace;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.8);
+    min-height: auto;
+    font-family: 'Share Tech Mono', monospace;
+    box-shadow: none;
     position: relative;
-    transition: all 0.2s ease;
+    transition: all 0.25s ease;
     font-weight: bold;
     letter-spacing: 1px;
-    text-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
-    border-radius: 1px;
     overflow: hidden;
-    transform: scale(1);
 }
 
 .key-button::after {
@@ -2202,14 +2600,8 @@ body::before {
     top: 0;
     left: 0;
     right: 0;
-    height: 2px;
-    background: linear-gradient(to right,
-            transparent,
-            rgba(194, 176, 28, 0.4),
-            rgba(194, 176, 28, 0.8),
-            rgba(194, 176, 28, 0.4),
-            transparent);
-    box-shadow: 0 0 5px rgba(194, 176, 28, 0.3);
+    bottom: 0;
+    background: transparent;
     pointer-events: none;
 }
 
@@ -2220,19 +2612,16 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at center,
-            transparent 70%,
-            rgba(194, 176, 28, 0.1) 100%);
+    background: transparent;
     opacity: 0;
     transition: opacity 0.3s ease;
 }
 
 .interaction-hint:hover .key-button {
-    transform: scale(1.05);
-    border-color: rgba(194, 176, 28, 0.7);
-    box-shadow: 0 0 8px rgba(194, 176, 28, 0.2), inset 0 0 5px rgba(0, 0, 0, 0.8);
+    background: rgba(194, 176, 28, 0.15);
+    border-color: rgba(194, 176, 28, 0.5);
+    box-shadow: 0 0 6px rgba(194, 176, 28, 0.2);
     color: var(--primary-color);
-    text-shadow: 0 0 5px rgba(194, 176, 28, 0.4);
 }
 
 .interaction-hint:hover .key-button::before {
@@ -2374,7 +2763,7 @@ body::before {
 .interaction-text {
     color: var(--text-color);
     font-size: 16px;
-    font-family: 'VT323', monospace;
+    font-family: 'Share Tech Mono', monospace;
     position: relative;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -2441,32 +2830,24 @@ body::before {
 
 /* Additional style for hold interaction */
 #holdInteraction .key-button {
-    border-color: rgba(162, 52, 48, 0.5);
+    border-color: rgba(162, 52, 48, 0.3);
     color: var(--secondary-color);
-    background: linear-gradient(to bottom, rgba(30, 30, 28, 0.95), rgba(20, 20, 18, 0.95));
+    background: rgba(0, 0, 0, 0.4);
 }
 
 #holdInteraction .key-button::after {
-    background: linear-gradient(to right,
-            transparent,
-            rgba(162, 52, 48, 0.4),
-            rgba(162, 52, 48, 0.8),
-            rgba(162, 52, 48, 0.4),
-            transparent);
-    box-shadow: 0 0 5px rgba(162, 52, 48, 0.3);
+    background: transparent;
 }
 
 #holdInteraction .key-button::before {
-    background: radial-gradient(circle at center,
-            transparent 70%,
-            rgba(162, 52, 48, 0.1) 100%);
+    background: transparent;
 }
 
 .interaction-hint:hover #holdInteraction .key-button {
-    border-color: rgba(162, 52, 48, 0.7);
-    box-shadow: 0 0 8px rgba(162, 52, 48, 0.2), inset 0 0 5px rgba(0, 0, 0, 0.8);
+    background: rgba(162, 52, 48, 0.15);
+    border-color: rgba(162, 52, 48, 0.4);
+    box-shadow: 0 0 6px rgba(162, 52, 48, 0.2);
     color: var(--secondary-color);
-    text-shadow: 0 0 5px rgba(162, 52, 48, 0.4);
 }
 
 #holdInteraction .hold-progress {
@@ -2502,15 +2883,32 @@ body::before {
     bottom: 120px;
     right: 20px;
     width: 280px;
-    background-color: var(--background-color);
-    border: 1px solid rgba(194, 176, 28, 0.4);
-    border-right: 3px solid var(--primary-color);
+    background-color: rgba(18, 18, 16, 0.88);
+    border: none;
     padding: 12px 15px;
     transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7), 0 0 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 
+        /* Outer darkness */
+        0 0 20px rgba(0, 0, 0, 0.9),
+        /* Worn border sections - top */
+        inset 0 1px 0 rgba(194, 176, 28, 0.25),
+        inset 0 0.5px 0 rgba(194, 176, 28, 0.15),
+        /* Worn border sections - right (stronger) */
+        inset -2px 0 0 rgba(194, 176, 28, 0.22),
+        inset -1px 0 0 rgba(194, 176, 28, 0.18),
+        /* Worn border sections - bottom */
+        inset 0 -1px 0 rgba(194, 176, 28, 0.22),
+        inset 0 -0.5px 0 rgba(194, 176, 28, 0.12),
+        /* Worn border sections - left */
+        inset 1px 0 0 rgba(194, 176, 28, 0.2),
+        inset 0.5px 0 0 rgba(194, 176, 28, 0.1),
+        /* Deep inset shadows */
+        inset 0 0 50px rgba(15, 15, 13, 0.98),
+        inset 3px 3px 15px rgba(10, 10, 8, 0.5),
+        inset -1px -1px 8px rgba(25, 25, 22, 0.2);
     overflow: hidden;
     pointer-events: auto;
-    font-family: 'VT323', monospace;
+    font-family: 'Share Tech Mono', monospace;
     height: 40px;
     opacity: 0;
     visibility: hidden;
@@ -2524,17 +2922,151 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    background: repeating-linear-gradient(-45deg,
-            transparent,
-            transparent 10px,
-            rgba(194, 176, 28, 0.02) 10px,
-            rgba(194, 176, 28, 0.02) 20px);
-    z-index: -1;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+        /* Worn/missing border sections - top */
+        linear-gradient(90deg,
+            transparent 0%, 
+            transparent 8%, 
+            rgba(194, 176, 28, 0.22) 8%, 
+            rgba(194, 176, 28, 0.22) 35%, 
+            transparent 35%, 
+            transparent 38%,
+            rgba(194, 176, 28, 0.18) 38%,
+            rgba(194, 176, 28, 0.18) 72%,
+            transparent 72%,
+            transparent 75%,
+            rgba(194, 176, 28, 0.2) 75%,
+            rgba(194, 176, 28, 0.2) 100%),
+        /* Worn/missing border sections - right (stronger accent) */
+        linear-gradient(0deg,
+            transparent 0%,
+            transparent 5%,
+            rgba(194, 176, 28, 0.35) 5%,
+            rgba(194, 176, 28, 0.35) 42%,
+            transparent 42%,
+            transparent 45%,
+            rgba(194, 176, 28, 0.3) 45%,
+            rgba(194, 176, 28, 0.3) 100%),
+        /* Worn/missing border sections - bottom */
+        linear-gradient(90deg,
+            transparent 0%,
+            transparent 12%,
+            rgba(194, 176, 28, 0.2) 12%,
+            rgba(194, 176, 28, 0.2) 48%,
+            transparent 48%,
+            transparent 52%,
+            rgba(194, 176, 28, 0.18) 52%,
+            rgba(194, 176, 28, 0.18) 88%,
+            transparent 88%),
+        /* Worn/missing border sections - left */
+        linear-gradient(0deg,
+            transparent 0%,
+            transparent 15%,
+            rgba(194, 176, 28, 0.18) 15%,
+            rgba(194, 176, 28, 0.18) 55%,
+            transparent 55%,
+            transparent 60%,
+            rgba(194, 176, 28, 0.15) 60%,
+            rgba(194, 176, 28, 0.15) 92%,
+            transparent 92%),
+        /* Scratches */
+        linear-gradient(125deg, transparent 0%, transparent 28%, rgba(80, 75, 65, 0.3) 28.5%, rgba(80, 75, 65, 0.3) 29%, transparent 29.5%),
+        linear-gradient(78deg, transparent 0%, transparent 65%, rgba(70, 68, 58, 0.25) 65.3%, rgba(70, 68, 58, 0.25) 65.8%, transparent 66.3%),
+        linear-gradient(95deg, transparent 0%, transparent 42%, rgba(75, 72, 62, 0.2) 42.2%, rgba(75, 72, 62, 0.2) 42.5%, transparent 43%),
+        /* Worn areas */
+        radial-gradient(ellipse at 18% 15%, rgba(50, 48, 40, 0.15) 0%, transparent 8%),
+        radial-gradient(ellipse at 82% 78%, rgba(48, 46, 38, 0.12) 0%, transparent 7%);
+    background-size:
+        100% 2px,
+        3px 100%,
+        100% 2px,
+        2px 100%,
+        100% 100%,
+        100% 100%,
+        100% 100%,
+        100% 100%,
+        100% 100%;
+    background-position:
+        top left,
+        top right,
+        bottom left,
+        top left,
+        0 0,
+        0 0,
+        0 0,
+        0 0,
+        0 0;
+    background-repeat:
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat;
+    opacity: 0.6;
+    mix-blend-mode: screen;
+}
+
+.button-hints::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.3;
+    background-image:
+        /* Small dust particles */
+        radial-gradient(circle at 25% 20%, rgba(194, 176, 28, 0.08) 0%, transparent 0.3%),
+        radial-gradient(circle at 58% 15%, rgba(194, 176, 28, 0.06) 0%, transparent 0.25%),
+        radial-gradient(circle at 78% 32%, rgba(194, 176, 28, 0.07) 0%, transparent 0.28%),
+        radial-gradient(circle at 12% 45%, rgba(194, 176, 28, 0.09) 0%, transparent 0.35%),
+        radial-gradient(circle at 42% 55%, rgba(194, 176, 28, 0.05) 0%, transparent 0.22%),
+        radial-gradient(circle at 85% 48%, rgba(194, 176, 28, 0.08) 0%, transparent 0.3%),
+        radial-gradient(circle at 32% 72%, rgba(194, 176, 28, 0.06) 0%, transparent 0.26%),
+        radial-gradient(circle at 68% 68%, rgba(194, 176, 28, 0.07) 0%, transparent 0.29%),
+        radial-gradient(circle at 90% 85%, rgba(194, 176, 28, 0.05) 0%, transparent 0.24%),
+        radial-gradient(circle at 15% 88%, rgba(194, 176, 28, 0.08) 0%, transparent 0.32%),
+        radial-gradient(circle at 48% 28%, rgba(194, 176, 28, 0.06) 0%, transparent 0.27%),
+        radial-gradient(circle at 62% 92%, rgba(194, 176, 28, 0.07) 0%, transparent 0.28%),
+        /* Medium dust specks */
+        radial-gradient(circle at 8% 22%, rgba(170, 155, 30, 0.1) 0%, transparent 0.5%),
+        radial-gradient(circle at 94% 38%, rgba(170, 155, 30, 0.09) 0%, transparent 0.45%),
+        radial-gradient(circle at 38% 8%, rgba(170, 155, 30, 0.08) 0%, transparent 0.48%),
+        radial-gradient(circle at 72% 58%, rgba(170, 155, 30, 0.1) 0%, transparent 0.52%),
+        radial-gradient(circle at 20% 95%, rgba(170, 155, 30, 0.07) 0%, transparent 0.42%);
 }
 
 .button-hints:hover,
 .button-hints.expanded {
-    box-shadow: 0 0 15px rgba(194, 176, 28, 0.3), inset 0 0 10px rgba(0, 0, 0, 0.7);
+    box-shadow: 
+        /* Flickering outer glow */
+        0 0 12px rgba(194, 176, 28, 0.15),
+        0 0 8px rgba(194, 176, 28, 0.1),
+        0 0 20px rgba(0, 0, 0, 0.9),
+        /* Worn border sections - top */
+        inset 0 1px 0 rgba(194, 176, 28, 0.3),
+        inset 0 0.5px 0 rgba(194, 176, 28, 0.2),
+        /* Worn border sections - right (stronger) */
+        inset -2px 0 0 rgba(194, 176, 28, 0.28),
+        inset -1px 0 0 rgba(194, 176, 28, 0.22),
+        /* Worn border sections - bottom */
+        inset 0 -1px 0 rgba(194, 176, 28, 0.25),
+        inset 0 -0.5px 0 rgba(194, 176, 28, 0.15),
+        /* Worn border sections - left */
+        inset 1px 0 0 rgba(194, 176, 28, 0.22),
+        inset 0.5px 0 0 rgba(194, 176, 28, 0.12),
+        /* Deep inset shadows */
+        inset 0 0 50px rgba(15, 15, 13, 0.98),
+        inset 3px 3px 15px rgba(10, 10, 8, 0.5),
+        inset -1px -1px 8px rgba(25, 25, 22, 0.2);
 }
 
 .button-hints.expanded {
@@ -2549,10 +3081,11 @@ body::before {
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    background-color: rgba(20, 20, 18, 0.7);
-    border-bottom: 1px solid rgba(194, 176, 28, 0.4);
+    background-color: rgba(14, 14, 12, 0.8);
+    border-bottom: 2px solid rgba(194, 176, 28, 0.3);
     position: relative;
     cursor: pointer;
+    z-index: 2;
 }
 
 .hints-header::before {
@@ -2587,6 +3120,7 @@ body::before {
 .hints-title {
     color: var(--primary-color);
     font-size: 16px;
+    font-family: 'Share Tech Mono', monospace;
     letter-spacing: 1px;
     text-transform: uppercase;
     font-weight: bold;
@@ -2617,10 +3151,13 @@ body::before {
 .hints-description {
     padding: 10px;
     color: var(--text-color);
-    font-size: 14px;
+    font-size: 13px;
+    font-family: 'Share Tech Mono', monospace;
     border-bottom: 1px dashed rgba(194, 176, 28, 0.3);
     font-style: italic;
-    opacity: 0.8;
+    opacity: 0.75;
+    position: relative;
+    z-index: 2;
 }
 
 .hints-content {
@@ -2630,6 +3167,8 @@ body::before {
     overflow-x: hidden;
     scrollbar-width: thin;
     scrollbar-color: rgba(194, 176, 28, 0.3) rgba(20, 20, 18, 0.5);
+    position: relative;
+    z-index: 2;
 }
 
 .hints-content::-webkit-scrollbar {
@@ -2653,6 +3192,7 @@ body::before {
 .hint-divider {
     color: var(--primary-color);
     font-size: 14px;
+    font-family: 'Share Tech Mono', monospace;
     letter-spacing: 1px;
     text-transform: uppercase;
     padding: 10px 0 5px;
@@ -2717,6 +3257,7 @@ body::before {
 .hint-item span {
     color: var(--text-color);
     font-size: 14px;
+    font-family: 'Share Tech Mono', monospace;
     opacity: 0.9;
 }
 
@@ -2726,23 +3267,25 @@ body::before {
 }
 
 .key-button.small {
-    padding: 3px 6px;
+    padding: 4px 8px;
     font-size: 12px;
-    min-width: 60px;
-    min-height: 22px;
+    min-width: 50px;
+    min-height: auto;
     text-align: center;
-    font-weight: normal;
-    background: linear-gradient(to bottom, rgba(30, 30, 28, 0.95), rgba(20, 20, 18, 0.9));
-    border: 1px solid rgba(194, 176, 28, 0.4);
-    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.7);
+    font-weight: bold;
+    font-family: 'Share Tech Mono', monospace;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(194, 176, 28, 0.3);
+    border-radius: 3px;
+    box-shadow: none;
     position: relative;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--primary-color);
-    letter-spacing: 0.5px;
-    transition: all 0.2s ease;
+    letter-spacing: 1px;
+    transition: all 0.25s ease;
 }
 
 .key-button.small::after {
@@ -2751,18 +3294,15 @@ body::before {
     top: 0;
     left: 0;
     width: 100%;
-    height: 1px;
-    background: linear-gradient(to right,
-            transparent,
-            rgba(194, 176, 28, 0.4),
-            rgba(194, 176, 28, 0.6),
-            rgba(194, 176, 28, 0.4),
-            transparent);
+    height: 100%;
+    background: transparent;
+    pointer-events: none;
 }
 
 .hint-item:hover .key-button.small {
-    border-color: rgba(194, 176, 28, 0.7);
-    box-shadow: 0 0 5px rgba(194, 176, 28, 0.4), inset 0 0 5px rgba(0, 0, 0, 0.8);
+    background: rgba(194, 176, 28, 0.15);
+    border-color: rgba(194, 176, 28, 0.5);
+    box-shadow: 0 0 6px rgba(194, 176, 28, 0.2);
     transform: translateY(-1px);
     color: var(--primary-color);
 }
@@ -2776,7 +3316,7 @@ body::before {
     border: 1px solid rgba(194, 176, 28, 0.4);
     color: var(--text-color);
     font-size: 14px;
-    font-family: 'VT323', monospace;
+    font-family: 'Share Tech Mono', monospace;
     opacity: 0;
     transition: opacity 0.3s ease;
     pointer-events: none;
@@ -2835,11 +3375,11 @@ body::before {
     position: fixed;
     bottom: 20px;
     left: 20px;
-    width: 300px;
+    width: 320px;
     max-height: 80vh;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
     overflow-y: auto;
     overflow-x: hidden;
     z-index: 1000;
@@ -2850,15 +3390,43 @@ body::before {
 .notification {
     display: flex;
     align-items: flex-start;
-    gap: 10px;
-    background-color: var(--background-color);
-    border: 1px solid rgba(194, 176, 28, 0.4);
-    padding: 10px;
+    gap: 12px;
+    background-color: rgba(18, 18, 16, 0.92);
+    border: none;
+    padding: 14px 16px 14px 20px;
     position: relative;
     overflow: hidden;
     pointer-events: auto;
-    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.6);
-    font-family: 'VT323', monospace;
+    box-shadow: 
+        0 0 12px rgba(0, 0, 0, 0.6),
+        inset 0 0 25px rgba(15, 15, 13, 0.95),
+        inset 2px 2px 8px rgba(10, 10, 8, 0.4),
+        inset -1px -1px 5px rgba(25, 25, 22, 0.2),
+        /* Worn border effect */
+        inset 0 1px 0 rgba(194, 176, 28, 0.25),
+        inset -1px 0 0 rgba(194, 176, 28, 0.2),
+        inset 0 -1px 0 rgba(194, 176, 28, 0.22),
+        inset 1px 0 0 rgba(194, 176, 28, 0.23);
+    font-family: 'Share Tech Mono', monospace;
+    background-image: 
+        /* Irregular border segments */
+        linear-gradient(0deg, rgba(194, 176, 28, 0.2) 0%, rgba(194, 176, 28, 0.2) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(194, 176, 28, 0.15) 0%, rgba(194, 176, 28, 0.15) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(194, 176, 28, 0.18) 0%, rgba(194, 176, 28, 0.18) 1px, transparent 1px),
+        linear-gradient(270deg, rgba(194, 176, 28, 0.16) 0%, rgba(194, 176, 28, 0.16) 1px, transparent 1px),
+        /* Base gradients */
+        linear-gradient(135deg, rgba(25, 25, 22, 0.15) 0%, transparent 40%, rgba(15, 15, 13, 0.2) 100%),
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 0, 0, 0.03) 2px,
+            rgba(0, 0, 0, 0.03) 3px
+        );
+    background-blend-mode: normal, normal, normal, normal, multiply, overlay;
+    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+    background-position: top, right, bottom, left, 0 0, 0 0;
+    background-repeat: no-repeat;
 }
 
 .notification::before {
@@ -2866,10 +3434,17 @@ body::before {
     position: absolute;
     top: 0;
     left: 0;
-    width: 5px;
+    width: 4px;
     height: 100%;
-    background-color: var(--primary-color);
-    box-shadow: 0 0 5px rgba(194, 176, 28, 0.5);
+    background: linear-gradient(to bottom,
+        transparent 0%,
+        rgba(194, 176, 28, 0.6) 10%,
+        rgba(194, 176, 28, 0.8) 50%,
+        rgba(194, 176, 28, 0.6) 90%,
+        transparent 100%
+    );
+    box-shadow: 0 0 4px rgba(194, 176, 28, 0.4);
+    z-index: 2;
 }
 
 .notification::after {
@@ -2879,12 +3454,23 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    background: repeating-linear-gradient(-45deg,
-            transparent,
-            transparent 10px,
-            rgba(194, 176, 28, 0.02) 10px,
-            rgba(194, 176, 28, 0.02) 20px);
-    z-index: -1;
+    pointer-events: none;
+    background-image: 
+        /* Dust spots */
+        radial-gradient(circle at 25% 30%, rgba(60, 55, 45, 0.12) 0%, transparent 3%),
+        radial-gradient(circle at 75% 20%, rgba(50, 48, 40, 0.1) 0%, transparent 2.5%),
+        radial-gradient(circle at 15% 70%, rgba(55, 52, 42, 0.08) 0%, transparent 3%),
+        radial-gradient(circle at 85% 80%, rgba(58, 54, 44, 0.11) 0%, transparent 2.8%),
+        radial-gradient(circle at 50% 45%, rgba(56, 53, 43, 0.07) 0%, transparent 2%),
+        /* Corner dust/wear */
+        radial-gradient(ellipse at 2% 2%, rgba(40, 40, 35, 0.1) 0%, transparent 12%),
+        radial-gradient(ellipse at 98% 2%, rgba(35, 35, 30, 0.08) 0%, transparent 10%),
+        radial-gradient(ellipse at 2% 98%, rgba(40, 40, 35, 0.12) 0%, transparent 13%),
+        radial-gradient(ellipse at 98% 98%, rgba(35, 35, 30, 0.09) 0%, transparent 11%);
+    box-shadow: 
+        inset 0 0 15px rgba(10, 10, 8, 0.2),
+        inset 1px 1px 4px rgba(8, 8, 6, 0.15);
+    z-index: 0;
 }
 
 .notification-scanline {
@@ -2895,8 +3481,9 @@ body::before {
     height: 3px;
     background: linear-gradient(to right, transparent, var(--primary-color), transparent);
     animation: notification-scanline 3s infinite linear;
-    opacity: 0.5;
+    opacity: 0.4;
     pointer-events: none;
+    z-index: 1;
 }
 
 @keyframes notification-scanline {
@@ -2910,16 +3497,19 @@ body::before {
 }
 
 .notification-icon {
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 3;
 }
 
 .notification-icon i {
     color: var(--primary-color);
-    font-size: 20px;
+    font-size: 22px;
     filter: sepia(40%) hue-rotate(350deg) saturate(60%);
 }
 
@@ -2927,20 +3517,23 @@ body::before {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 6px;
+    position: relative;
+    z-index: 3;
 }
 
 .notification-message {
     color: var(--text-color);
-    font-size: 14px;
-    line-height: 1.4;
+    font-size: 15px;
+    line-height: 1.5;
+    letter-spacing: 0.3px;
     position: relative;
 }
 
 .notification-message::after {
     content: '';
     position: absolute;
-    bottom: -3px;
+    bottom: -4px;
     left: 0;
     width: 100%;
     height: 1px;
@@ -2949,11 +3542,12 @@ body::before {
 
 .notification-progress {
     position: relative;
-    height: 3px;
+    height: 4px;
     width: 100%;
     background-color: rgba(20, 20, 18, 0.7);
     border-radius: 0;
     overflow: hidden;
+    margin-top: 2px;
 }
 
 .notification-progress::after {
@@ -3051,8 +3645,96 @@ body::before {
     box-shadow: 0 0 5px rgba(194, 176, 28, 0.5);
 }
 
+/* Death Notification - Special styling for player deaths */
+.notification-death {
+    background-color: rgba(15, 10, 10, 0.95);
+    animation: deathNotificationPulse 0.5s ease-out;
+    border: 1px solid rgba(162, 52, 48, 0.3);
+}
+
+.notification-death::before {
+    background: linear-gradient(to bottom,
+        transparent 0%,
+        rgba(162, 52, 48, 0.7) 10%,
+        var(--secondary-color) 50%,
+        rgba(162, 52, 48, 0.7) 90%,
+        transparent 100%
+    );
+    box-shadow: 0 0 8px rgba(162, 52, 48, 0.6);
+    animation: deathBarPulse 2s ease-in-out infinite;
+}
+
+.notification-death .notification-icon {
+    animation: deathIconSpin 0.6s ease-out;
+}
+
+.notification-death .notification-icon i {
+    color: var(--secondary-color);
+    filter: drop-shadow(0 0 4px rgba(162, 52, 48, 0.8));
+}
+
+.notification-death .notification-progress::after {
+    background-color: var(--secondary-color);
+    box-shadow: 0 0 6px rgba(162, 52, 48, 0.6);
+}
+
+.notification-death .notification-message {
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 0 0 3px rgba(162, 52, 48, 0.5);
+}
+
+@keyframes deathNotificationPulse {
+    0% {
+        opacity: 0;
+        transform: scale(0.95) translateX(20px);
+        box-shadow: 0 0 0 rgba(162, 52, 48, 0);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(162, 52, 48, 0.6);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateX(0);
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
+    }
+}
+
+@keyframes deathBarPulse {
+    0%, 100% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 1;
+        box-shadow: 0 0 12px rgba(162, 52, 48, 0.8);
+    }
+}
+
+@keyframes deathIconSpin {
+    0% {
+        transform: rotate(0deg) scale(0.5);
+        opacity: 0;
+    }
+    60% {
+        transform: rotate(180deg) scale(1.1);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+        opacity: 1;
+    }
+}
+
 .notification:hover {
-    box-shadow: 0 0 10px rgba(194, 176, 28, 0.2), inset 0 0 8px rgba(0, 0, 0, 0.6);
+    box-shadow: 
+        0 0 15px rgba(194, 176, 28, 0.2),
+        inset 0 0 25px rgba(15, 15, 13, 0.98),
+        inset 2px 2px 8px rgba(10, 10, 8, 0.5),
+        inset -1px -1px 5px rgba(25, 25, 22, 0.2),
+        /* Worn border effect - enhanced on hover */
+        inset 0 1px 0 rgba(194, 176, 28, 0.35),
+        inset -1px 0 0 rgba(194, 176, 28, 0.3),
+        inset 0 -1px 0 rgba(194, 176, 28, 0.32),
+        inset 1px 0 0 rgba(194, 176, 28, 0.33);
 }
 
 .notification:hover .notification-progress::after {
@@ -3175,20 +3857,160 @@ body::before {
 }
 
 .death-content {
-    width: 80%;
-    max-width: 700px;
-    background-color: rgba(15, 15, 15, 0.9);
-    border: 2px solid var(--secondary-color);
-    padding: 30px;
+    width: 85%;
+    max-width: 750px;
+    background-color: rgba(18, 18, 16, 0.92);
+    padding: 35px 40px;
+    border: none;
+    box-shadow: 
+        0 0 20px rgba(162, 52, 48, 0.08),
+        0 0 10px rgba(162, 52, 48, 0.06),
+        0 0 5px rgba(162, 52, 48, 0.05),
+        inset 0 0 50px rgba(15, 15, 13, 0.98),
+        inset 3px 3px 15px rgba(10, 10, 8, 0.5),
+        inset -1px -1px 8px rgba(25, 25, 22, 0.2),
+        /* Worn border effect - top */
+        inset 0 1px 0 rgba(162, 52, 48, 0.35),
+        inset 0 0.5px 0 rgba(162, 52, 48, 0.2),
+        /* Worn border effect - right */
+        inset -1px 0 0 rgba(162, 52, 48, 0.3),
+        inset -0.5px 0 0 rgba(162, 52, 48, 0.18),
+        /* Worn border effect - bottom */
+        inset 0 -1px 0 rgba(162, 52, 48, 0.32),
+        inset 0 -0.5px 0 rgba(162, 52, 48, 0.15),
+        /* Worn border effect - left */
+        inset 1px 0 0 rgba(162, 52, 48, 0.33),
+        inset 0.5px 0 0 rgba(162, 52, 48, 0.2);
+    position: relative;
     opacity: 0;
     transform: translateY(20px);
     transition: all 0.5s ease;
-    position: relative;
     overflow: hidden;
-    box-shadow:
-        inset 0 0 30px rgba(0, 0, 0, 0.7),
-        0 0 20px rgba(162, 52, 48, 0.3);
-    font-family: 'VT323', monospace;
+    background-image: 
+        /* Irregular border segments */
+        linear-gradient(0deg, rgba(162, 52, 48, 0.3) 0%, rgba(162, 52, 48, 0.3) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(162, 52, 48, 0.25) 0%, rgba(162, 52, 48, 0.25) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(162, 52, 48, 0.28) 0%, rgba(162, 52, 48, 0.28) 1px, transparent 1px),
+        linear-gradient(270deg, rgba(162, 52, 48, 0.26) 0%, rgba(162, 52, 48, 0.26) 1px, transparent 1px),
+        /* Base gradients */
+        linear-gradient(135deg, rgba(25, 25, 22, 0.15) 0%, transparent 40%, rgba(15, 15, 13, 0.2) 100%),
+        linear-gradient(180deg, rgba(20, 20, 18, 0.1) 0%, rgba(15, 15, 13, 0.4) 100%),
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 0, 0, 0.03) 2px,
+            rgba(0, 0, 0, 0.03) 3px
+        );
+    background-blend-mode: normal, normal, normal, normal, multiply, multiply, overlay;
+    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+    background-position: top, right, bottom, left, 0 0, 0 0, 0 0;
+    background-repeat: no-repeat;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.death-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+        /* Worn/missing border sections - top */
+        linear-gradient(90deg,
+            transparent 0%, 
+            transparent 8%, 
+            rgba(162, 52, 48, 0.32) 8%, 
+            rgba(162, 52, 48, 0.32) 35%, 
+            transparent 35%,
+            transparent 42%,
+            rgba(162, 52, 48, 0.28) 42%,
+            rgba(162, 52, 48, 0.28) 68%,
+            transparent 68%,
+            transparent 75%,
+            rgba(162, 52, 48, 0.3) 75%,
+            rgba(162, 52, 48, 0.3) 92%,
+            transparent 92%
+        ),
+        /* Worn/missing border sections - bottom */
+        linear-gradient(90deg,
+            transparent 0%, 
+            transparent 5%, 
+            rgba(162, 52, 48, 0.28) 5%, 
+            rgba(162, 52, 48, 0.28) 28%, 
+            transparent 28%,
+            transparent 38%,
+            rgba(162, 52, 48, 0.32) 38%,
+            rgba(162, 52, 48, 0.32) 72%,
+            transparent 72%,
+            transparent 78%,
+            rgba(162, 52, 48, 0.26) 78%,
+            rgba(162, 52, 48, 0.26) 95%,
+            transparent 95%
+        ),
+        /* Worn/missing border sections - left */
+        linear-gradient(0deg,
+            transparent 0%, 
+            transparent 10%, 
+            rgba(162, 52, 48, 0.3) 10%, 
+            rgba(162, 52, 48, 0.3) 42%, 
+            transparent 42%,
+            transparent 55%,
+            rgba(162, 52, 48, 0.28) 55%,
+            rgba(162, 52, 48, 0.28) 88%,
+            transparent 88%
+        ),
+        /* Worn/missing border sections - right */
+        linear-gradient(0deg,
+            transparent 0%, 
+            transparent 12%, 
+            rgba(162, 52, 48, 0.26) 12%, 
+            rgba(162, 52, 48, 0.26) 38%, 
+            transparent 38%,
+            transparent 48%,
+            rgba(162, 52, 48, 0.3) 48%,
+            rgba(162, 52, 48, 0.3) 85%,
+            transparent 85%
+        );
+    background-size: 100% 1px, 100% 1px, 1px 100%, 1px 100%;
+    background-position: top, bottom, left, right;
+    background-repeat: no-repeat;
+}
+
+.death-content::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    background-image: 
+        /* Dust spots */
+        radial-gradient(circle at 15% 12%, rgba(60, 55, 45, 0.15) 0%, transparent 2%),
+        radial-gradient(circle at 73% 8%, rgba(50, 48, 40, 0.12) 0%, transparent 1.5%),
+        radial-gradient(circle at 88% 25%, rgba(55, 52, 42, 0.1) 0%, transparent 2.5%),
+        radial-gradient(circle at 22% 78%, rgba(58, 54, 44, 0.14) 0%, transparent 2%),
+        radial-gradient(circle at 67% 82%, rgba(52, 50, 41, 0.11) 0%, transparent 1.8%),
+        radial-gradient(circle at 45% 35%, rgba(56, 53, 43, 0.09) 0%, transparent 1.2%),
+        radial-gradient(circle at 8% 50%, rgba(54, 51, 42, 0.13) 0%, transparent 2.2%),
+        radial-gradient(circle at 92% 65%, rgba(53, 50, 40, 0.1) 0%, transparent 1.5%),
+        radial-gradient(circle at 35% 92%, rgba(57, 53, 43, 0.12) 0%, transparent 1.9%),
+        /* Corner dust/wear */
+        radial-gradient(ellipse at 2% 2%, rgba(40, 40, 35, 0.12) 0%, transparent 10%),
+        radial-gradient(ellipse at 98% 2%, rgba(35, 35, 30, 0.09) 0%, transparent 9%),
+        radial-gradient(ellipse at 2% 98%, rgba(40, 40, 35, 0.14) 0%, transparent 11%),
+        radial-gradient(ellipse at 98% 98%, rgba(35, 35, 30, 0.1) 0%, transparent 10%),
+        /* Subtle edge fade */
+        linear-gradient(180deg, rgba(30, 30, 26, 0.08) 0%, transparent 15%, transparent 85%, rgba(20, 20, 18, 0.12) 100%),
+        linear-gradient(90deg, rgba(25, 25, 22, 0.06) 0%, transparent 10%, transparent 90%, rgba(25, 25, 22, 0.06) 100%);
+    box-shadow: 
+        inset 0 0 20px rgba(10, 10, 8, 0.3),
+        inset 2px 2px 6px rgba(8, 8, 6, 0.25),
+        inset -1px -1px 4px rgba(30, 30, 26, 0.15);
 }
 
 .death-screen.visible .death-content {
@@ -3244,20 +4066,46 @@ body::before {
 
 .death-header {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     position: relative;
+    z-index: 3;
+    padding: 0 0 15px 0;
+    border-bottom: 1px solid rgba(162, 52, 48, 0.2);
+}
+
+.death-header .corner-element {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    z-index: 5;
+    opacity: 0.5;
+}
+
+.death-header .corner-element.top-left {
+    top: -1px;
+    left: -1px;
+    border-top: 1px solid rgba(162, 52, 48, 0.5);
+    border-left: 1px solid rgba(162, 52, 48, 0.5);
+}
+
+.death-header .corner-element.top-right {
+    top: -1px;
+    right: -1px;
+    border-top: 1px solid rgba(162, 52, 48, 0.5);
+    border-right: 1px solid rgba(162, 52, 48, 0.5);
 }
 
 .death-header h1 {
     color: var(--secondary-color);
-    font-size: 42px;
-    margin-bottom: 10px;
-    letter-spacing: 4px;
+    font-size: 38px;
+    margin-bottom: 12px;
+    letter-spacing: 5px;
     text-transform: uppercase;
     text-shadow: 0 0 10px rgba(162, 52, 48, 0.7);
-    font-family: 'VT323', monospace;
+    font-family: 'Share Tech Mono', monospace;
     position: relative;
     animation: text-death-glitch 2s infinite;
+    line-height: 1.2;
 }
 
 .death-header h1::after {
@@ -3318,12 +4166,14 @@ body::before {
 
 .death-header h2 {
     color: var(--text-color);
-    font-size: 16px;
-    opacity: 0.9;
+    font-size: 14px;
+    opacity: 0.85;
     letter-spacing: 2px;
     font-family: 'VT323', monospace;
     text-transform: uppercase;
     position: relative;
+    line-height: 1.4;
+    margin-top: 8px;
 }
 
 .death-header h2::after {
@@ -3344,12 +4194,14 @@ body::before {
 
 .death-stats {
     display: flex;
-    justify-content: space-between;
-    margin: 25px 0;
-    border-top: 1px solid rgba(162, 52, 48, 0.3);
-    border-bottom: 1px solid rgba(162, 52, 48, 0.3);
-    padding: 20px 0;
+    justify-content: space-around;
+    margin: 30px 0;
+    border-top: 1px solid rgba(162, 52, 48, 0.25);
+    border-bottom: 1px solid rgba(162, 52, 48, 0.25);
+    padding: 25px 10px;
     position: relative;
+    z-index: 3;
+    gap: 20px;
 }
 
 .death-stats::before {
@@ -3386,7 +4238,8 @@ body::before {
     text-align: center;
     flex: 1;
     position: relative;
-    padding: 0 10px;
+    padding: 0 15px;
+    min-width: 0;
 }
 
 .death-stat:not(:last-child)::after {
@@ -3401,25 +4254,31 @@ body::before {
 
 .stat-label {
     color: var(--text-color);
-    font-size: 14px;
-    margin-bottom: 10px;
-    opacity: 0.7;
+    font-size: 11px;
+    margin-bottom: 8px;
+    opacity: 0.65;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
+    font-weight: 500;
 }
 
 .stat-value {
     color: var(--secondary-color);
-    font-size: 18px;
-    letter-spacing: 1px;
+    font-size: 16px;
+    letter-spacing: 0.5px;
     text-shadow: 0 0 5px rgba(162, 52, 48, 0.5);
+    font-weight: 600;
 }
 
 .death-message-container {
     display: flex;
-    gap: 30px;
-    margin-bottom: 30px;
-    padding: 0 10px;
+    gap: 25px;
+    margin-bottom: 35px;
+    padding: 20px 15px;
+    position: relative;
+    z-index: 3;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 2px;
 }
 
 .death-cause,
@@ -3428,31 +4287,48 @@ body::before {
     position: relative;
 }
 
+.death-cause::after {
+    content: '';
+    position: absolute;
+    right: -12.5px;
+    top: 10%;
+    height: 80%;
+    width: 1px;
+    background: linear-gradient(to bottom,
+        transparent 0%,
+        rgba(162, 52, 48, 0.2) 20%,
+        rgba(162, 52, 48, 0.3) 50%,
+        rgba(162, 52, 48, 0.2) 80%,
+        transparent 100%
+    );
+}
+
 .death-cause h3,
 .death-analysis h3 {
     color: var(--text-color);
-    font-size: 16px;
-    margin-bottom: 12px;
-    letter-spacing: 1px;
+    font-size: 13px;
+    margin-bottom: 10px;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
     padding-bottom: 8px;
-    border-bottom: 1px dashed rgba(162, 52, 48, 0.3);
+    border-bottom: 1px dashed rgba(162, 52, 48, 0.25);
+    opacity: 0.8;
 }
 
 .death-cause p,
 .death-analysis p {
     color: var(--text-color);
-    font-size: 14px;
-    opacity: 0.9;
+    font-size: 13px;
+    opacity: 0.85;
     font-style: italic;
-    line-height: 1.4;
+    line-height: 1.6;
 }
 
 .restart-button {
     display: block;
-    width: 200px;
-    margin: 0 auto;
-    padding: 12px 20px;
+    width: 220px;
+    margin: 10px auto 0;
+    padding: 14px 24px;
     background-color: rgba(20, 20, 18, 0.8);
     border: 1px solid var(--secondary-color);
     color: var(--secondary-color);
@@ -3461,11 +4337,12 @@ body::before {
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
-    font-family: 'VT323', monospace;
-    font-size: 18px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 16px;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 3;
 }
 
 .restart-button::before {
@@ -3518,19 +4395,21 @@ body::before {
 
 .death-decoration {
     position: absolute;
-    top: 20px;
+    top: 15px;
     right: 20px;
     display: flex;
     flex-direction: column;
+    z-index: 3;
     align-items: flex-end;
-    gap: 10px;
-    opacity: 0.7;
+    gap: 8px;
+    opacity: 0.6;
 }
 
 .skull-icon {
-    font-size: 30px;
+    font-size: 28px;
     color: var(--secondary-color);
     text-shadow: 0 0 8px rgba(162, 52, 48, 0.5);
+    opacity: 0.8;
 }
 
 .binary-stream {
@@ -3543,10 +4422,11 @@ body::before {
 
 .system-failure {
     color: var(--secondary-color);
-    font-size: 12px;
-    letter-spacing: 1px;
+    font-size: 10px;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
     text-shadow: 0 0 5px rgba(162, 52, 48, 0.3);
+    opacity: 0.7;
 }
 
 /* Draggable Element */
@@ -3630,7 +4510,7 @@ body::before {
     text-transform: uppercase;
     letter-spacing: 1px;
     opacity: 0.8;
-    font-family: 'VT323', monospace;
+    font-family: 'Share Tech Mono', monospace;
 }
 
 @keyframes dragPulse {
@@ -3842,7 +4722,7 @@ body::before {
 }
 
 .hint-text {
-    font-family: 'VT323', monospace;
+    font-family: 'Share Tech Mono', monospace;
     color: var(--primary-color);
     font-size: 20px;
     letter-spacing: 1px;
@@ -4043,7 +4923,7 @@ body::before {
 }
 
 #total-monster-cost {
-    font-family: 'VT323', monospace;
+    font-family: 'Share Tech Mono', monospace;
     font-size: 16px;
     color: rgba(162, 52, 48, 1);
     letter-spacing: 1px;
@@ -4132,7 +5012,7 @@ body::before {
 
 .comrade-id {
     color: var(--primary-color);
-    font-family: 'VT323', monospace;
+    font-family: 'Share Tech Mono', monospace;
     font-size: 16px;
     letter-spacing: 1px;
     font-weight: bold;
@@ -4199,6 +5079,8 @@ body::before {
     justify-content: space-between;
     font-family: 'Share Tech Mono', monospace;
     font-size: 12px;
+    position: relative;
+    z-index: 2;
 }
 
 .vital-label {
@@ -4233,7 +5115,7 @@ body::before {
 
 .heal-hint span {
     color: var(--primary-color);
-    font-family: 'VT323', monospace;
+    font-family: 'Share Tech Mono', monospace;
     font-size: 14px;
     letter-spacing: 0.5px;
 }
@@ -4435,7 +5317,7 @@ body::before {
 
 .departure-text span {
     color: var(--secondary-color);
-    font-family: 'VT323', monospace;
+    font-family: 'Share Tech Mono', monospace;
     font-size: 28px;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -4922,11 +5804,11 @@ body::before {
 }
 
 .menu-content {
-    width: 80%;
-    max-width: 900px;
-    max-height: 80vh;
+    width: 85%;
+    max-width: 1000px;
+    max-height: 85vh;
     background-color: rgba(18, 18, 16, 0.88);
-    padding: 10px;
+    padding: 15px;
     border: none;
     box-shadow: 
         0 0 20px rgba(0, 0, 0, 0.9), 
@@ -5293,43 +6175,103 @@ body::before {
 }
 
 /* Tabs */
+/* Enhanced Tabs with Keyboard Navigation */
 .menu-tabs {
     display: flex;
     justify-content: center;
+    gap: 5px;
     border-bottom: 1px dashed rgba(173, 173, 173, 0.2);
-    padding-bottom: 5px;
+    padding-bottom: 8px;
     margin-bottom: 15px;
 }
 
 .menu-tab {
-    padding: 8px 15px;
-    margin: 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    margin: 0 5px;
     color: var(--text-color);
     font-size: 14px;
     cursor: pointer;
     letter-spacing: 1px;
     position: relative;
-    transition: color 0.2s ease;
+    transition: all 0.2s ease;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(194, 176, 28, 0.15);
+    border-bottom: none;
+}
+
+.menu-tab:focus {
+    outline: none;
+    border-color: rgba(194, 176, 28, 0.5);
+    box-shadow: 0 0 10px rgba(194, 176, 28, 0.2);
+}
+
+.tab-icon {
+    font-size: 16px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.tab-text {
+    font-weight: bold;
+}
+
+.tab-shortcut {
+    display: inline-block;
+    padding: 2px 6px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(194, 176, 28, 0.2);
+    border-radius: 3px;
+    font-size: 11px;
+    margin-left: 4px;
+    opacity: 0.6;
+    transition: all 0.2s;
 }
 
 .menu-tab::after {
     content: '';
     position: absolute;
-    bottom: -6px;
+    bottom: 0;
     left: 0;
     width: 100%;
-    height: 1px;
+    height: 2px;
     background-color: var(--primary-color);
     transform: scaleX(0);
     transition: transform 0.2s ease;
+    box-shadow: 0 0 8px rgba(194, 176, 28, 0.5);
 }
 
 .menu-tab:hover {
     color: var(--primary-color);
+    background: rgba(194, 176, 28, 0.08);
+    border-color: rgba(194, 176, 28, 0.3);
+}
+
+.menu-tab:hover .tab-icon {
+    opacity: 1;
+}
+
+.menu-tab:hover .tab-shortcut {
+    opacity: 1;
+    border-color: rgba(194, 176, 28, 0.4);
+    background: rgba(194, 176, 28, 0.1);
 }
 
 .menu-tab.active {
     color: var(--primary-color);
+    background: rgba(194, 176, 28, 0.1);
+    border-color: rgba(194, 176, 28, 0.4);
+}
+
+.menu-tab.active .tab-icon {
+    opacity: 1;
+}
+
+.menu-tab.active .tab-shortcut {
+    opacity: 1;
+    border-color: rgba(194, 176, 28, 0.5);
 }
 
 .menu-tab.active::after {
@@ -5339,8 +6281,8 @@ body::before {
 /* Tab Content */
 .tab-content {
     display: none;
-    padding: 10px;
-    max-height: 50vh;
+    padding: 15px;
+    max-height: calc(85vh - 320px);
     overflow-y: auto;
 }
 
@@ -5695,28 +6637,38 @@ body::before {
 }
 
 /* Menu Action Buttons */
+/* ==========================
+   ENHANCED MENU ACTIONS (UX)
+   ========================== */
+
 .menu-actions {
     display: flex;
-    justify-content: space-between;
+    flex-direction: row;
+    gap: 10px;
     margin-top: 20px;
-    padding: 15px 10px;
+    padding: 20px 15px 25px 15px;
     border-top: 1px solid rgba(194, 176, 28, 0.3);
+    position: relative;
+    flex-wrap: wrap;
 }
 
+/* Base Menu Button Styles */
 .menu-button {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 10px 15px;
+    gap: 8px;
+    padding: 10px 12px;
     background-color: rgba(14, 14, 12, 0.6);
-    border: 1px solid rgba(194, 176, 28, 0.22);
+    border: 2px solid rgba(194, 176, 28, 0.22);
     color: var(--primary-color);
     cursor: pointer;
-    transition: all 0.25s;
+    transition: all 0.25s ease;
     position: relative;
     z-index: 3;
     overflow: hidden;
     opacity: 0.85;
+    flex: 1;
+    min-width: 0;
     background-image: 
         linear-gradient(135deg, 
             rgba(25, 25, 22, 0.2) 0%, 
@@ -5729,95 +6681,355 @@ body::before {
         0 1px 0 rgba(194, 176, 28, 0.05);
 }
 
-.menu-button:hover {
-    background-color: rgba(18, 18, 16, 0.7);
-    border-color: rgba(194, 176, 28, 0.38);
+.menu-button:focus {
+    outline: none;
+    border-color: rgba(194, 176, 28, 0.6);
     box-shadow: 
-        0 0 6px rgba(194, 176, 28, 0.15),
-        inset 0 1px 2px rgba(0, 0, 0, 0.4),
-        inset 0 -1px 1px rgba(30, 30, 26, 0.15),
-        0 1px 0 rgba(194, 176, 28, 0.08);
+        0 0 12px rgba(194, 176, 28, 0.25),
+        inset 0 0 8px rgba(194, 176, 28, 0.1),
+        inset 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.button-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(194, 176, 28, 0.2);
+    border-radius: 2px;
+    font-size: 14px;
+    transition: all 0.25s;
+}
+
+.button-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.button-label {
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.button-sublabel {
+    font-size: 10px;
+    opacity: 0.65;
+    font-style: italic;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.key-button-indicator {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(194, 176, 28, 0.3);
+    border-radius: 3px;
+}
+
+.key-hint {
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Primary Button (Resume/Continue) */
+.menu-button.primary {
+    border-color: rgba(194, 176, 28, 0.4);
+    border-width: 3px;
+}
+
+.menu-button.primary:hover,
+.menu-button.primary:focus {
+    background-color: rgba(194, 176, 28, 0.12);
+    border-color: rgba(194, 176, 28, 0.6);
+    box-shadow: 
+        0 0 15px rgba(194, 176, 28, 0.25),
+        inset 0 0 12px rgba(194, 176, 28, 0.08),
+        inset 0 1px 2px rgba(0, 0, 0, 0.4);
     opacity: 1;
+    transform: translateX(5px);
 }
 
-.menu-button:hover span {
-    color: var(--primary-color);
+.menu-button.primary:hover .button-icon,
+.menu-button.primary:focus .button-icon {
+    background: rgba(194, 176, 28, 0.2);
+    border-color: rgba(194, 176, 28, 0.5);
+    box-shadow: 0 0 8px rgba(194, 176, 28, 0.3);
 }
 
-#logoutButton {
-    border-color: rgba(162, 52, 48, 0.3);
-    color: var(--secondary-color);
-    box-shadow: 
-        inset 0 1px 2px rgba(0, 0, 0, 0.3),
-        inset 0 -1px 1px rgba(30, 30, 26, 0.1),
-        0 1px 0 rgba(162, 52, 48, 0.05);
+.menu-button.primary:hover .key-button-indicator,
+.menu-button.primary:focus .key-button-indicator {
+    background: rgba(194, 176, 28, 0.15);
+    border-color: rgba(194, 176, 28, 0.5);
+    box-shadow: 0 0 6px rgba(194, 176, 28, 0.2);
 }
 
-#logoutButton:hover {
-    background-color: rgba(18, 18, 16, 0.7);
-    border-color: rgba(162, 52, 48, 0.4);
-    box-shadow: 
-        0 0 6px rgba(162, 52, 48, 0.15),
-        inset 0 1px 2px rgba(0, 0, 0, 0.4),
-        inset 0 -1px 1px rgba(30, 30, 26, 0.15),
-        0 1px 0 rgba(162, 52, 48, 0.08);
-}
-
-#logoutButton:hover span {
-    color: var(--secondary-color);
-}
-
-#optionsButton {
+/* Secondary Button (Options) */
+.menu-button.secondary {
     border-color: rgba(77, 110, 80, 0.3);
     color: var(--tertiary-color);
-    position: relative;
-    box-shadow: 
-        inset 0 1px 2px rgba(0, 0, 0, 0.3),
-        inset 0 -1px 1px rgba(30, 30, 26, 0.1),
-        0 1px 0 rgba(77, 110, 80, 0.05);
-    overflow: hidden;
 }
 
-#optionsButton::before {
-    content: '';
+.menu-button.secondary .button-icon {
+    border-color: rgba(77, 110, 80, 0.3);
+}
+
+.menu-button.secondary .key-button-indicator {
+    border-color: rgba(77, 110, 80, 0.3);
+}
+
+.menu-button.secondary:hover,
+.menu-button.secondary:focus {
+    background-color: rgba(77, 110, 80, 0.08);
+    border-color: rgba(77, 110, 80, 0.5);
+    box-shadow: 
+        0 0 12px rgba(77, 110, 80, 0.2),
+        inset 0 0 10px rgba(77, 110, 80, 0.06),
+        inset 0 1px 2px rgba(0, 0, 0, 0.4);
+    opacity: 1;
+    transform: translateX(5px);
+}
+
+.menu-button.secondary:hover .button-icon,
+.menu-button.secondary:focus .button-icon {
+    background: rgba(77, 110, 80, 0.15);
+    border-color: rgba(77, 110, 80, 0.4);
+}
+
+.menu-button.secondary:hover .key-button-indicator,
+.menu-button.secondary:focus .key-button-indicator {
+    background: rgba(77, 110, 80, 0.15);
+    border-color: rgba(77, 110, 80, 0.4);
+}
+
+/* Danger Button (Quit/Logout) */
+.menu-button.danger {
+    border-color: rgba(162, 52, 48, 0.3);
+    color: var(--secondary-color);
+}
+
+.menu-button.danger .button-icon {
+    border-color: rgba(162, 52, 48, 0.3);
+}
+
+.menu-button.danger .key-button-indicator {
+    border-color: rgba(162, 52, 48, 0.3);
+}
+
+.menu-button.danger:hover,
+.menu-button.danger:focus {
+    background-color: rgba(162, 52, 48, 0.08);
+    border-color: rgba(162, 52, 48, 0.5);
+    box-shadow: 
+        0 0 12px rgba(162, 52, 48, 0.2),
+        inset 0 0 10px rgba(162, 52, 48, 0.06),
+        inset 0 1px 2px rgba(0, 0, 0, 0.4);
+    opacity: 1;
+    transform: translateX(5px);
+}
+
+.menu-button.danger:hover .button-icon,
+.menu-button.danger:focus .button-icon {
+    background: rgba(162, 52, 48, 0.15);
+    border-color: rgba(162, 52, 48, 0.4);
+}
+
+.menu-button.danger:hover .key-button-indicator,
+.menu-button.danger:focus .key-button-indicator {
+    background: rgba(162, 52, 48, 0.15);
+    border-color: rgba(162, 52, 48, 0.4);
+}
+
+/* Active State */
+.menu-button:active {
+    transform: scale(0.98) translateX(5px);
+}
+
+/* ==========================
+   QUIT CONFIRMATION MODAL
+   ========================== */
+
+.quit-confirmation-modal {
     position: absolute;
     top: 0;
-    left: -100%;
+    left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to right,
-            transparent,
-            rgba(77, 110, 80, 0.1),
-            transparent);
-    animation: options-scan 3s infinite;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
 }
 
-@keyframes options-scan {
-    0% {
-        left: -100%;
-    }
-
-    100% {
-        left: 100%;
-    }
+.quit-confirmation-modal.visible {
+    opacity: 1;
+    visibility: visible;
 }
 
-#optionsButton:hover {
-    background-color: rgba(18, 18, 16, 0.7);
-    border-color: rgba(77, 110, 80, 0.4);
+.confirmation-content {
+    width: 90%;
+    max-width: 500px;
+    background: rgba(18, 18, 16, 0.95);
+    border: 3px solid rgba(162, 52, 48, 0.5);
+    padding: 30px;
+    position: relative;
     box-shadow: 
-        0 0 6px rgba(77, 110, 80, 0.15),
-        inset 0 1px 2px rgba(0, 0, 0, 0.4),
-        inset 0 -1px 1px rgba(30, 30, 26, 0.15),
-        0 1px 0 rgba(77, 110, 80, 0.08);
+        0 0 30px rgba(162, 52, 48, 0.3),
+        inset 0 0 20px rgba(0, 0, 0, 0.5);
+    animation: modal-enter 0.3s ease-out;
 }
 
-#optionsButton:hover span {
+@keyframes modal-enter {
+    from {
+        transform: scale(0.9) translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+.confirmation-icon {
+    text-align: center;
+    font-size: 48px;
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+    animation: warning-throb 1.5s ease-in-out infinite;
+}
+
+@keyframes warning-throb {
+    0%, 100% {
+        transform: scale(1);
+        text-shadow: 0 0 10px rgba(162, 52, 48, 0.5);
+    }
+    50% {
+        transform: scale(1.1);
+        text-shadow: 0 0 20px rgba(162, 52, 48, 0.8);
+    }
+}
+
+.confirmation-title {
+    text-align: center;
+    font-size: 20px;
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.confirmation-message {
+    text-align: center;
+    font-size: 15px;
+    color: var(--text-color);
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+.warning-detail {
+    display: block;
+    font-size: 13px;
+    color: rgba(194, 176, 28, 0.8);
+    margin-top: 10px;
+    font-style: italic;
+}
+
+.confirmation-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.confirm-button {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 20px;
+    background: rgba(14, 14, 12, 0.8);
+    border: 2px solid;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.confirm-button.cancel {
+    border-color: rgba(77, 110, 80, 0.4);
     color: var(--tertiary-color);
 }
 
-#optionsButton:hover .key-button.small {
-    border-color: var(--tertiary-color);
+.confirm-button.cancel:hover,
+.confirm-button.cancel:focus {
+    background: rgba(77, 110, 80, 0.15);
+    border-color: rgba(77, 110, 80, 0.6);
+    box-shadow: 0 0 15px rgba(77, 110, 80, 0.3);
+    transform: translateY(-2px);
+}
+
+.confirm-button.proceed {
+    border-color: rgba(162, 52, 48, 0.4);
+    color: var(--secondary-color);
+}
+
+.confirm-button.proceed:hover,
+.confirm-button.proceed:focus {
+    background: rgba(162, 52, 48, 0.15);
+    border-color: rgba(162, 52, 48, 0.6);
+    box-shadow: 0 0 15px rgba(162, 52, 48, 0.3);
+    transform: translateY(-2px);
+}
+
+.confirm-button:focus {
+    outline: none;
+}
+
+.confirm-button:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.button-text {
+    font-size: 14px;
+}
+
+.button-hint {
+    font-size: 11px;
+    opacity: 0.7;
+    padding: 3px 8px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid;
+    border-radius: 3px;
+}
+
+.confirm-button.cancel .button-hint {
+    border-color: rgba(77, 110, 80, 0.3);
+}
+
+.confirm-button.proceed .button-hint {
+    border-color: rgba(162, 52, 48, 0.3);
 }
 
 /* Server ID Section in ESC Menu */
@@ -5905,14 +7117,18 @@ body::before {
     right: 20px;
     background-color: rgba(20, 20, 18, 0.9);
     border: 1px solid var(--primary-color);
-    padding: 12px 15px;
+    padding: 14px 18px;
     display: flex;
     align-items: center;
-    max-width: 350px;
+    gap: 12px;
+    max-width: 380px;
     z-index: 1000;
     transform: translateY(20px);
     opacity: 0;
     transition: transform 0.3s ease, opacity 0.3s ease;
+    font-family: 'Share Tech Mono', monospace;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5),
+                inset 0 0 8px rgba(0, 0, 0, 0.4);
 }
 
 .system-notification.show {
@@ -5920,15 +7136,26 @@ body::before {
     opacity: 1;
 }
 
-.notification-icon {
-    color: var(--primary-color);
-    margin-right: 10px;
-    font-size: 18px;
+.system-notification:hover {
+    box-shadow: 0 4px 16px rgba(194, 176, 28, 0.2),
+                inset 0 0 10px rgba(0, 0, 0, 0.4);
+    border-color: rgba(194, 176, 28, 0.8);
 }
 
-.notification-message {
+.system-notification .notification-icon {
+    color: var(--primary-color);
+    font-size: 20px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.system-notification .notification-message {
     color: var(--text-color);
-    font-size: 14px;
+    font-size: 15px;
+    line-height: 1.5;
+    letter-spacing: 0.3px;
 }
 
 .system-notification.info {
@@ -5955,7 +7182,7 @@ body::before {
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    font-family: 'VT323', 'Share Tech Mono', monospace;
+    font-family: 'Share Tech Mono', monospace;
     backdrop-filter: blur(2px);
 }
 
@@ -5994,7 +7221,7 @@ body::before {
     margin-bottom: 2rem;
     text-shadow: var(--glow-effect);
     position: relative;
-    font-family: 'VT323', 'Share Tech Mono', monospace;
+    font-family: 'Share Tech Mono', monospace;
 }
 
 .loading-header::after {
@@ -6015,7 +7242,7 @@ body::before {
     text-align: center;
     max-width: 600px;
     line-height: 1.5;
-    font-family: 'VT323', 'Share Tech Mono', monospace;
+    font-family: 'Share Tech Mono', monospace;
 }
 
 .loading-progress {
@@ -6058,7 +7285,7 @@ body::before {
     margin-top: 1rem;
     text-align: center;
     min-height: 1.5em;
-    font-family: 'VT323', 'Share Tech Mono', monospace;
+    font-family: 'Share Tech Mono', monospace;
 }
 
 .loading-message::after {
@@ -6482,7 +7709,7 @@ body::before {
     color: var(--text-bright);
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
     z-index: 3;
-    font-family: 'VT323', monospace;
+    font-family: 'Share Tech Mono', monospace;
     background: rgba(0, 0, 0, 0.5);
     padding: 1px 3px;
     border-radius: 2px;
@@ -6729,7 +7956,7 @@ body::before {
     border: 2px solid var(--secondary-color);
     border-left: 4px solid var(--secondary-color);
     cursor: pointer;
-    font-family: 'VT323', monospace;
+    font-family: 'Share Tech Mono', monospace;
     z-index: 49;
     opacity: 0;
     transform: translateX(50px);
@@ -6854,7 +8081,7 @@ body::before {
     border-left: 4px solid var(--secondary-color);
     box-shadow: 0 0 20px rgba(162, 52, 48, 0.4),
                 inset 0 0 30px rgba(0, 0, 0, 0.5);
-    font-family: 'VT323', monospace;
+    font-family: 'Share Tech Mono', monospace;
     z-index: 50;
     backdrop-filter: blur(3px);
     display: none;
