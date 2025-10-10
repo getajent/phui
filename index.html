@@ -183,19 +183,16 @@
             </div>
         </div>
 
-        <!-- Voice Level Indicator -->
+        <!-- Voice Level Indicator (Screaming Pepper) -->
         <div class="voice-level-indicator" id="voiceLevelIndicator">
-            <div class="voice-level-icon">
-                <i class="fa-solid fa-microphone"></i>
-                <div class="voice-level-bars">
-                    <div class="voice-bar" data-bar="1"></div>
-                    <div class="voice-bar" data-bar="2"></div>
-                    <div class="voice-bar" data-bar="3"></div>
-                    <div class="voice-bar" data-bar="4"></div>
-                    <div class="voice-bar" data-bar="5"></div>
-                </div>
+            <i class="fa-solid fa-pepper-hot voice-pepper-icon"></i>
+            <div class="voice-level-bars">
+                <div class="voice-bar" data-bar="1"></div>
+                <div class="voice-bar" data-bar="2"></div>
+                <div class="voice-bar" data-bar="3"></div>
+                <div class="voice-bar" data-bar="4"></div>
+                <div class="voice-bar" data-bar="5"></div>
             </div>
-            <div class="voice-status-text">MIC OK</div>
         </div>
 
         <!-- Equipment Bar -->
@@ -407,11 +404,13 @@
                 <!-- Dead Player 1 -->
                 <div class="dead-player-item" data-player-id="1">
                     <div class="dead-player-avatar">
-                        <div class="avatar-inner">
-                            <i class="fa-solid fa-user"></i>
-                            <div class="skull-overlay">☠</div>
+                        <div class="dead-player-avatar-half top">
+                            <i class="fa-solid fa-user dead-player-avatar-icon top"></i>
                         </div>
-                        <div class="voice-ring"></div>
+                        <div class="dead-player-avatar-half bottom">
+                            <i class="fa-solid fa-user dead-player-avatar-icon bottom"></i>
+                        </div>
+                        <div class="skull-overlay">☠</div>
                     </div>
                     <div class="dead-player-info">
                         <div class="dead-player-name">CHEN, L.</div>
@@ -430,11 +429,13 @@
                 <!-- Dead Player 2 -->
                 <div class="dead-player-item speaking" data-player-id="2">
                     <div class="dead-player-avatar">
-                        <div class="avatar-inner">
-                            <i class="fa-solid fa-user"></i>
-                            <div class="skull-overlay">☠</div>
+                        <div class="dead-player-avatar-half top">
+                            <i class="fa-solid fa-user dead-player-avatar-icon top"></i>
                         </div>
-                        <div class="voice-ring"></div>
+                        <div class="dead-player-avatar-half bottom">
+                            <i class="fa-solid fa-user dead-player-avatar-icon bottom"></i>
+                        </div>
+                        <div class="skull-overlay">☠</div>
                     </div>
                     <div class="dead-player-info">
                         <div class="dead-player-name">WILLIAMS, K.</div>
@@ -453,11 +454,13 @@
                 <!-- Dead Player 3 -->
                 <div class="dead-player-item" data-player-id="3">
                     <div class="dead-player-avatar">
-                        <div class="avatar-inner">
-                            <i class="fa-solid fa-user"></i>
-                            <div class="skull-overlay">☠</div>
+                        <div class="dead-player-avatar-half top">
+                            <i class="fa-solid fa-user dead-player-avatar-icon top"></i>
                         </div>
-                        <div class="voice-ring"></div>
+                        <div class="dead-player-avatar-half bottom">
+                            <i class="fa-solid fa-user dead-player-avatar-icon bottom"></i>
+                        </div>
+                        <div class="skull-overlay">☠</div>
                     </div>
                     <div class="dead-player-info">
                         <div class="dead-player-name">MARTINEZ, R.</div>
@@ -1595,45 +1598,105 @@
             }
         }
         
+        // Helper function to get color based on volume (green -> yellow -> red)
+        function getVolumeColor(volume) {
+            if (volume < 0.05) {
+                // Silent - gray
+                return { r: 100, g: 100, b: 100, a: 0.3 };
+            } else if (volume < 0.4) {
+                // Quiet - green
+                const progress = volume / 0.4;
+                return { 
+                    r: Math.floor(80 + progress * 20),
+                    g: Math.floor(200 - progress * 30), 
+                    b: 80,
+                    a: 0.7 + progress * 0.2
+                };
+            } else if (volume < 0.7) {
+                // Medium - yellow/orange
+                const progress = (volume - 0.4) / 0.3;
+                return { 
+                    r: Math.floor(100 + progress * 155),
+                    g: Math.floor(170 - progress * 80), 
+                    b: Math.floor(80 - progress * 80),
+                    a: 0.9
+                };
+            } else {
+                // Loud - red
+                const progress = (volume - 0.7) / 0.3;
+                return { 
+                    r: 255,
+                    g: Math.floor(90 - progress * 90), 
+                    b: 0,
+                    a: 1
+                };
+            }
+        }
+        
         // Update voice bars based on microphone input
         function updateVoiceBars() {
             if (!analyser) return;
             
             analyser.getByteFrequencyData(dataArray);
             
-            // Calculate average volume
+            // Calculate average volume with boost for better sensitivity
             let sum = 0;
             for (let i = 0; i < dataArray.length; i++) {
                 sum += dataArray[i];
             }
             const average = sum / dataArray.length;
-            const normalizedVolume = average / 255; // 0 to 1
+            let normalizedVolume = average / 255; // 0 to 1
             
-            // Update each bar based on volume level
-            const voiceBars = document.querySelectorAll('.voice-bar');
+            // Boost sensitivity - amplify the volume for more reactivity
+            normalizedVolume = Math.min(1, normalizedVolume * 2.5);
+            
+            // Apply smoothing but keep it responsive
+            if (!updateVoiceBars.lastVolume) updateVoiceBars.lastVolume = 0;
+            normalizedVolume = updateVoiceBars.lastVolume * 0.3 + normalizedVolume * 0.7;
+            updateVoiceBars.lastVolume = normalizedVolume;
+            
+            // Update each bar based on volume level - lower thresholds for better reactivity
+            const voiceBars = document.querySelectorAll('#voiceLevelIndicator .voice-bar');
             voiceBars.forEach((bar, index) => {
-                const threshold = (index + 1) * 0.15; // Progressive thresholds
+                const threshold = (index) * 0.12; // Lower thresholds = more reactive
                 if (normalizedVolume > threshold) {
-                    const height = Math.min(100, 20 + (normalizedVolume * 80));
-                    bar.style.height = height + '%';
-                    bar.style.background = `linear-gradient(to top, rgba(194, 176, 28, 0.9), rgba(194, 176, 28, 0.4))`;
+                    const heightPercent = Math.min(100, (index + 1) * 15 + (normalizedVolume * 70));
+                    bar.style.height = heightPercent + '%';
+                    
+                    const color = getVolumeColor(normalizedVolume);
+                    bar.style.background = `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`;
+                    
+                    if (normalizedVolume > 0.03) {
+                        bar.style.boxShadow = `0 0 ${4 + normalizedVolume * 8}px rgba(${color.r}, ${color.g}, ${color.b}, ${normalizedVolume * 0.6})`;
+                    } else {
+                        bar.style.boxShadow = 'none';
+                    }
                 } else {
-                    bar.style.height = (20 + (index * 10)) + '%';
-                    bar.style.background = `linear-gradient(to top, rgba(194, 176, 28, 0.4), rgba(194, 176, 28, 0.2))`;
+                    // Keep bars at minimum height with gray color
+                    bar.style.height = (index + 1) * 15 + '%';
+                    bar.style.background = `rgba(100, 100, 100, 0.3)`;
+                    bar.style.boxShadow = 'none';
                 }
             });
             
-            // Update status text based on volume
-            const statusText = document.querySelector('.voice-status-text');
-            if (normalizedVolume > 0.5) {
-                statusText.textContent = 'LOUD!!';
-                statusText.style.color = '#ff4444';
-            } else if (normalizedVolume > 0.2) {
-                statusText.textContent = 'MIC OK';
-                statusText.style.color = 'var(--primary-color)';
-            } else {
-                statusText.textContent = 'QUIET';
-                statusText.style.color = 'rgba(194, 176, 28, 0.5)';
+            // Make the pepper react to volume (gets hotter when louder!)
+            const pepper = document.querySelector('.voice-pepper-icon');
+            if (pepper) {
+                const scale = 1 + (normalizedVolume * 0.6); // Scale up to 1.6x - more dramatic
+                const rotation = (normalizedVolume - 0.5) * 35; // Shake more vigorously
+                const color = getVolumeColor(normalizedVolume);
+                
+                pepper.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
+                
+                if (normalizedVolume < 0.03) {
+                    // Gray when silent
+                    pepper.style.color = 'rgba(150, 150, 150, 0.6)';
+                    pepper.style.filter = 'drop-shadow(0 0 2px rgba(100, 100, 100, 0.3))';
+                } else {
+                    // Color matches volume level
+                    pepper.style.color = `rgb(${color.r}, ${color.g}, ${color.b})`;
+                    pepper.style.filter = `drop-shadow(0 0 ${4 + normalizedVolume * 12}px rgba(${color.r}, ${color.g}, ${color.b}, ${normalizedVolume * 0.9}))`;
+                }
             }
             
             requestAnimationFrame(updateVoiceBars);
@@ -1642,12 +1705,47 @@
         // Demo mode (when mic access is unavailable)
         function demoVoiceBars() {
             setInterval(() => {
-                const voiceBars = document.querySelectorAll('.voice-bar');
+                const voiceBars = document.querySelectorAll('#voiceLevelIndicator .voice-bar');
+                const pepper = document.querySelector('.voice-pepper-icon');
+                const randomVolume = Math.random() * 1.2; // 0 to 1.2 - more variation
+                
                 voiceBars.forEach((bar, index) => {
-                    const randomHeight = 20 + Math.random() * 60;
-                    bar.style.height = randomHeight + '%';
+                    const threshold = (index) * 0.12;
+                    if (randomVolume > threshold) {
+                        const heightPercent = Math.min(100, (index + 1) * 15 + (randomVolume * 70));
+                        bar.style.height = heightPercent + '%';
+                        
+                        const color = getVolumeColor(Math.min(1, randomVolume));
+                        bar.style.background = `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`;
+                        
+                        if (randomVolume > 0.03) {
+                            bar.style.boxShadow = `0 0 ${4 + randomVolume * 8}px rgba(${color.r}, ${color.g}, ${color.b}, ${Math.min(1, randomVolume) * 0.6})`;
+                        } else {
+                            bar.style.boxShadow = 'none';
+                        }
+                    } else {
+                        bar.style.height = (index + 1) * 15 + '%';
+                        bar.style.background = `rgba(100, 100, 100, 0.3)`;
+                        bar.style.boxShadow = 'none';
+                    }
                 });
-            }, 300);
+                
+                if (pepper) {
+                    const scale = 1 + (Math.min(1, randomVolume) * 0.6);
+                    const rotation = (Math.min(1, randomVolume) - 0.5) * 35;
+                    const color = getVolumeColor(Math.min(1, randomVolume));
+                    
+                    pepper.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
+                    
+                    if (randomVolume < 0.03) {
+                        pepper.style.color = 'rgba(150, 150, 150, 0.6)';
+                        pepper.style.filter = 'drop-shadow(0 0 2px rgba(100, 100, 100, 0.3))';
+                    } else {
+                        pepper.style.color = `rgb(${color.r}, ${color.g}, ${color.b})`;
+                        pepper.style.filter = `drop-shadow(0 0 ${4 + Math.min(1, randomVolume) * 12}px rgba(${color.r}, ${color.g}, ${color.b}, ${Math.min(1, randomVolume) * 0.9}))`;
+                    }
+                }
+            }, 150); // Faster update rate for more reactivity
         }
         
         // Initialize the Doom Code and uptime
@@ -1746,11 +1844,13 @@
             deadPlayerItem.dataset.playerId = playerId;
             deadPlayerItem.innerHTML = `
                 <div class="dead-player-avatar">
-                    <div class="avatar-inner">
-                        <i class="fa-solid fa-user"></i>
-                        <div class="skull-overlay">☠</div>
+                    <div class="dead-player-avatar-half top">
+                        <i class="fa-solid fa-user dead-player-avatar-icon top"></i>
                     </div>
-                    <div class="voice-ring"></div>
+                    <div class="dead-player-avatar-half bottom">
+                        <i class="fa-solid fa-user dead-player-avatar-icon bottom"></i>
+                    </div>
+                    <div class="skull-overlay">☠</div>
                 </div>
                 <div class="dead-player-info">
                     <div class="dead-player-name">${playerName}</div>

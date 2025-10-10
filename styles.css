@@ -1008,17 +1008,29 @@ body::before {
     align-items: center;
     justify-content: center;
     font-size: 12px;
-    background-color: rgba(32, 34, 37, 0.8);
-    border-top: 1px solid var(--secondary-color);
+    background: 
+        /* Worn edges */
+        linear-gradient(to right, rgba(40, 40, 35, 0.15) 0%, transparent 20%, transparent 80%, rgba(40, 40, 35, 0.12) 100%),
+        /* Dust particles */
+        radial-gradient(circle at 15% 50%, rgba(162, 52, 48, 0.08) 0%, transparent 30%),
+        radial-gradient(circle at 75% 50%, rgba(162, 52, 48, 0.06) 0%, transparent 25%),
+        rgba(32, 34, 37, 0.85);
+    border-top: 1px solid rgba(162, 52, 48, 0.6);
+    border-left: 1px solid rgba(162, 52, 48, 0.3);
+    border-right: 1px solid rgba(162, 52, 48, 0.3);
     color: var(--secondary-color);
     opacity: 0;
     transform: translateY(100%) rotate(-2deg);
     transition: opacity 0.3s ease, transform 0.3s ease;
     z-index: 2;
     font-family: 'Share Tech Mono', monospace;
-    text-shadow: 0 0 3px rgba(162, 52, 48, 0.5);
+    text-shadow: 
+        0 0 3px rgba(162, 52, 48, 0.5),
+        1px 1px 2px rgba(0, 0, 0, 0.7);
     clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 
+        0 0 8px rgba(0, 0, 0, 0.5),
+        inset 0 1px 2px rgba(0, 0, 0, 0.6);
 }
 
 .monster-cost::before {
@@ -1844,153 +1856,121 @@ body::before {
     position: absolute;
     bottom: 95px;
     left: 50%;
-    transform: translateX(-50%) rotate(-2deg);
+    transform: translateX(-50%);
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: 3px;
+    gap: 8px;
     padding: 6px 12px;
-    background: linear-gradient(135deg, rgba(30, 30, 25, 0.95) 0%, rgba(20, 20, 18, 0.95) 100%);
-    border: 2px dashed rgba(194, 176, 28, 0.6);
-    border-radius: 2px;
-    box-shadow: 0 0 15px rgba(194, 176, 28, 0.2), inset 0 0 10px rgba(0, 0, 0, 0.5);
+    background: rgba(18, 18, 16, 0.88);
+    border: none;
+    box-shadow: 
+        inset 0 1px 0 rgba(194, 176, 28, 0.2),
+        inset -2px 0 0 rgba(194, 176, 28, 0.25),
+        inset 0 -1px 0 rgba(194, 176, 28, 0.18),
+        inset 1px 0 0 rgba(194, 176, 28, 0.15),
+        inset 0 0 40px rgba(15, 15, 13, 0.9),
+        inset 2px 2px 10px rgba(10, 10, 8, 0.4);
     z-index: 10;
-    animation: voice-indicator-jitter 3s ease-in-out infinite;
     pointer-events: none;
+    overflow: hidden;
+    opacity: 0.85;
 }
 
 .voice-level-indicator::before {
-    content: '⚠';
+    content: '';
     position: absolute;
-    top: -12px;
-    right: -8px;
-    font-size: 12px;
-    color: #f7b933;
-    animation: voice-warning-blink 1.5s ease-in-out infinite;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+        /* Worn border segments */
+        linear-gradient(90deg, transparent 0%, transparent 15%, rgba(194, 176, 28, 0.25) 15%, rgba(194, 176, 28, 0.25) 45%, transparent 45%, transparent 50%, rgba(194, 176, 28, 0.2) 50%, rgba(194, 176, 28, 0.2) 85%, transparent 85%),
+        linear-gradient(0deg, transparent 0%, transparent 10%, rgba(194, 176, 28, 0.3) 10%, rgba(194, 176, 28, 0.3) 100%),
+        /* Scratches */
+        linear-gradient(105deg, transparent 0%, transparent 45%, rgba(194, 176, 28, 0.03) 47%, transparent 48%),
+        linear-gradient(82deg, transparent 0%, transparent 62%, rgba(194, 176, 28, 0.02) 63%, transparent 64%);
+    background-size: 100% 1px, 1px 100%, 100% 100%, 100% 100%;
+    background-position: 0 0, 0 0, 0 0, 0 0;
+    background-repeat: no-repeat;
 }
 
-.voice-level-icon {
-    display: flex;
-    align-items: center;
-    gap: 6px;
+.voice-level-indicator::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.25;
+    background-image:
+        radial-gradient(circle at 25% 20%, rgba(194, 176, 28, 0.08) 0%, transparent 0.4%),
+        radial-gradient(circle at 70% 15%, rgba(194, 176, 28, 0.06) 0%, transparent 0.35%),
+        radial-gradient(circle at 15% 65%, rgba(194, 176, 28, 0.09) 0%, transparent 0.45%);
 }
 
-.voice-level-icon i {
-    font-size: 16px;
-    color: var(--primary-color);
-    filter: drop-shadow(0 0 3px rgba(194, 176, 28, 0.5));
-    animation: voice-icon-pulse 2s ease-in-out infinite;
+.voice-pepper-icon {
+    font-size: 18px;
+    color: rgba(150, 150, 150, 0.6);
+    filter: drop-shadow(0 0 2px rgba(100, 100, 100, 0.3));
+    transition: transform 0.05s ease, color 0.1s ease, filter 0.1s ease;
+    animation: pepper-idle-wiggle 4s ease-in-out infinite;
+    position: relative;
+    z-index: 1;
 }
 
 .voice-level-bars {
     display: flex;
     align-items: flex-end;
     gap: 2px;
-    height: 16px;
+    height: 22px;
+    position: relative;
+    z-index: 1;
 }
 
 .voice-bar {
-    width: 3px;
-    background: linear-gradient(to top, rgba(194, 176, 28, 0.8), rgba(194, 176, 28, 0.3));
+    width: 4px;
+    background: rgba(100, 100, 100, 0.4);
     border-radius: 1px;
-    transition: height 0.1s ease;
+    transition: height 0.05s ease, background 0.08s ease, box-shadow 0.08s ease;
+    height: 20%;
 }
 
 .voice-bar[data-bar="1"] {
-    height: 20%;
-    animation: voice-bar-bounce 0.6s ease-in-out infinite;
+    min-height: 20%;
 }
 
 .voice-bar[data-bar="2"] {
-    height: 40%;
-    animation: voice-bar-bounce 0.6s ease-in-out 0.1s infinite;
+    min-height: 30%;
 }
 
 .voice-bar[data-bar="3"] {
-    height: 60%;
-    animation: voice-bar-bounce 0.6s ease-in-out 0.2s infinite;
+    min-height: 40%;
 }
 
 .voice-bar[data-bar="4"] {
-    height: 50%;
-    animation: voice-bar-bounce 0.6s ease-in-out 0.15s infinite;
+    min-height: 50%;
 }
 
 .voice-bar[data-bar="5"] {
-    height: 30%;
-    animation: voice-bar-bounce 0.6s ease-in-out 0.25s infinite;
+    min-height: 60%;
 }
 
-.voice-status-text {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    color: var(--primary-color);
-    letter-spacing: 2px;
-    text-shadow: 0 0 3px rgba(194, 176, 28, 0.5);
-    animation: voice-text-glitch 4s ease-in-out infinite;
-}
-
-/* Voice Indicator Animations */
-@keyframes voice-indicator-jitter {
+/* Voice Indicator Animations - Minimal & Absurd */
+@keyframes pepper-idle-wiggle {
     0%, 100% {
-        transform: translateX(-50%) rotate(-2deg);
+        transform: rotate(0deg) scale(1);
     }
     25% {
-        transform: translateX(-50%) rotate(2deg);
-    }
-    50% {
-        transform: translateX(-50%) rotate(-1deg);
+        transform: rotate(3deg) scale(1.02);
     }
     75% {
-        transform: translateX(-50%) rotate(1deg);
-    }
-}
-
-@keyframes voice-bar-bounce {
-    0%, 100% {
-        transform: scaleY(1);
-    }
-    50% {
-        transform: scaleY(1.5);
-    }
-}
-
-@keyframes voice-icon-pulse {
-    0%, 100% {
-        transform: scale(1);
-        color: var(--primary-color);
-    }
-    50% {
-        transform: scale(1.1);
-        color: rgba(194, 176, 28, 0.7);
-    }
-}
-
-@keyframes voice-warning-blink {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.3;
-    }
-}
-
-@keyframes voice-text-glitch {
-    0%, 90%, 100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-    92% {
-        opacity: 0.8;
-        transform: translateX(-2px);
-    }
-    94% {
-        opacity: 0.6;
-        transform: translateX(2px);
-    }
-    96% {
-        opacity: 1;
-        transform: translateX(0);
+        transform: rotate(-3deg) scale(0.98);
     }
 }
 
@@ -2007,18 +1987,141 @@ body::before {
 .equipment-slot {
     width: 60px;
     height: 60px;
-    background-color: var(--background-color);
-    border: 1px solid rgba(194, 176, 28, 0.4);
+    background: 
+        /* Corner dust/wear */
+        radial-gradient(ellipse at 2% 2%, rgba(40, 40, 35, 0.15) 0%, transparent 18%),
+        radial-gradient(ellipse at 98% 2%, rgba(35, 35, 30, 0.12) 0%, transparent 15%),
+        radial-gradient(ellipse at 2% 98%, rgba(40, 40, 35, 0.18) 0%, transparent 20%),
+        radial-gradient(ellipse at 98% 98%, rgba(35, 35, 30, 0.14) 0%, transparent 16%),
+        /* Subtle scratches */
+        linear-gradient(105deg, transparent 0%, transparent 45%, rgba(194, 176, 28, 0.03) 47%, transparent 48%),
+        linear-gradient(82deg, transparent 0%, transparent 62%, rgba(194, 176, 28, 0.02) 63%, transparent 64%),
+        linear-gradient(135deg, transparent 0%, transparent 28%, rgba(40, 40, 35, 0.08) 29%, transparent 30%),
+        /* Base background */
+        rgba(18, 18, 16, 0.92);
+    border: none;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
     pointer-events: auto;
     cursor: pointer;
-    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.6);
+    box-shadow: 
+        /* Outer shadow (reduced) */
+        0 0 8px rgba(0, 0, 0, 0.6),
+        /* Inset border simulation - top, right, bottom, left */
+        inset 0 1px 0 rgba(194, 176, 28, 0.22),
+        inset -1px 0 0 rgba(194, 176, 28, 0.25),
+        inset 0 -1px 0 rgba(194, 176, 28, 0.2),
+        inset 1px 0 0 rgba(194, 176, 28, 0.18),
+        /* Deep inset shadow */
+        inset 0 0 25px rgba(15, 15, 13, 0.98),
+        inset 2px 2px 8px rgba(10, 10, 8, 0.5);
     transition: all 0.2s ease;
+    transform: rotate(0.2deg);
+    overflow: visible;
 }
 
+/* Worn border segments and dust overlay */
+.equipment-slot::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        /* Worn/broken border segments - top */
+        linear-gradient(90deg, 
+            transparent 0%, 
+            transparent 5%, 
+            rgba(194, 176, 28, 0.26) 5%, 
+            rgba(194, 176, 28, 0.26) 25%, 
+            transparent 25%, 
+            transparent 30%, 
+            rgba(194, 176, 28, 0.22) 30%, 
+            rgba(194, 176, 28, 0.22) 65%, 
+            transparent 65%, 
+            transparent 70%, 
+            rgba(194, 176, 28, 0.24) 70%, 
+            rgba(194, 176, 28, 0.24) 90%, 
+            transparent 90%),
+        /* Worn border segments - right */
+        linear-gradient(0deg, 
+            transparent 0%, 
+            transparent 8%, 
+            rgba(194, 176, 28, 0.3) 8%, 
+            rgba(194, 176, 28, 0.3) 35%, 
+            transparent 35%, 
+            transparent 42%, 
+            rgba(194, 176, 28, 0.26) 42%, 
+            rgba(194, 176, 28, 0.26) 85%, 
+            transparent 85%),
+        /* Worn border segments - bottom */
+        linear-gradient(90deg, 
+            transparent 0%, 
+            transparent 12%, 
+            rgba(194, 176, 28, 0.24) 12%, 
+            rgba(194, 176, 28, 0.24) 42%, 
+            transparent 42%, 
+            transparent 48%, 
+            rgba(194, 176, 28, 0.2) 48%, 
+            rgba(194, 176, 28, 0.2) 75%, 
+            transparent 75%),
+        /* Worn border segments - left */
+        linear-gradient(0deg, 
+            transparent 0%, 
+            transparent 15%, 
+            rgba(194, 176, 28, 0.22) 15%, 
+            rgba(194, 176, 28, 0.22) 45%, 
+            transparent 45%, 
+            transparent 55%, 
+            rgba(194, 176, 28, 0.18) 55%, 
+            rgba(194, 176, 28, 0.18) 88%, 
+            transparent 88%),
+        /* Small dust particles */
+        radial-gradient(circle at 25% 20%, rgba(194, 176, 28, 0.09) 0%, transparent 0.4%),
+        radial-gradient(circle at 58% 15%, rgba(194, 176, 28, 0.07) 0%, transparent 0.35%),
+        radial-gradient(circle at 78% 32%, rgba(194, 176, 28, 0.08) 0%, transparent 0.38%),
+        radial-gradient(circle at 12% 45%, rgba(194, 176, 28, 0.1) 0%, transparent 0.45%),
+        radial-gradient(circle at 42% 55%, rgba(194, 176, 28, 0.06) 0%, transparent 0.32%),
+        /* Medium dust specks */
+        radial-gradient(circle at 8% 22%, rgba(170, 155, 30, 0.11) 0%, transparent 0.6%),
+        radial-gradient(circle at 94% 38%, rgba(170, 155, 30, 0.1) 0%, transparent 0.55%),
+        radial-gradient(circle at 38% 8%, rgba(170, 155, 30, 0.09) 0%, transparent 0.58%);
+    background-size:
+        100% 1px,  /* top border */
+        1px 100%,  /* right border */
+        100% 1px,  /* bottom border */
+        1px 100%,  /* left border */
+        100% 100%, /* dust particles (rest) */
+        100% 100%,
+        100% 100%,
+        100% 100%,
+        100% 100%,
+        100% 100%,
+        100% 100%,
+        100% 100%;
+    background-position:
+        0 0,       /* top */
+        100% 0,    /* right */
+        0 100%,    /* bottom */
+        0 0,       /* left */
+        0 0,       /* dust (rest) */
+        0 0,
+        0 0,
+        0 0,
+        0 0,
+        0 0,
+        0 0,
+        0 0;
+    background-repeat: no-repeat;
+    opacity: 0.85;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Damage/scratch overlay */
 .equipment-slot::after {
     content: '';
     position: absolute;
@@ -2026,30 +2129,74 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    background: repeating-linear-gradient(-45deg,
-            transparent,
-            transparent 10px,
-            rgba(20, 20, 18, 0.2) 10px,
-            rgba(20, 20, 18, 0.2) 20px);
-    opacity: 0.2;
+    background: 
+        /* Diagonal scratches */
+        linear-gradient(118deg, transparent 0%, transparent 35%, rgba(40, 40, 35, 0.12) 35.5%, transparent 36%),
+        linear-gradient(72deg, transparent 0%, transparent 58%, rgba(40, 40, 35, 0.08) 58.5%, transparent 59%),
+        linear-gradient(145deg, transparent 0%, transparent 72%, rgba(30, 30, 25, 0.1) 72.5%, transparent 73%),
+        /* Worn edges */
+        linear-gradient(to right, rgba(20, 20, 18, 0.15) 0%, transparent 15%, transparent 85%, rgba(20, 20, 18, 0.12) 100%),
+        linear-gradient(to bottom, rgba(20, 20, 18, 0.12) 0%, transparent 12%, transparent 88%, rgba(20, 20, 18, 0.15) 100%);
+    opacity: 0.5;
     z-index: 1;
     pointer-events: none;
 }
 
 .equipment-slot:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0 10px rgba(194, 176, 28, 0.2), inset 0 0 8px rgba(0, 0, 0, 0.6);
+    transform: translateY(-2px) rotate(0.3deg);
+    box-shadow: 
+        /* Outer glow on hover (reduced) */
+        0 0 10px rgba(194, 176, 28, 0.15), 
+        /* Inset borders (slightly brighter) */
+        inset 0 1px 0 rgba(194, 176, 28, 0.28),
+        inset -1px 0 0 rgba(194, 176, 28, 0.3),
+        inset 0 -1px 0 rgba(194, 176, 28, 0.26),
+        inset 1px 0 0 rgba(194, 176, 28, 0.24),
+        /* Deep inset shadow */
+        inset 0 0 25px rgba(15, 15, 13, 0.98),
+        inset 2px 2px 8px rgba(10, 10, 8, 0.5);
 }
 
 .equipment-slot.active {
-    background-color: rgba(30, 30, 25, 0.9);
-    border: 1px solid var(--primary-color);
-    box-shadow: 0 0 10px rgba(194, 176, 28, 0.3), inset 0 0 12px rgba(0, 0, 0, 0.7);
-    transform: translateY(-3px);
+    background: 
+        /* Corner dust/wear (enhanced) */
+        radial-gradient(ellipse at 2% 2%, rgba(40, 40, 35, 0.18) 0%, transparent 20%),
+        radial-gradient(ellipse at 98% 2%, rgba(35, 35, 30, 0.15) 0%, transparent 17%),
+        radial-gradient(ellipse at 2% 98%, rgba(40, 40, 35, 0.2) 0%, transparent 22%),
+        radial-gradient(ellipse at 98% 98%, rgba(35, 35, 30, 0.16) 0%, transparent 18%),
+        /* Subtle scratches */
+        linear-gradient(105deg, transparent 0%, transparent 45%, rgba(194, 176, 28, 0.05) 47%, transparent 48%),
+        linear-gradient(82deg, transparent 0%, transparent 62%, rgba(194, 176, 28, 0.03) 63%, transparent 64%),
+        linear-gradient(135deg, transparent 0%, transparent 28%, rgba(40, 40, 35, 0.1) 29%, transparent 30%),
+        rgba(22, 22, 19, 0.95);
+    border: none;
+    box-shadow: 
+        /* Bright outer glow when active (reduced) */
+        0 0 12px rgba(194, 176, 28, 0.25), 
+        /* Brighter inset borders */
+        inset 0 1px 0 rgba(194, 176, 28, 0.45),
+        inset -1px 0 0 rgba(194, 176, 28, 0.5),
+        inset 0 -1px 0 rgba(194, 176, 28, 0.42),
+        inset 1px 0 0 rgba(194, 176, 28, 0.38),
+        /* Deeper inset shadow */
+        inset 0 0 30px rgba(15, 15, 13, 1),
+        inset 3px 3px 10px rgba(10, 10, 8, 0.6);
+    transform: translateY(-3px) rotate(0.1deg);
 }
 
 .equipment-slot.active:hover {
-    transform: translateY(-4px);
+    transform: translateY(-4px) rotate(0.2deg);
+    box-shadow: 
+        /* Extra bright glow on active hover (reduced) */
+        0 0 14px rgba(194, 176, 28, 0.3), 
+        /* Even brighter inset borders */
+        inset 0 1px 0 rgba(194, 176, 28, 0.5),
+        inset -1px 0 0 rgba(194, 176, 28, 0.55),
+        inset 0 -1px 0 rgba(194, 176, 28, 0.48),
+        inset 1px 0 0 rgba(194, 176, 28, 0.43),
+        /* Deeper inset shadow */
+        inset 0 0 30px rgba(15, 15, 13, 1),
+        inset 3px 3px 10px rgba(10, 10, 8, 0.6);
 }
 
 .equipment-slot:hover .icon-main {
@@ -2076,22 +2223,46 @@ body::before {
     color: var(--text-color);
     font-size: 24px;
     transition: all 0.2s ease;
-    opacity: 0.9;
-    filter: sepia(40%) hue-rotate(350deg) saturate(60%);
+    opacity: 0.85;
+    filter: 
+        sepia(40%) 
+        hue-rotate(350deg) 
+        saturate(60%) 
+        brightness(0.92)
+        contrast(1.05)
+        drop-shadow(0 1px 1px rgba(0, 0, 0, 0.4));
+    text-shadow: 
+        0 0 2px rgba(20, 20, 18, 0.8),
+        1px 1px 2px rgba(0, 0, 0, 0.6);
 }
 
 .equipment-slot.active .icon-main {
     color: var(--primary-color);
+    opacity: 0.95;
+    filter: 
+        brightness(1.1)
+        saturate(90%)
+        drop-shadow(0 0 3px rgba(194, 176, 28, 0.5));
 }
 
 .battery-indicator {
     width: 30px;
     height: 5px;
-    background-color: rgba(20, 20, 18, 0.8);
-    border: 1px solid rgba(194, 176, 28, 0.4);
+    background: 
+        /* Worn texture */
+        linear-gradient(to right, rgba(40, 40, 35, 0.1) 0%, transparent 30%, transparent 70%, rgba(40, 40, 35, 0.08) 100%),
+        rgba(18, 18, 16, 0.85);
+    border: none;
     position: relative;
     overflow: hidden;
-    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.5);
+    box-shadow: 
+        /* Tiny inset borders */
+        inset 0 0.5px 0 rgba(194, 176, 28, 0.2),
+        inset -0.5px 0 0 rgba(194, 176, 28, 0.22),
+        inset 0 -0.5px 0 rgba(194, 176, 28, 0.18),
+        inset 0.5px 0 0 rgba(194, 176, 28, 0.16),
+        /* Deep inset shadow */
+        inset 0 0 5px rgba(10, 10, 8, 0.8);
 }
 
 .battery-fill {
@@ -2170,10 +2341,19 @@ body::before {
     justify-content: center;
     font-size: 9px;
     font-family: 'Share Tech Mono', monospace;
-    background-color: rgba(20, 20, 18, 0.9);
+    background-color: rgba(18, 18, 16, 0.92);
     color: rgba(162, 52, 48, 0.9);
-    border: 1px solid rgba(162, 52, 48, 0.6);
-    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.7), 0 0 4px rgba(0, 0, 0, 0.7);
+    border: none;
+    box-shadow: 
+        /* Outer shadow */
+        0 0 6px rgba(0, 0, 0, 0.75),
+        /* Red-tinted inset borders (for OFF state) */
+        inset 0 0.5px 0 rgba(162, 52, 48, 0.25),
+        inset -0.5px 0 0 rgba(162, 52, 48, 0.3),
+        inset 0 -0.5px 0 rgba(162, 52, 48, 0.22),
+        inset 0.5px 0 0 rgba(162, 52, 48, 0.18),
+        /* Deep inset shadow */
+        inset 0 0 8px rgba(10, 10, 8, 0.8);
     transform: rotate(3deg);
     letter-spacing: 1px;
     text-shadow: 0 0 2px rgba(162, 52, 48, 0.6);
@@ -2195,9 +2375,19 @@ body::before {
 
 .flashlight-slot.on .flashlight-status,
 .radio-slot.on .radio-status {
-    background-color: rgba(20, 20, 18, 0.9);
+    background-color: rgba(18, 18, 16, 0.92);
     color: rgba(86, 130, 53, 0.9);
-    border-color: rgba(86, 130, 53, 0.6);
+    border: none;
+    box-shadow: 
+        /* Outer shadow */
+        0 0 6px rgba(0, 0, 0, 0.75),
+        /* Green border simulation ONLY (replaces red borders) - top, right, bottom, left */
+        inset 0 0.5px 0 rgba(86, 130, 53, 0.35),
+        inset -0.5px 0 0 rgba(86, 130, 53, 0.4),
+        inset 0 -0.5px 0 rgba(86, 130, 53, 0.32),
+        inset 0.5px 0 0 rgba(86, 130, 53, 0.28),
+        /* Deep inset shadow */
+        inset 0 0 8px rgba(10, 10, 8, 0.8);
     text-shadow: 0 0 3px rgba(86, 130, 53, 0.7);
     animation: status-pulse 4s infinite;
 }
@@ -2214,7 +2404,16 @@ body::before {
 
 .equipment-slot.active .status-indicator {
     transform: rotate(0deg) scale(1.1);
-    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.7), 0 0 6px rgba(0, 0, 0, 0.7);
+    box-shadow: 
+        /* Brighter outer shadow */
+        0 0 8px rgba(0, 0, 0, 0.8),
+        /* Keep the red-tinted inset borders */
+        inset 0 0.5px 0 rgba(162, 52, 48, 0.25),
+        inset -0.5px 0 0 rgba(162, 52, 48, 0.3),
+        inset 0 -0.5px 0 rgba(162, 52, 48, 0.22),
+        inset 0.5px 0 0 rgba(162, 52, 48, 0.18),
+        /* Deeper inset shadow */
+        inset 0 0 10px rgba(10, 10, 8, 0.85);
 }
 
 @keyframes status-pulse {
@@ -2222,23 +2421,63 @@ body::before {
     0%,
     100% {
         opacity: 0.9;
+        box-shadow: 
+            /* Outer shadow */
+            0 0 6px rgba(0, 0, 0, 0.75),
+            /* Green border simulation - top, right, bottom, left */
+            inset 0 0.5px 0 rgba(86, 130, 53, 0.35),
+            inset -0.5px 0 0 rgba(86, 130, 53, 0.4),
+            inset 0 -0.5px 0 rgba(86, 130, 53, 0.32),
+            inset 0.5px 0 0 rgba(86, 130, 53, 0.28),
+            /* Deep inset shadow */
+            inset 0 0 8px rgba(10, 10, 8, 0.8);
     }
 
     50% {
         opacity: 1;
         text-shadow: 0 0 4px rgba(86, 130, 53, 0.9);
+        box-shadow: 
+            /* Outer shadow (slightly brighter) */
+            0 0 8px rgba(0, 0, 0, 0.8),
+            /* Brighter green border simulation - top, right, bottom, left */
+            inset 0 0.5px 0 rgba(86, 130, 53, 0.45),
+            inset -0.5px 0 0 rgba(86, 130, 53, 0.5),
+            inset 0 -0.5px 0 rgba(86, 130, 53, 0.42),
+            inset 0.5px 0 0 rgba(86, 130, 53, 0.38),
+            /* Deep inset shadow */
+            inset 0 0 8px rgba(10, 10, 8, 0.8);
     }
 }
 
 /* Additional equipment slot effects */
 .flashlight-slot.on {
-    box-shadow: 0 0 8px rgba(255, 240, 120, 0.3), 
-                0 0 15px rgba(194, 176, 28, 0.2), 
-                inset 0 0 8px rgba(0, 0, 0, 0.6);
+    box-shadow: 
+        /* Yellow glow when flashlight is on (further reduced) */
+        0 0 6px rgba(255, 240, 120, 0.15), 
+        0 0 8px rgba(194, 176, 28, 0.1), 
+        /* Enhanced yellow-tinted inset borders */
+        inset 0 1px 0 rgba(194, 176, 28, 0.35),
+        inset -1px 0 0 rgba(194, 176, 28, 0.4),
+        inset 0 -1px 0 rgba(194, 176, 28, 0.32),
+        inset 1px 0 0 rgba(194, 176, 28, 0.28),
+        /* Deep inset shadow */
+        inset 0 0 25px rgba(15, 15, 13, 0.98),
+        inset 2px 2px 8px rgba(10, 10, 8, 0.5);
 }
 
 .radio-slot.on {
-    box-shadow: 0 0 8px rgba(86, 130, 53, 0.3), inset 0 0 8px rgba(0, 0, 0, 0.6);
+    box-shadow: 
+        /* Green glow when radio is on (matching flashlight intensity) */
+        0 0 6px rgba(86, 130, 53, 0.15), 
+        0 0 8px rgba(86, 130, 53, 0.1), 
+        /* Enhanced green-tinted inset borders (matching flashlight pattern) */
+        inset 0 1px 0 rgba(86, 130, 53, 0.35),
+        inset -1px 0 0 rgba(86, 130, 53, 0.4),
+        inset 0 -1px 0 rgba(86, 130, 53, 0.32),
+        inset 1px 0 0 rgba(86, 130, 53, 0.28),
+        /* Deep inset shadow */
+        inset 0 0 25px rgba(15, 15, 13, 0.98),
+        inset 2px 2px 8px rgba(10, 10, 8, 0.5);
 }
 
 /* Broken equipment styles */
@@ -2248,6 +2487,16 @@ body::before {
 }
 
 .flashlight-slot.off::before {
+    opacity: 0.4;
+}
+
+/* Radio slot glow effect (matching flashlight) */
+.radio-slot.on::before {
+    background: rgba(86, 130, 53, 0.08);
+    animation: glow 2s infinite;
+}
+
+.radio-slot.off::before {
     opacity: 0.4;
 }
 
@@ -2291,19 +2540,66 @@ body::before {
 
 /* Error slot style */
 .empty-slot.error {
-    border-color: rgba(162, 52, 48, 0.5);
+    background: 
+        /* Extra damage for broken slot */
+        radial-gradient(ellipse at 15% 15%, rgba(162, 52, 48, 0.08) 0%, transparent 25%),
+        radial-gradient(ellipse at 85% 85%, rgba(162, 52, 48, 0.06) 0%, transparent 22%),
+        /* Corner dust/wear (heavier) */
+        radial-gradient(ellipse at 2% 2%, rgba(40, 40, 35, 0.25) 0%, transparent 25%),
+        radial-gradient(ellipse at 98% 2%, rgba(35, 35, 30, 0.22) 0%, transparent 22%),
+        radial-gradient(ellipse at 2% 98%, rgba(40, 40, 35, 0.28) 0%, transparent 27%),
+        radial-gradient(ellipse at 98% 98%, rgba(35, 35, 30, 0.24) 0%, transparent 23%),
+        /* Heavy scratches */
+        linear-gradient(105deg, transparent 0%, transparent 45%, rgba(40, 40, 35, 0.15) 47%, transparent 48%),
+        linear-gradient(82deg, transparent 0%, transparent 62%, rgba(40, 40, 35, 0.12) 63%, transparent 64%),
+        linear-gradient(135deg, transparent 0%, transparent 28%, rgba(40, 40, 35, 0.18) 29%, transparent 30%),
+        linear-gradient(22deg, transparent 0%, transparent 48%, rgba(162, 52, 48, 0.05) 49%, transparent 50%),
+        rgba(18, 18, 16, 0.92);
+    border: none;
+    box-shadow: 
+        /* Outer red glow for error (reduced) */
+        0 0 8px rgba(162, 52, 48, 0.3),
+        /* Red-tinted inset borders */
+        inset 0 1px 0 rgba(162, 52, 48, 0.35),
+        inset -1px 0 0 rgba(162, 52, 48, 0.4),
+        inset 0 -1px 0 rgba(162, 52, 48, 0.32),
+        inset 1px 0 0 rgba(162, 52, 48, 0.28),
+        /* Deep dark inset shadow */
+        inset 0 0 30px rgba(15, 15, 13, 1),
+        inset 3px 3px 10px rgba(10, 10, 8, 0.7);
     animation: error-flicker 3s infinite;
+    transform: rotate(-0.5deg);
 }
 
 @keyframes error-flicker {
 
     0%,
     100% {
-        border-color: rgba(162, 52, 48, 0.5);
+        box-shadow: 
+            /* Outer red glow (reduced) */
+            0 0 8px rgba(162, 52, 48, 0.3),
+            /* Red-tinted inset borders */
+            inset 0 1px 0 rgba(162, 52, 48, 0.35),
+            inset -1px 0 0 rgba(162, 52, 48, 0.4),
+            inset 0 -1px 0 rgba(162, 52, 48, 0.32),
+            inset 1px 0 0 rgba(162, 52, 48, 0.28),
+            /* Deep dark inset shadow */
+            inset 0 0 30px rgba(15, 15, 13, 1),
+            inset 3px 3px 10px rgba(10, 10, 8, 0.7);
     }
 
     50% {
-        border-color: rgba(162, 52, 48, 0.8);
+        box-shadow: 
+            /* Brighter outer red glow (reduced) */
+            0 0 12px rgba(162, 52, 48, 0.45),
+            /* Brighter red-tinted inset borders */
+            inset 0 1px 0 rgba(162, 52, 48, 0.5),
+            inset -1px 0 0 rgba(162, 52, 48, 0.55),
+            inset 0 -1px 0 rgba(162, 52, 48, 0.48),
+            inset 1px 0 0 rgba(162, 52, 48, 0.42),
+            /* Deep dark inset shadow */
+            inset 0 0 32px rgba(15, 15, 13, 1),
+            inset 3px 3px 10px rgba(10, 10, 8, 0.7);
     }
 }
 
@@ -2313,6 +2609,7 @@ body::before {
     font-family: 'Share Tech Mono', monospace;
     letter-spacing: 2px;
     text-transform: uppercase;
+    text-shadow: 0 0 3px rgba(162, 52, 48, 0.4);
     animation: error-text-blink 2s infinite;
 }
 
@@ -2321,10 +2618,12 @@ body::before {
     0%,
     100% {
         opacity: 1;
+        text-shadow: 0 0 3px rgba(162, 52, 48, 0.4);
     }
 
     50% {
         opacity: 0.3;
+        text-shadow: 0 0 5px rgba(162, 52, 48, 0.6);
     }
 }
 
@@ -2340,8 +2639,11 @@ body::before {
             rgba(20, 20, 18, 0.7) 10px,
             rgba(20, 20, 18, 0.7) 20px);
     transform: translateY(-50%) rotate(-10deg);
-    opacity: 0.6;
+    opacity: 0.7;
     z-index: 3;
+    box-shadow: 
+        0 1px 2px rgba(0, 0, 0, 0.5),
+        inset 0 1px 1px rgba(162, 52, 48, 0.2);
 }
 
 /* Radio slot with stuck light */
@@ -2397,17 +2699,17 @@ body::before {
 @keyframes radio-icon-pulse {
     0% {
         transform: scale(1);
-        filter: drop-shadow(0 0 5px var(--primary-color));
+        filter: drop-shadow(0 0 5px rgba(86, 130, 53, 0.8));
     }
 
     50% {
         transform: scale(1.1);
-        filter: drop-shadow(0 0 10px var(--primary-color));
+        filter: drop-shadow(0 0 10px rgba(86, 130, 53, 1));
     }
 
     100% {
         transform: scale(1);
-        filter: drop-shadow(0 0 5px var(--primary-color));
+        filter: drop-shadow(0 0 5px rgba(86, 130, 53, 0.8));
     }
 }
 
@@ -2418,14 +2720,39 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    background: repeating-linear-gradient(70deg,
+    background: 
+        /* Heavy usage scratches */
+        repeating-linear-gradient(70deg,
             transparent,
             transparent 20px,
-            rgba(162, 52, 48, 0.1) 20px,
-            rgba(162, 52, 48, 0.1) 25px);
+            rgba(162, 52, 48, 0.12) 20px,
+            rgba(162, 52, 48, 0.12) 25px),
+        /* Additional wear patterns */
+        linear-gradient(125deg, transparent 0%, transparent 55%, rgba(40, 40, 35, 0.15) 56%, transparent 57%),
+        linear-gradient(85deg, transparent 0%, transparent 72%, rgba(40, 40, 35, 0.1) 73%, transparent 74%),
+        /* Worn corners */
+        radial-gradient(circle at 5% 5%, rgba(162, 52, 48, 0.08) 0%, transparent 20%),
+        radial-gradient(circle at 95% 95%, rgba(162, 52, 48, 0.06) 0%, transparent 18%);
     z-index: 3;
     pointer-events: none;
-    opacity: 0.3;
+    opacity: 0.4;
+}
+
+/* Add unique wear to each slot type */
+.flashlight-slot {
+    transform: rotate(0.3deg);
+}
+
+.firstaid-slot {
+    transform: rotate(-0.2deg);
+}
+
+.monster-slot {
+    transform: rotate(0.4deg);
+}
+
+.radio-slot {
+    transform: rotate(-0.3deg);
 }
 
 /* Interaction Hint */
@@ -7952,37 +8279,152 @@ body::before {
     align-items: center;
     gap: 8px;
     padding: 10px 15px;
-    background: rgba(10, 10, 8, 0.9);
-    border: 2px solid var(--secondary-color);
-    border-left: 4px solid var(--secondary-color);
+    background: 
+        /* Scratches and wear marks */
+        linear-gradient(125deg, transparent 0%, transparent 28%, rgba(80, 75, 65, 0.25) 28.5%, rgba(80, 75, 65, 0.25) 29%, transparent 29.5%),
+        linear-gradient(78deg, transparent 0%, transparent 65%, rgba(70, 68, 58, 0.2) 65.3%, rgba(70, 68, 58, 0.2) 65.8%, transparent 66.3%),
+        linear-gradient(95deg, transparent 0%, transparent 42%, rgba(75, 72, 62, 0.18) 42.2%, rgba(75, 72, 62, 0.18) 42.5%, transparent 43%),
+        /* Worn corners and edges */
+        radial-gradient(ellipse at 5% 10%, rgba(50, 48, 40, 0.2) 0%, transparent 25%),
+        radial-gradient(ellipse at 95% 90%, rgba(48, 46, 38, 0.18) 0%, transparent 22%),
+        /* Base background */
+        rgba(10, 10, 8, 0.9);
+    border: none;
     cursor: pointer;
     font-family: 'Share Tech Mono', monospace;
     z-index: 49;
     opacity: 0;
-    transform: translateX(50px);
+    transform: translateX(50px) rotate(-0.3deg);
     transition: all 0.3s ease;
     pointer-events: all;
-    box-shadow: 0 0 15px rgba(162, 52, 48, 0.3),
-                inset 0 0 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 
+        /* Outer glow */
+        0 0 15px rgba(162, 52, 48, 0.3),
+        /* Degraded border effect - top */
+        inset 0 2px 0 rgba(162, 52, 48, 0.5),
+        inset 0 2px 1px rgba(162, 52, 48, 0.3),
+        /* Degraded border effect - right */
+        inset -2px 0 0 rgba(162, 52, 48, 0.5),
+        inset -2px 0 1px rgba(162, 52, 48, 0.3),
+        /* Degraded border effect - bottom */
+        inset 0 -2px 0 rgba(162, 52, 48, 0.5),
+        inset 0 -2px 1px rgba(162, 52, 48, 0.3),
+        /* Degraded border effect - left (thicker, worn) */
+        inset 4px 0 0 rgba(162, 52, 48, 0.55),
+        inset 4px 0 2px rgba(162, 52, 48, 0.35),
+        inset 3px 0 1px rgba(90, 30, 28, 0.4),
+        /* Inner depth */
+        inset 0 0 20px rgba(0, 0, 0, 0.5),
+        inset 2px 2px 8px rgba(10, 10, 8, 0.6);
 }
 
 .dead-players-toggle.visible {
     display: flex;
     opacity: 1;
-    transform: translateX(0);
+    transform: translateX(0) rotate(-0.3deg);
+}
+
+/* Dust overlay for worn-out appearance */
+.dead-players-toggle::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 5;
+    opacity: 0.25;
+    background-image:
+        /* Small dust particles */
+        radial-gradient(circle at 15% 25%, rgba(194, 176, 28, 0.08) 0%, transparent 1.5%),
+        radial-gradient(circle at 45% 15%, rgba(194, 176, 28, 0.06) 0%, transparent 1.2%),
+        radial-gradient(circle at 75% 35%, rgba(194, 176, 28, 0.07) 0%, transparent 1.3%),
+        radial-gradient(circle at 25% 65%, rgba(194, 176, 28, 0.09) 0%, transparent 1.6%),
+        radial-gradient(circle at 85% 70%, rgba(194, 176, 28, 0.05) 0%, transparent 1.1%),
+        radial-gradient(circle at 60% 85%, rgba(194, 176, 28, 0.08) 0%, transparent 1.4%),
+        radial-gradient(circle at 10% 80%, rgba(170, 155, 30, 0.1) 0%, transparent 2%),
+        radial-gradient(circle at 90% 20%, rgba(170, 155, 30, 0.07) 0%, transparent 1.8%),
+        /* Grime buildup */
+        radial-gradient(ellipse at 8% 12%, rgba(40, 38, 32, 0.15) 0%, transparent 30%),
+        radial-gradient(ellipse at 92% 88%, rgba(35, 33, 28, 0.12) 0%, transparent 25%);
+}
+
+/* Edge wear and debris overlay + Degraded border chips */
+.dead-players-toggle::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -4px;
+    right: -2px;
+    bottom: -2px;
+    pointer-events: none;
+    z-index: 6;
+    opacity: 0.4;
+    background-image:
+        /* Border chips and breaks - top edge */
+        linear-gradient(90deg, 
+            transparent 0%, transparent 8%, 
+            rgba(162, 52, 48, 0.15) 8.5%, transparent 9%,
+            transparent 15%, rgba(162, 52, 48, 0.2) 15.5%, transparent 16.2%,
+            transparent 28%, rgba(162, 52, 48, 0.12) 28.5%, transparent 29%,
+            transparent 45%, rgba(162, 52, 48, 0.18) 45.5%, transparent 46.5%,
+            transparent 67%, rgba(162, 52, 48, 0.1) 67.5%, transparent 68%,
+            transparent 82%, rgba(162, 52, 48, 0.16) 82.5%, transparent 83.5%,
+            transparent 95%, rgba(162, 52, 48, 0.13) 95.5%, transparent 96.5%),
+        /* Border fade variations */
+        repeating-linear-gradient(0deg,
+            transparent,
+            transparent 3px,
+            rgba(162, 52, 48, 0.08) 3px,
+            rgba(162, 52, 48, 0.08) 4px,
+            transparent 4px,
+            transparent 12px),
+        /* Worn/faded edges */
+        linear-gradient(to right, rgba(30, 28, 24, 0.3) 0%, transparent 15%, transparent 85%, rgba(30, 28, 24, 0.25) 100%),
+        linear-gradient(to bottom, rgba(30, 28, 24, 0.25) 0%, transparent 12%, transparent 88%, rgba(30, 28, 24, 0.3) 100%),
+        /* Edge debris and grime */
+        radial-gradient(ellipse at 0% 0%, rgba(40, 38, 32, 0.2) 0%, transparent 20%),
+        radial-gradient(ellipse at 100% 0%, rgba(40, 38, 32, 0.18) 0%, transparent 18%),
+        radial-gradient(ellipse at 0% 100%, rgba(40, 38, 32, 0.22) 0%, transparent 22%),
+        radial-gradient(ellipse at 100% 100%, rgba(40, 38, 32, 0.2) 0%, transparent 20%);
 }
 
 .dead-players-toggle:hover {
-    background: rgba(20, 15, 15, 0.95);
-    border-color: rgba(247, 185, 51, 0.8);
-    border-left-color: var(--primary-color);
-    box-shadow: 0 0 25px rgba(247, 185, 51, 0.4),
-                inset 0 0 20px rgba(0, 0, 0, 0.5);
-    transform: translateX(-3px);
+    background: 
+        /* Scratches and wear marks */
+        linear-gradient(125deg, transparent 0%, transparent 28%, rgba(80, 75, 65, 0.3) 28.5%, rgba(80, 75, 65, 0.3) 29%, transparent 29.5%),
+        linear-gradient(78deg, transparent 0%, transparent 65%, rgba(70, 68, 58, 0.25) 65.3%, rgba(70, 68, 58, 0.25) 65.8%, transparent 66.3%),
+        linear-gradient(95deg, transparent 0%, transparent 42%, rgba(75, 72, 62, 0.22) 42.2%, rgba(75, 72, 62, 0.22) 42.5%, transparent 43%),
+        /* Worn corners */
+        radial-gradient(ellipse at 5% 10%, rgba(50, 48, 40, 0.25) 0%, transparent 25%),
+        radial-gradient(ellipse at 95% 90%, rgba(48, 46, 38, 0.22) 0%, transparent 22%),
+        /* Brighter base on hover */
+        rgba(20, 15, 15, 0.95);
+    box-shadow: 
+        /* Outer glow - brighter on hover */
+        0 0 25px rgba(247, 185, 51, 0.4),
+        /* Degraded border effect - top (yellow tint) */
+        inset 0 2px 0 rgba(247, 185, 51, 0.6),
+        inset 0 2px 1px rgba(247, 185, 51, 0.4),
+        /* Degraded border effect - right */
+        inset -2px 0 0 rgba(247, 185, 51, 0.6),
+        inset -2px 0 1px rgba(247, 185, 51, 0.4),
+        /* Degraded border effect - bottom */
+        inset 0 -2px 0 rgba(247, 185, 51, 0.6),
+        inset 0 -2px 1px rgba(247, 185, 51, 0.4),
+        /* Degraded border effect - left (thicker, worn) */
+        inset 4px 0 0 rgba(247, 185, 51, 0.7),
+        inset 4px 0 2px rgba(247, 185, 51, 0.45),
+        inset 3px 0 1px rgba(200, 150, 40, 0.5),
+        /* Inner depth */
+        inset 0 0 20px rgba(0, 0, 0, 0.5),
+        inset 2px 2px 8px rgba(10, 10, 8, 0.6);
+    transform: translateX(-3px) rotate(-0.2deg);
 }
 
 .dead-players-toggle:active {
-    transform: translateX(-3px) scale(0.98);
+    transform: translateX(-3px) scale(0.98) rotate(-0.4deg);
 }
 
 .toggle-icon {
@@ -7991,14 +8433,40 @@ body::before {
     justify-content: center;
     width: 28px;
     height: 28px;
-    background: rgba(162, 52, 48, 0.3);
-    border: 1px solid var(--secondary-color);
+    background: 
+        /* Subtle scratches on icon box */
+        linear-gradient(115deg, transparent 0%, transparent 48%, rgba(40, 40, 35, 0.15) 48.5%, transparent 49%),
+        linear-gradient(65deg, transparent 0%, transparent 62%, rgba(40, 40, 35, 0.12) 62.5%, transparent 63%),
+        /* Worn edges */
+        radial-gradient(circle at 10% 10%, rgba(50, 48, 40, 0.2) 0%, transparent 35%),
+        /* Base color */
+        rgba(162, 52, 48, 0.3);
+    border: none;
     border-radius: 3px;
+    position: relative;
+    box-shadow: 
+        inset 0 1px 0 rgba(162, 52, 48, 0.45),
+        inset -1px 0 0 rgba(162, 52, 48, 0.45),
+        inset 0 -1px 0 rgba(162, 52, 48, 0.45),
+        inset 1px 0 0 rgba(162, 52, 48, 0.45),
+        inset 0 0 6px rgba(0, 0, 0, 0.4);
 }
 
 .dead-players-toggle:hover .toggle-icon {
-    background: rgba(247, 185, 51, 0.2);
-    border-color: var(--primary-color);
+    background: 
+        /* Keep scratches on hover */
+        linear-gradient(115deg, transparent 0%, transparent 48%, rgba(40, 40, 35, 0.15) 48.5%, transparent 49%),
+        linear-gradient(65deg, transparent 0%, transparent 62%, rgba(40, 40, 35, 0.12) 62.5%, transparent 63%),
+        /* Worn edges */
+        radial-gradient(circle at 10% 10%, rgba(50, 48, 40, 0.2) 0%, transparent 35%),
+        /* Brighter on hover */
+        rgba(247, 185, 51, 0.2);
+    box-shadow: 
+        inset 0 1px 0 rgba(247, 185, 51, 0.6),
+        inset -1px 0 0 rgba(247, 185, 51, 0.6),
+        inset 0 -1px 0 rgba(247, 185, 51, 0.6),
+        inset 1px 0 0 rgba(247, 185, 51, 0.6),
+        inset 0 0 6px rgba(0, 0, 0, 0.4);
 }
 
 .toggle-icon i {
@@ -8029,6 +8497,9 @@ body::before {
     text-transform: uppercase;
     letter-spacing: 1px;
     line-height: 1;
+    position: relative;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    filter: brightness(0.95); /* Slightly faded from wear */
 }
 
 .toggle-count {
@@ -8038,29 +8509,78 @@ body::before {
     min-width: 24px;
     height: 20px;
     padding: 0 6px;
-    background: rgba(162, 52, 48, 0.4);
-    border: 1px solid var(--secondary-color);
+    background: 
+        /* Wear marks on counter */
+        linear-gradient(120deg, transparent 0%, transparent 55%, rgba(40, 40, 35, 0.12) 55.5%, transparent 56%),
+        /* Base */
+        rgba(162, 52, 48, 0.4);
+    border: none;
     color: var(--secondary-color);
     font-size: 13px;
     font-weight: bold;
     border-radius: 2px;
-    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 
+        inset 0 1px 0 rgba(162, 52, 48, 0.5),
+        inset -1px 0 0 rgba(162, 52, 48, 0.5),
+        inset 0 -1px 0 rgba(162, 52, 48, 0.5),
+        inset 1px 0 0 rgba(162, 52, 48, 0.5),
+        inset 0 0 8px rgba(0, 0, 0, 0.5),
+        inset 1px 1px 4px rgba(10, 10, 8, 0.4);
 }
 
 .dead-players-toggle:hover .toggle-count {
-    background: rgba(247, 185, 51, 0.3);
-    border-color: var(--primary-color);
+    background: 
+        /* Keep wear marks on hover */
+        linear-gradient(120deg, transparent 0%, transparent 55%, rgba(40, 40, 35, 0.15) 55.5%, transparent 56%),
+        /* Brighter base */
+        rgba(247, 185, 51, 0.3);
     color: var(--primary-color);
+    box-shadow: 
+        inset 0 1px 0 rgba(247, 185, 51, 0.6),
+        inset -1px 0 0 rgba(247, 185, 51, 0.6),
+        inset 0 -1px 0 rgba(247, 185, 51, 0.6),
+        inset 1px 0 0 rgba(247, 185, 51, 0.6),
+        inset 0 0 8px rgba(0, 0, 0, 0.5),
+        inset 1px 1px 4px rgba(10, 10, 8, 0.4);
 }
 
 .dead-players-toggle.active {
-    border-color: var(--primary-color);
-    border-left-color: var(--primary-color);
+    box-shadow: 
+        /* Outer glow - active state */
+        0 0 20px rgba(247, 185, 51, 0.5),
+        /* Degraded border effect - top (yellow tint) */
+        inset 0 2px 0 rgba(247, 185, 51, 0.7),
+        inset 0 2px 1px rgba(247, 185, 51, 0.5),
+        /* Degraded border effect - right */
+        inset -2px 0 0 rgba(247, 185, 51, 0.7),
+        inset -2px 0 1px rgba(247, 185, 51, 0.5),
+        /* Degraded border effect - bottom */
+        inset 0 -2px 0 rgba(247, 185, 51, 0.7),
+        inset 0 -2px 1px rgba(247, 185, 51, 0.5),
+        /* Degraded border effect - left (thicker, worn) */
+        inset 4px 0 0 rgba(247, 185, 51, 0.8),
+        inset 4px 0 2px rgba(247, 185, 51, 0.55),
+        inset 3px 0 1px rgba(200, 150, 40, 0.6),
+        /* Inner depth */
+        inset 0 0 20px rgba(0, 0, 0, 0.5),
+        inset 2px 2px 8px rgba(10, 10, 8, 0.6);
 }
 
 .dead-players-toggle.active .toggle-icon {
-    background: rgba(247, 185, 51, 0.3);
-    border-color: var(--primary-color);
+    background: 
+        /* Scratches remain visible when active */
+        linear-gradient(115deg, transparent 0%, transparent 48%, rgba(40, 40, 35, 0.18) 48.5%, transparent 49%),
+        linear-gradient(65deg, transparent 0%, transparent 62%, rgba(40, 40, 35, 0.15) 62.5%, transparent 63%),
+        /* Worn edges */
+        radial-gradient(circle at 10% 10%, rgba(50, 48, 40, 0.25) 0%, transparent 35%),
+        /* Active state color */
+        rgba(247, 185, 51, 0.3);
+    box-shadow: 
+        inset 0 1px 0 rgba(247, 185, 51, 0.7),
+        inset -1px 0 0 rgba(247, 185, 51, 0.7),
+        inset 0 -1px 0 rgba(247, 185, 51, 0.7),
+        inset 1px 0 0 rgba(247, 185, 51, 0.7),
+        inset 0 0 6px rgba(0, 0, 0, 0.4);
 }
 
 .dead-players-toggle.active .toggle-icon i {
@@ -8075,16 +8595,156 @@ body::before {
     position: fixed;
     top: 200px;
     right: 20px;
-    width: 320px;
-    background: rgba(10, 10, 8, 0.92);
-    border: 2px solid var(--secondary-color);
-    border-left: 4px solid var(--secondary-color);
-    box-shadow: 0 0 20px rgba(162, 52, 48, 0.4),
-                inset 0 0 30px rgba(0, 0, 0, 0.5);
+    width: 350px;
+    background-color: rgba(18, 18, 16, 0.88);
+    border: none;
+    box-shadow: 
+        0 0 20px rgba(0, 0, 0, 0.9), 
+        0 0 2px rgba(194, 176, 28, 0.03),
+        inset 0 0 50px rgba(15, 15, 13, 0.98),
+        inset 3px 3px 15px rgba(10, 10, 8, 0.5),
+        inset -1px -1px 8px rgba(25, 25, 22, 0.2),
+        /* Worn border effect - top */
+        inset 0 1px 0 rgba(162, 52, 48, 0.25),
+        inset 0 0.5px 0 rgba(162, 52, 48, 0.15),
+        /* Worn border effect - right */
+        inset -1px 0 0 rgba(162, 52, 48, 0.18),
+        inset -0.5px 0 0 rgba(162, 52, 48, 0.12),
+        /* Worn border effect - bottom */
+        inset 0 -1px 0 rgba(162, 52, 48, 0.22),
+        inset 0 -0.5px 0 rgba(162, 52, 48, 0.1),
+        /* Worn border effect - left */
+        inset 3px 0 0 rgba(162, 52, 48, 0.3),
+        inset 1.5px 0 0 rgba(162, 52, 48, 0.2);
     font-family: 'Share Tech Mono', monospace;
     z-index: 50;
-    backdrop-filter: blur(3px);
+    backdrop-filter: blur(2px);
     display: none;
+    overflow: hidden;
+    background-image: 
+        /* Irregular border segments */
+        linear-gradient(0deg, rgba(162, 52, 48, 0.2) 0%, rgba(162, 52, 48, 0.2) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(162, 52, 48, 0.15) 0%, rgba(162, 52, 48, 0.15) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(162, 52, 48, 0.18) 0%, rgba(162, 52, 48, 0.18) 1px, transparent 1px),
+        linear-gradient(270deg, rgba(162, 52, 48, 0.25) 0%, rgba(162, 52, 48, 0.25) 3px, transparent 3px),
+        /* Base gradients */
+        linear-gradient(135deg, rgba(25, 25, 22, 0.15) 0%, transparent 40%, rgba(15, 15, 13, 0.2) 100%),
+        linear-gradient(180deg, rgba(20, 20, 18, 0.1) 0%, rgba(15, 15, 13, 0.4) 100%),
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 0, 0, 0.03) 2px,
+            rgba(0, 0, 0, 0.03) 3px
+        );
+    background-blend-mode: normal, normal, normal, normal, multiply, multiply, overlay;
+    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+    background-position: top, right, bottom, left, 0 0, 0 0, 0 0;
+    background-repeat: no-repeat;
+}
+
+.dead-players-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+        /* Worn/missing border sections - top */
+        linear-gradient(90deg,
+            transparent 0%, 
+            transparent 8%, 
+            rgba(162, 52, 48, 0.22) 8%, 
+            rgba(162, 52, 48, 0.22) 35%, 
+            transparent 35%,
+            transparent 42%,
+            rgba(162, 52, 48, 0.18) 42%,
+            rgba(162, 52, 48, 0.18) 68%,
+            transparent 68%,
+            transparent 75%,
+            rgba(162, 52, 48, 0.2) 75%,
+            rgba(162, 52, 48, 0.2) 92%,
+            transparent 92%
+        ),
+        /* Worn/missing border sections - bottom */
+        linear-gradient(90deg,
+            transparent 0%, 
+            transparent 5%, 
+            rgba(162, 52, 48, 0.18) 5%, 
+            rgba(162, 52, 48, 0.18) 28%, 
+            transparent 28%,
+            transparent 38%,
+            rgba(162, 52, 48, 0.22) 38%,
+            rgba(162, 52, 48, 0.22) 72%,
+            transparent 72%,
+            transparent 78%,
+            rgba(162, 52, 48, 0.16) 78%,
+            rgba(162, 52, 48, 0.16) 95%,
+            transparent 95%
+        ),
+        /* Worn/missing border sections - right */
+        linear-gradient(0deg,
+            transparent 0%, 
+            transparent 10%, 
+            rgba(162, 52, 48, 0.2) 10%, 
+            rgba(162, 52, 48, 0.2) 42%, 
+            transparent 42%,
+            transparent 55%,
+            rgba(162, 52, 48, 0.18) 55%,
+            rgba(162, 52, 48, 0.18) 88%,
+            transparent 88%
+        ),
+        /* Worn/missing border sections - left (stronger) */
+        linear-gradient(0deg,
+            transparent 0%, 
+            transparent 8%, 
+            rgba(162, 52, 48, 0.28) 8%, 
+            rgba(162, 52, 48, 0.28) 45%, 
+            transparent 45%,
+            transparent 52%,
+            rgba(162, 52, 48, 0.32) 52%,
+            rgba(162, 52, 48, 0.32) 92%,
+            transparent 92%
+        );
+    background-size: 100% 1px, 100% 1px, 1px 100%, 3px 100%;
+    background-position: top, bottom, right, left;
+    background-repeat: no-repeat;
+}
+
+.dead-players-overlay::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    background-image: 
+        /* Dust spots */
+        radial-gradient(circle at 15% 12%, rgba(60, 55, 45, 0.15) 0%, transparent 2%),
+        radial-gradient(circle at 73% 8%, rgba(50, 48, 40, 0.12) 0%, transparent 1.5%),
+        radial-gradient(circle at 88% 25%, rgba(55, 52, 42, 0.1) 0%, transparent 2.5%),
+        radial-gradient(circle at 22% 78%, rgba(58, 54, 44, 0.14) 0%, transparent 2%),
+        radial-gradient(circle at 67% 82%, rgba(52, 50, 41, 0.11) 0%, transparent 1.8%),
+        radial-gradient(circle at 45% 35%, rgba(56, 53, 43, 0.09) 0%, transparent 1.2%),
+        radial-gradient(circle at 8% 50%, rgba(54, 51, 42, 0.13) 0%, transparent 2.2%),
+        radial-gradient(circle at 92% 65%, rgba(53, 50, 40, 0.1) 0%, transparent 1.5%),
+        radial-gradient(circle at 35% 92%, rgba(57, 53, 43, 0.12) 0%, transparent 1.9%),
+        /* Corner dust/wear */
+        radial-gradient(ellipse at 2% 2%, rgba(40, 40, 35, 0.12) 0%, transparent 10%),
+        radial-gradient(ellipse at 98% 2%, rgba(35, 35, 30, 0.09) 0%, transparent 9%),
+        radial-gradient(ellipse at 2% 98%, rgba(40, 40, 35, 0.14) 0%, transparent 11%),
+        radial-gradient(ellipse at 98% 98%, rgba(35, 35, 30, 0.1) 0%, transparent 10%),
+        /* Subtle edge fade */
+        linear-gradient(180deg, rgba(30, 30, 26, 0.08) 0%, transparent 15%, transparent 85%, rgba(20, 20, 18, 0.12) 100%),
+        linear-gradient(90deg, rgba(25, 25, 22, 0.06) 0%, transparent 10%, transparent 90%, rgba(25, 25, 22, 0.06) 100%);
+    box-shadow: 
+        inset 0 0 20px rgba(10, 10, 8, 0.3),
+        inset 2px 2px 6px rgba(8, 8, 6, 0.25),
+        inset -1px -1px 4px rgba(30, 30, 26, 0.15);
 }
 
 .dead-players-overlay.visible {
@@ -8108,11 +8768,30 @@ body::before {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 12px 15px;
-    background: rgba(162, 52, 48, 0.15);
-    border-bottom: 1px solid rgba(162, 52, 48, 0.3);
+    padding: 14px 15px;
+    background: rgba(162, 52, 48, 0.12);
+    border-bottom: 1px solid rgba(162, 52, 48, 0.25);
     position: relative;
     overflow: hidden;
+    z-index: 3;
+    background-image: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(20, 20, 18, 0.15) 50%, 
+        transparent 100%);
+}
+
+.dead-players-header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        rgba(162, 52, 48, 0.1) 0%,
+        transparent 15%,
+        transparent 85%,
+        rgba(162, 52, 48, 0.08) 100%);
 }
 
 .dead-players-header .scan-line {
@@ -8123,9 +8802,10 @@ body::before {
     height: 2px;
     background: linear-gradient(90deg, 
         transparent 0%, 
-        var(--secondary-color) 50%, 
+        rgba(162, 52, 48, 0.6) 50%, 
         transparent 100%);
-    animation: scanMove 2s linear infinite;
+    animation: scanMove 3s linear infinite;
+    opacity: 0.7;
 }
 
 @keyframes scanMove {
@@ -8141,17 +8821,18 @@ body::before {
     color: var(--secondary-color);
     font-size: 18px;
     animation: skullPulse 2s ease-in-out infinite;
+    filter: drop-shadow(0 0 5px rgba(162, 52, 48, 0.5));
 }
 
 @keyframes skullPulse {
     0%, 100% {
-        opacity: 0.8;
+        opacity: 0.85;
         transform: scale(1);
     }
     50% {
         opacity: 1;
         transform: scale(1.1);
-        filter: drop-shadow(0 0 8px rgba(162, 52, 48, 0.8));
+        filter: drop-shadow(0 0 10px rgba(162, 52, 48, 0.9));
     }
 }
 
@@ -8161,18 +8842,23 @@ body::before {
     font-size: 16px;
     letter-spacing: 1px;
     text-transform: uppercase;
-    text-shadow: 0 0 5px rgba(162, 52, 48, 0.5);
+    text-shadow: 0 0 5px rgba(162, 52, 48, 0.3);
+    opacity: 0.9;
 }
 
 .deceased-count {
-    background: rgba(162, 52, 48, 0.3);
+    background: rgba(162, 52, 48, 0.2);
     color: var(--secondary-color);
-    padding: 4px 12px;
+    padding: 5px 12px;
     border: 1px solid var(--secondary-color);
     font-size: 14px;
     font-weight: bold;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5),
-                0 0 10px rgba(162, 52, 48, 0.3);
+    letter-spacing: 0.3px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4),
+                0 0 8px rgba(162, 52, 48, 0.3);
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
 }
 
 /* Players List */
@@ -8205,19 +8891,20 @@ body::before {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 10px;
+    padding: 12px 14px;
     margin-bottom: 8px;
     background: rgba(20, 20, 18, 0.6);
-    border: 1px solid rgba(162, 52, 48, 0.2);
+    border: 1px solid rgba(162, 52, 48, 0.3);
     border-left: 3px solid rgba(162, 52, 48, 0.5);
     transition: all 0.3s ease;
     position: relative;
+    z-index: 2;
 }
 
 .dead-player-item:hover {
-    background: rgba(30, 25, 25, 0.8);
+    background: rgba(162, 52, 48, 0.1);
+    border-color: var(--secondary-color);
     border-left-color: var(--secondary-color);
-    transform: translateX(-3px);
 }
 
 .dead-player-item::before {
@@ -8228,10 +8915,11 @@ body::before {
     width: 100%;
     height: 100%;
     background: linear-gradient(90deg, 
-        rgba(162, 52, 48, 0.1) 0%, 
+        rgba(162, 52, 48, 0.15) 0%, 
         transparent 50%);
     opacity: 0;
     transition: opacity 0.3s ease;
+    pointer-events: none;
 }
 
 .dead-player-item:hover::before {
@@ -8243,27 +8931,191 @@ body::before {
     position: relative;
     width: 50px;
     height: 50px;
-    flex-shrink: 0;
-}
-
-.avatar-inner {
-    width: 100%;
-    height: 100%;
-    background: rgba(30, 30, 28, 0.9);
-    border: 2px solid rgba(162, 52, 48, 0.5);
-    border-radius: 4px;
+    overflow: hidden;
+    border: 2px solid var(--secondary-color);
+    background-color: rgba(10, 10, 8, 0.8);
+    box-shadow: 0 0 8px rgba(162, 52, 48, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    overflow: hidden;
-    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.7);
+    flex-shrink: 0;
 }
 
-.avatar-inner i {
+.dead-player-avatar-half {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(135deg, 
+        rgba(162, 52, 48, 0.8) 0%, 
+        rgba(120, 40, 36, 0.6) 50%,
+        rgba(162, 52, 48, 0.8) 100%);
+    transition: transform 0.15s ease-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.dead-player-avatar-half.top {
+    top: 0;
+    border-bottom: none;
+}
+
+.dead-player-avatar-half.bottom {
+    bottom: 0;
+    border-top: none;
+}
+
+.dead-player-avatar-icon {
+    position: absolute;
+    color: var(--secondary-color);
     font-size: 24px;
-    color: rgba(173, 173, 173, 0.3);
+    text-shadow: 0 0 5px rgba(162, 52, 48, 0.5);
+    pointer-events: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.dead-player-avatar-icon.top,
+.dead-player-avatar-icon.bottom {
+    display: none;
+}
+
+/* Show unified icon by default */
+.dead-player-avatar::before {
+    content: '\f007';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    color: var(--secondary-color);
+    font-size: 24px;
+    text-shadow: 0 0 5px rgba(162, 52, 48, 0.5);
     z-index: 1;
+}
+
+/* Speaking Animation - The Absurd Element! */
+.dead-player-item.speaking .dead-player-avatar::before {
+    opacity: 0;
+}
+
+.dead-player-item.speaking .dead-player-avatar-half.top {
+    animation: mouth-top-talk 0.3s ease-in-out infinite;
+}
+
+.dead-player-item.speaking .dead-player-avatar-half.bottom {
+    animation: mouth-bottom-talk 0.3s ease-in-out infinite;
+}
+
+@keyframes mouth-top-talk {
+    0% {
+        transform: translateY(-4px);
+    }
+    25% {
+        transform: translateY(-10px);
+    }
+    50% {
+        transform: translateY(-6px);
+    }
+    75% {
+        transform: translateY(-12px);
+    }
+    100% {
+        transform: translateY(-4px);
+    }
+}
+
+@keyframes mouth-bottom-talk {
+    0% {
+        transform: translateY(4px);
+    }
+    25% {
+        transform: translateY(10px);
+    }
+    50% {
+        transform: translateY(6px);
+    }
+    75% {
+        transform: translateY(12px);
+    }
+    100% {
+        transform: translateY(4px);
+    }
+}
+
+.dead-player-item.speaking .dead-player-avatar {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 15px rgba(247, 185, 51, 0.6);
+    animation: speaking-pulse 0.3s ease-in-out infinite alternate;
+}
+
+@keyframes speaking-pulse {
+    0% { box-shadow: 0 0 15px rgba(247, 185, 51, 0.6); }
+    100% { box-shadow: 0 0 25px rgba(247, 185, 51, 0.9); }
+}
+
+.dead-player-item.speaking .dead-player-avatar-half {
+    background: linear-gradient(135deg, 
+        rgba(247, 185, 51, 0.9) 0%, 
+        rgba(200, 150, 40, 0.7) 50%,
+        rgba(247, 185, 51, 0.9) 100%);
+}
+
+.dead-player-item.speaking .dead-player-avatar-icon.top,
+.dead-player-item.speaking .dead-player-avatar-icon.bottom {
+    display: block;
+}
+
+.dead-player-item.speaking .dead-player-avatar-icon {
+    color: var(--primary-color);
+}
+
+.dead-player-item.speaking .dead-player-avatar-icon.top {
+    top: auto;
+    bottom: 50%;
+    animation: icon-top-talk 0.3s ease-in-out infinite;
+}
+
+.dead-player-item.speaking .dead-player-avatar-icon.bottom {
+    bottom: auto;
+    top: 50%;
+    animation: icon-bottom-talk 0.3s ease-in-out infinite;
+}
+
+@keyframes icon-top-talk {
+    0% {
+        transform: translate(-50%, -4px);
+    }
+    25% {
+        transform: translate(-50%, -10px);
+    }
+    50% {
+        transform: translate(-50%, -6px);
+    }
+    75% {
+        transform: translate(-50%, -12px);
+    }
+    100% {
+        transform: translate(-50%, -4px);
+    }
+}
+
+@keyframes icon-bottom-talk {
+    0% {
+        transform: translate(-50%, 4px);
+    }
+    25% {
+        transform: translate(-50%, 10px);
+    }
+    50% {
+        transform: translate(-50%, 6px);
+    }
+    75% {
+        transform: translate(-50%, 12px);
+    }
+    100% {
+        transform: translate(-50%, 4px);
+    }
 }
 
 .skull-overlay {
@@ -8271,12 +9123,14 @@ body::before {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 28px;
+    font-size: 20px;
     color: var(--secondary-color);
-    z-index: 2;
+    z-index: 3;
     text-shadow: 0 0 10px rgba(162, 52, 48, 0.8),
                  0 0 20px rgba(162, 52, 48, 0.5);
     animation: fadeInSkull 0.5s ease-out;
+    pointer-events: none;
+    opacity: 0.8;
 }
 
 @keyframes fadeInSkull {
@@ -8285,39 +9139,36 @@ body::before {
         transform: translate(-50%, -50%) scale(0.5);
     }
     to {
-        opacity: 1;
+        opacity: 0.8;
         transform: translate(-50%, -50%) scale(1);
     }
 }
 
-/* Voice Ring */
-.voice-ring {
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    border: 3px solid var(--primary-color);
-    border-radius: 4px;
-    opacity: 0;
-    box-shadow: 0 0 15px rgba(247, 185, 51, 0.8),
-                inset 0 0 15px rgba(247, 185, 51, 0.3);
-    transition: opacity 0.2s ease;
+/* Pulsing skull when speaking */
+.dead-player-item.speaking .skull-overlay {
+    animation: skull-speaking-bounce 0.3s ease-in-out infinite;
 }
 
-.dead-player-item.speaking .voice-ring {
-    opacity: 1;
-    animation: voiceRingPulse 0.6s ease-in-out infinite;
-}
-
-@keyframes voiceRingPulse {
-    0%, 100% {
-        transform: scale(1);
+@keyframes skull-speaking-bounce {
+    0% {
+        opacity: 0.7;
+        transform: translate(-50%, -50%) scale(1) rotate(-2deg);
+    }
+    25% {
         opacity: 1;
+        transform: translate(-50%, -52%) scale(1.08) rotate(2deg);
     }
     50% {
-        transform: scale(1.08);
         opacity: 0.8;
+        transform: translate(-50%, -48%) scale(1.05) rotate(-1deg);
+    }
+    75% {
+        opacity: 1;
+        transform: translate(-50%, -51%) scale(1.12) rotate(3deg);
+    }
+    100% {
+        opacity: 0.7;
+        transform: translate(-50%, -50%) scale(1) rotate(-2deg);
     }
 }
 
@@ -8400,70 +9251,105 @@ body::before {
 }
 
 @keyframes voiceBarPulse {
-    0%, 100% {
-        height: 20%;
+    0% {
+        height: 30%;
     }
-    25% {
-        height: 80%;
+    15% {
+        height: 85%;
     }
-    50% {
-        height: 50%;
+    30% {
+        height: 45%;
+    }
+    45% {
+        height: 95%;
+    }
+    60% {
+        height: 55%;
     }
     75% {
-        height: 90%;
+        height: 75%;
+    }
+    90% {
+        height: 40%;
+    }
+    100% {
+        height: 30%;
     }
 }
 
 /* Footer */
 .dead-players-footer {
-    padding: 10px 15px;
+    padding: 12px 15px;
     background: rgba(162, 52, 48, 0.1);
-    border-top: 1px solid rgba(162, 52, 48, 0.3);
+    border-top: 1px solid rgba(162, 52, 48, 0.25);
     text-align: center;
+    position: relative;
+    z-index: 3;
+    background-image: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(20, 20, 18, 0.15) 50%, 
+        transparent 100%);
+}
+
+.dead-players-footer::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        rgba(162, 52, 48, 0.1) 0%,
+        transparent 15%,
+        transparent 85%,
+        rgba(162, 52, 48, 0.08) 100%);
 }
 
 .footer-text {
-    font-size: 12px;
+    font-size: 11px;
     color: rgba(173, 173, 173, 0.7);
     text-transform: uppercase;
     letter-spacing: 1px;
+    line-height: 1.5;
+    font-style: italic;
+    opacity: 0.8;
 }
 
 /* Corner Elements */
 .dead-players-overlay .corner-element {
     position: absolute;
-    width: 10px;
-    height: 10px;
-    border: 2px solid var(--secondary-color);
+    width: 15px;
+    height: 15px;
+    z-index: 11;
     opacity: 0.6;
 }
 
 .dead-players-overlay .corner-element.top-left {
-    top: -2px;
-    left: -2px;
-    border-right: none;
-    border-bottom: none;
+    top: -1px;
+    left: -1px;
+    border-top: 1px solid rgba(162, 52, 48, 0.4);
+    border-left: 1px solid rgba(162, 52, 48, 0.4);
 }
 
 .dead-players-overlay .corner-element.top-right {
-    top: -2px;
-    right: -2px;
-    border-left: none;
-    border-bottom: none;
+    top: -1px;
+    right: -1px;
+    border-top: 1px solid rgba(162, 52, 48, 0.4);
+    border-right: 1px solid rgba(162, 52, 48, 0.4);
 }
 
 .dead-players-overlay .corner-element.bottom-left {
-    bottom: -2px;
-    left: -2px;
-    border-right: none;
-    border-top: none;
+    bottom: -1px;
+    left: -1px;
+    border-bottom: 1px solid rgba(162, 52, 48, 0.4);
+    border-left: 1px solid rgba(162, 52, 48, 0.4);
 }
 
 .dead-players-overlay .corner-element.bottom-right {
-    bottom: -2px;
-    right: -2px;
-    border-left: none;
-    border-top: none;
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 1px solid rgba(162, 52, 48, 0.4);
+    border-right: 1px solid rgba(162, 52, 48, 0.4);
 }
 
 /* CRT Glitch Effect */
@@ -8497,19 +9383,29 @@ body::before {
     .dead-players-overlay {
         top: 10px;
         right: 10px;
-        width: 280px;
+        width: 300px;
     }
     
     .dead-player-avatar {
-        width: 40px;
-        height: 40px;
+        width: 45px;
+        height: 45px;
     }
     
-    .avatar-inner i {
+    .dead-player-avatar::before,
+    .dead-player-avatar-icon {
         font-size: 20px;
     }
     
     .skull-overlay {
-        font-size: 24px;
+        font-size: 18px;
+    }
+    
+    .dead-players-header .header-text {
+        font-size: 14px;
+    }
+    
+    .deceased-count {
+        font-size: 12px;
+        padding: 4px 10px;
     }
 }
