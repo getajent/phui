@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planet Hoarders</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+
 <body>
     <!-- CRT screen effect overlays -->
     <div class="crt-overlay"></div>
     <div class="scanlines"></div>
     <div class="noise"></div>
     <div class="flicker"></div>
-    
+
     <!-- Dense Volumetric Fog (Below UI) -->
     <div class="fog-container">
         <div class="fog-layer fog-layer-1"></div>
@@ -22,17 +26,17 @@
         <div class="fog-layer fog-layer-3"></div>
         <div class="fog-layer fog-layer-4"></div>
     </div>
-    
+
     <!-- Electrical Spark Effect -->
     <div class="electrical-spark-container" id="electricalSparks">
         <canvas id="sparkCanvas"></canvas>
         <div class="spark-flash"></div>
     </div>
-    
+
     <div class="game-ui">
         <!-- Low Health Overlay -->
         <div class="low-health-overlay"></div>
-        
+
         <!-- Draggable Element -->
         <div class="draggable-container">
             <div class="draggable-element" id="draggableElement">
@@ -41,7 +45,7 @@
                 <span class="drag-label">SIGNAL</span>
             </div>
         </div>
-        
+
         <!-- Drag Hint -->
         <div class="drag-hint" id="dragHint">
             <div class="scan-line"></div>
@@ -73,7 +77,7 @@
             <div class="corner-element bottom-left"></div>
             <div class="corner-element bottom-right"></div>
         </div>
-        
+
         <!-- Health/Stamina Bars -->
         <div class="top-left">
             <div class="vitals-container">
@@ -114,7 +118,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Dead Players Toggle Button -->
         <div class="dead-players-toggle" id="deadPlayersToggle">
             <div class="toggle-icon">
@@ -143,7 +147,8 @@
                     </div>
                     <div class="objective-content">
                         <div class="objective-text">DESCENT INTO MADNESS</div>
-                        <div class="objective-subtext">Locate the maintenance tunnels (or become one with the walls)</div>
+                        <div class="objective-subtext">Locate the maintenance tunnels (or become one with the walls)
+                        </div>
                         <div class="progress-indicator">
                             <div class="progress-track"></div>
                             <div class="progress-fill" style="width: 30%"></div>
@@ -156,7 +161,8 @@
                     </div>
                     <div class="objective-content">
                         <div class="objective-text">RESOURCE EXTRACTION</div>
-                        <div class="objective-subtext">Harvest alien flora samples <span class="progress-counter">[0/3]</span> (Your suffering is tax-deductible)</div>
+                        <div class="objective-subtext">Harvest alien flora samples <span
+                                class="progress-counter">[0/3]</span> (Your suffering is tax-deductible)</div>
                         <div class="progress-indicator">
                             <div class="progress-track"></div>
                             <div class="progress-fill" style="width: 0%"></div>
@@ -169,7 +175,8 @@
                     </div>
                     <div class="objective-content">
                         <div class="objective-text">SIGNAL INVESTIGATION</div>
-                        <div class="objective-subtext">Trace the source of the distress signal (Your screams will be analyzed for research)</div>
+                        <div class="objective-subtext">Trace the source of the distress signal (Your screams will be
+                            analyzed for research)</div>
                         <div class="progress-indicator">
                             <div class="progress-track"></div>
                             <div class="progress-fill" style="width: 100%"></div>
@@ -240,7 +247,7 @@
 
         <!-- Radio Transmission Effect -->
         <div class="radio-transmission"></div>
-        
+
         <!-- Teammate Health Status -->
         <div class="teammate-status" id="teammateStatus">
             <div class="scan-line"></div>
@@ -269,7 +276,7 @@
             <div class="corner-element bottom-left"></div>
             <div class="corner-element bottom-right"></div>
         </div>
-        
+
         <!-- Regular Interaction Hint -->
         <div class="interaction-hint" id="regularInteraction">
             <div class="scan-line"></div>
@@ -282,7 +289,7 @@
                 <div class="interaction-text">Interact</div>
             </div>
         </div>
-        
+
         <!-- Hold Interaction Hint -->
         <div class="interaction-hint" id="holdInteraction">
             <div class="scan-line"></div>
@@ -300,7 +307,7 @@
                 <div class="interaction-text">Hold</div>
             </div>
         </div>
-        
+
         <!-- Button Hints Panel -->
         <div class="button-hints">
             <div class="hints-header">
@@ -329,7 +336,7 @@
                     <div class="key-button small">Hold E</div>
                     <span>Hold</span>
                 </div>
-                
+
                 <!-- Equipment Controls -->
                 <div class="hint-divider">Equipment</div>
                 <div class="hint-item" data-action="select-slot">
@@ -356,7 +363,7 @@
                     <div class="key-button small">M</div>
                     <span>Monster</span>
                 </div>
-                
+
                 <!-- Interface Controls -->
                 <div class="hint-divider">Interface</div>
                 <div class="hint-item" data-action="objectives">
@@ -385,12 +392,12 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Press H for Controls Hint -->
         <div class="press-h-hint">
             Press <span class="key-highlight">H</span> for controls
         </div>
-        
+
         <!-- Dead Players Overlay -->
         <div class="dead-players-overlay" id="deadPlayersOverlay">
             <div class="dead-players-header">
@@ -399,7 +406,7 @@
                 <span class="header-text">DECEASED PERSONNEL</span>
                 <div class="deceased-count">3</div>
             </div>
-            
+
             <div class="dead-players-list">
                 <!-- Dead Player 1 -->
                 <div class="dead-player-item" data-player-id="1">
@@ -425,7 +432,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Dead Player 2 -->
                 <div class="dead-player-item speaking" data-player-id="2">
                     <div class="dead-player-avatar">
@@ -450,7 +457,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Dead Player 3 -->
                 <div class="dead-player-item" data-player-id="3">
                     <div class="dead-player-avatar">
@@ -476,18 +483,18 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="dead-players-footer">
                 <div class="footer-text">SPECTATOR MODE ACTIVE</div>
             </div>
-            
+
             <div class="corner-element top-left"></div>
             <div class="corner-element top-right"></div>
             <div class="corner-element bottom-left"></div>
             <div class="corner-element bottom-right"></div>
         </div>
     </div>
-    
+
     <!-- Death Screen -->
     <div id="deathScreen" class="death-screen">
         <div class="death-content">
@@ -495,14 +502,15 @@
             <div class="terminal-damage"></div>
             <div class="terminal-dust"></div>
             <div class="terminal-scanline"></div>
-            
+
             <div class="death-header">
                 <h1 class="glitch-text" data-text="SYSTEMS OFFLINE">SYSTEMS OFFLINE</h1>
-                <h2 data-binary="01000100 01000101 01000001 01000100">MISSION STATUS: <span class="text-danger">CATASTROPHIC FAILURE</span></h2>
+                <h2 data-binary="01000100 01000101 01000001 01000100">MISSION STATUS: <span
+                        class="text-danger">CATASTROPHIC FAILURE</span></h2>
                 <div class="corner-element top-left"></div>
                 <div class="corner-element top-right"></div>
             </div>
-            
+
             <div class="death-stats">
                 <div class="death-stat">
                     <div class="stat-label">SURVIVAL TIME</div>
@@ -517,7 +525,7 @@
                     <div class="stat-value">D- (Extremely preventable)</div>
                 </div>
             </div>
-            
+
             <div class="death-message-container">
                 <div class="death-cause">
                     <h3>CAUSE OF DEATH</h3>
@@ -528,12 +536,12 @@
                     <p id="deathAnalysis">This failure will be noted in your permanent record.</p>
                 </div>
             </div>
-            
+
             <button id="restartButton" class="restart-button">
                 <div class="button-glow"></div>
                 <span class="button-text">OBSERVE</span>
             </button>
-            
+
             <div class="death-decoration">
                 <div class="skull-icon">☠</div>
                 <div class="system-failure">SYSTEM FAILURE</div>
@@ -548,7 +556,7 @@
             <div class="terminal-damage"></div>
             <div class="terminal-dust"></div>
             <div class="terminal-scanline"></div>
-            
+
             <div class="menu-header">
                 <div class="scan-line"></div>
                 <h1 class="menu-title" data-text="SYSTEM ACCESS">SYSTEM ACCESS</h1>
@@ -557,7 +565,7 @@
                 <div class="corner-element top-left"></div>
                 <div class="corner-element top-right"></div>
             </div>
-            
+
             <div class="menu-tabs" role="tablist">
                 <div class="menu-tab active" data-tab="personnel" role="tab" tabindex="0" aria-selected="true">
                     <span class="tab-icon"><i class="fa-solid fa-users"></i></span>
@@ -570,15 +578,16 @@
                     <span class="tab-shortcut">2</span>
                 </div>
             </div>
-            
+
             <div class="tab-content active" id="personnelTab">
                 <div class="menu-section-header">
                     <span>EMPLOYEE DIRECTORY</span>
                     <div class="section-line"></div>
                 </div>
-                
+
                 <!-- Host ID Section -->
-                <div class="server-id-section" id="serverIdSection" style="display: none; opacity: 0; transition: opacity 0.3s ease, margin 0.3s ease; margin-bottom: 0;">
+                <div class="server-id-section" id="serverIdSection"
+                    style="display: none; opacity: 0; transition: opacity 0.3s ease, margin 0.3s ease; margin-bottom: 0;">
                     <div class="host-id-container">
                         <div class="host-id-label">EXPEDITION DOOM CODE:</div>
                         <div class="host-id-value" id="hostDoomCode">#887766E</div>
@@ -588,15 +597,17 @@
                     </div>
                     <div class="host-id-status">SIGNAL STABLE • <span class="uptime">UPTIME: 01:23:45</span></div>
                 </div>
-                
+
                 <!-- Toggle Lobby Code Button -->
-                <div class="menu-button" id="toggleLobbyCodeBtn" style="margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; padding: 12px 15px; background-color: rgba(20, 20, 18, 0.6); border: 1px solid rgba(194, 176, 28, 0.3); cursor: pointer; transition: all 0.3s ease;">
+                <div class="menu-button" id="toggleLobbyCodeBtn"
+                    style="margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; padding: 12px 15px; background-color: rgba(20, 20, 18, 0.6); border: 1px solid rgba(194, 176, 28, 0.3); cursor: pointer; transition: all 0.3s ease;">
                     <span style="color: var(--primary-color); font-size: 16px; text-transform: uppercase;">
                         <i class="fa-solid fa-eye"></i> SHOW DOOM CODE
                     </span>
-                    <i class="fa-solid fa-chevron-down" id="lobbyCodeToggleIcon" style="color: var(--primary-color); transition: transform 0.3s ease;"></i>
+                    <i class="fa-solid fa-chevron-down" id="lobbyCodeToggleIcon"
+                        style="color: var(--primary-color); transition: transform 0.3s ease;"></i>
                 </div>
-                
+
                 <div class="player-list">
                     <!-- Host player (you) -->
                     <div class="player-item host">
@@ -613,7 +624,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Other players -->
                     <div class="player-item">
                         <div class="player-status active"></div>
@@ -635,7 +646,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="player-item">
                         <div class="player-status active"></div>
                         <div class="player-name">
@@ -656,7 +667,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="player-item">
                         <div class="player-status disconnected"></div>
                         <div class="player-name">
@@ -672,19 +683,19 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="menu-footer">
                     <div class="personnel-note">NOTE: Muting coworkers violates Company Policy #472-B</div>
                     <div class="corporate-message">"Communication is mandatory until termination"</div>
                 </div>
             </div>
-            
+
             <div class="tab-content" id="settingsTab">
                 <div class="menu-section-header">
                     <span>URGENT SYSTEM CONFIGURATION</span>
                     <div class="section-line"></div>
                 </div>
-                
+
                 <div class="settings-list">
                     <div class="setting-item">
                         <div class="setting-name">OXYGEN EFFICIENCY</div>
@@ -697,7 +708,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="setting-item">
                         <div class="setting-name">EMPLOYEE REDUNDANCY</div>
                         <div class="setting-control">
@@ -709,7 +720,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="setting-item">
                         <div class="setting-name">ORGAN DONATION</div>
                         <div class="setting-control">
@@ -721,7 +732,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="setting-item">
                         <div class="setting-name">REALITY STABILIZER</div>
                         <div class="setting-control">
@@ -733,21 +744,21 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="setting-item">
                         <div class="setting-name">SUFFERING LEVEL</div>
                         <div class="setting-control">
                             <div class="toggle-value">IMMENSE</div>
                         </div>
                     </div>
-                    
+
                     <div class="setting-item">
                         <div class="setting-name">SCREAMS VOLUME</div>
                         <div class="setting-control">
                             <div class="toggle-value">87dB</div>
                         </div>
                     </div>
-                    
+
                     <div class="setting-item">
                         <div class="setting-name">NIGHTMARE MODE</div>
                         <div class="setting-control">
@@ -759,14 +770,14 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="setting-item">
                         <div class="setting-name">MEMORY WIPES</div>
                         <div class="setting-control">
                             <div class="toggle-value">BI-WEEKLY</div>
                         </div>
                     </div>
-                    
+
                     <div class="setting-item">
                         <div class="setting-name">EXISTENTIAL DREAD</div>
                         <div class="setting-control">
@@ -778,7 +789,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="setting-item">
                         <div class="setting-name">EMPLOYEE HAPPINESS</div>
                         <div class="setting-control">
@@ -790,7 +801,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="setting-item">
                         <div class="setting-name">WALL EYES</div>
                         <div class="setting-control">
@@ -802,7 +813,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="setting-item">
                         <div class="setting-name">DENTAL PLAN</div>
                         <div class="setting-control">
@@ -814,21 +825,21 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="setting-item">
                         <div class="setting-name">PRODUCTIVITY MINIMUM</div>
                         <div class="setting-control">
                             <div class="toggle-value">142%</div>
                         </div>
                     </div>
-                    
+
                     <div class="setting-item">
                         <div class="setting-name">BATHROOM BREAKS</div>
                         <div class="setting-control">
                             <div class="toggle-value">QUARTERLY</div>
                         </div>
                     </div>
-                    
+
                     <div class="setting-item">
                         <div class="setting-name">PHYSICS STABILITY</div>
                         <div class="setting-control">
@@ -841,13 +852,14 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="menu-footer">
-                    <div class="personnel-note">NOTE: These settings cannot be changed without approval from Corporate</div>
+                    <div class="personnel-note">NOTE: These settings cannot be changed without approval from Corporate
+                    </div>
                     <div class="corporate-message">"Optimal misery promotes quarterly growth"</div>
                 </div>
             </div>
-            
+
             <div class="menu-actions">
                 <div class="menu-button primary" id="resumeButton" data-action="resume" tabindex="0">
                     <div class="button-icon"><i class="fa-solid fa-play"></i></div>
@@ -880,7 +892,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Quit Confirmation Modal -->
             <div class="quit-confirmation-modal" id="quitConfirmModal">
                 <div class="confirmation-content">
@@ -904,7 +916,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="corner-element bottom-left"></div>
             <div class="corner-element bottom-right"></div>
         </div>
@@ -934,11 +946,11 @@
             opacity: 0;
             transition: opacity 0.1s ease-out;
         }
-        
+
         .electrical-spark-container.active {
             opacity: 1;
         }
-        
+
         #sparkCanvas {
             position: absolute;
             top: 0;
@@ -946,33 +958,43 @@
             width: 100%;
             height: 100%;
         }
-        
+
         .spark-flash {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(ellipse at 30% 40%, 
-                rgba(194, 176, 28, 0.15) 0%,
-                rgba(255, 230, 100, 0.08) 20%,
-                transparent 40%);
+            background: radial-gradient(ellipse at 30% 40%,
+                    rgba(194, 176, 28, 0.15) 0%,
+                    rgba(255, 230, 100, 0.08) 20%,
+                    transparent 40%);
             opacity: 0;
             animation: electricFlash 0.15s ease-in-out;
         }
-        
+
         .electrical-spark-container.active .spark-flash {
             animation: electricFlash 0.15s ease-in-out infinite;
         }
-        
+
         @keyframes electricFlash {
-            0%, 100% {
+
+            0%,
+            100% {
                 opacity: 0;
             }
-            10%, 30%, 50%, 70% {
+
+            10%,
+            30%,
+            50%,
+            70% {
                 opacity: 1;
             }
-            20%, 40%, 60%, 80% {
+
+            20%,
+            40%,
+            60%,
+            80% {
                 opacity: 0.3;
             }
         }
@@ -983,72 +1005,72 @@
         // Advanced crossfading ambient machinery sound
         const ambientMachinery1 = document.getElementById('ambientMachinery1');
         const ambientMachinery2 = document.getElementById('ambientMachinery2');
-        
+
         const AMBIENT_VOLUME = 0.15;
         const CROSSFADE_DURATION = 2000; // 2 seconds crossfade
         const CROSSFADE_START_OFFSET = 3; // Start crossfade 3 seconds before end
-        
+
         let ambientStarted = false;
         let currentTrack = ambientMachinery1;
         let nextTrack = ambientMachinery2;
         let crossfadeTimer = null;
-        
+
         // Set initial volumes
         ambientMachinery1.volume = 0;
         ambientMachinery2.volume = 0;
-        
+
         // Smooth easing function for natural fade
         function easeInOutCubic(t) {
             return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
         }
-        
+
         // Crossfade to next track
         function crossfade() {
             if (!ambientStarted) return;
-            
+
             console.log('Starting crossfade...');
-            
+
             // Prepare next track
             nextTrack.currentTime = 0;
             nextTrack.volume = 0;
             nextTrack.play().catch(e => console.log('Crossfade play prevented:', e));
-            
+
             const startTime = performance.now();
             const currentStartVolume = currentTrack.volume;
-            
+
             function fade() {
                 const elapsed = performance.now() - startTime;
                 const progress = Math.min(elapsed / CROSSFADE_DURATION, 1);
                 const easedProgress = easeInOutCubic(progress);
-                
+
                 // Fade out current, fade in next
                 currentTrack.volume = currentStartVolume * (1 - easedProgress);
                 nextTrack.volume = AMBIENT_VOLUME * easedProgress;
-                
+
                 if (progress < 1) {
                     requestAnimationFrame(fade);
                 } else {
                     // Crossfade complete, swap tracks
                     currentTrack.pause();
                     currentTrack.currentTime = 0;
-                    
+
                     // Swap references
                     [currentTrack, nextTrack] = [nextTrack, currentTrack];
-                    
+
                     // Schedule next crossfade
                     scheduleNextCrossfade();
                 }
             }
-            
+
             requestAnimationFrame(fade);
         }
-        
+
         // Schedule the next crossfade based on track duration
         function scheduleNextCrossfade() {
             if (crossfadeTimer) {
                 clearTimeout(crossfadeTimer);
             }
-            
+
             const duration = currentTrack.duration;
             if (duration && !isNaN(duration)) {
                 const timeUntilCrossfade = (duration - CROSSFADE_START_OFFSET) * 1000;
@@ -1059,19 +1081,19 @@
                 crossfadeTimer = setTimeout(crossfade, 25000); // Default 25s
             }
         }
-        
+
         // Start ambient sound system
         function startAmbient() {
             if (!ambientStarted) {
                 ambientStarted = true;
-                
+
                 // Start first track
                 currentTrack.volume = AMBIENT_VOLUME;
                 currentTrack.play().catch(e => {
                     console.log('Ambient audio prevented:', e);
                     ambientStarted = false;
                 });
-                
+
                 // Wait for metadata to load before scheduling
                 if (currentTrack.duration && !isNaN(currentTrack.duration)) {
                     scheduleNextCrossfade();
@@ -1080,32 +1102,32 @@
                         scheduleNextCrossfade();
                     }, { once: true });
                 }
-                
+
                 console.log('Ambient machinery sound started with crossfading');
             }
         }
-        
+
         // Start on first interaction
         document.addEventListener('click', startAmbient, { once: true });
         document.addEventListener('keydown', startAmbient, { once: true });
-        
+
         // ===================================
         // RANDOM ZAPPER SOUND EFFECT
         // ===================================
-        
+
         const zapperSound = document.getElementById('zapperSound');
         zapperSound.volume = 0.06; // 6% volume for subtle effect
-        
+
         let zapperActive = false;
-        
+
         // ===================================
         // ELECTRICAL SPARK VISUAL EFFECT
         // ===================================
-        
+
         const electricalSparks = document.getElementById('electricalSparks');
         const sparkCanvas = document.getElementById('sparkCanvas');
         const sparkCtx = sparkCanvas.getContext('2d');
-        
+
         // Set canvas to full screen
         function resizeSparkCanvas() {
             sparkCanvas.width = window.innerWidth;
@@ -1113,17 +1135,17 @@
         }
         resizeSparkCanvas();
         window.addEventListener('resize', resizeSparkCanvas);
-        
+
         let sparks = [];
         let lightning = [];
         let sparkAnimationRunning = false;
-        
+
         // Spark origin point (cable location - left-center area)
         const sparkOrigin = {
             x: 0.30, // 30% from left
             y: 0.35  // 35% from top
         };
-        
+
         class ElectricSpark {
             constructor(originX, originY) {
                 this.x = originX + (Math.random() - 0.5) * 30;
@@ -1135,7 +1157,7 @@
                 this.size = 1.5 + Math.random() * 2.5;
                 this.brightness = 0.7 + Math.random() * 0.3;
             }
-            
+
             update() {
                 this.x += this.vx;
                 this.y += this.vy;
@@ -1143,10 +1165,10 @@
                 this.vx *= 0.98; // Air resistance
                 this.life -= this.decay;
             }
-            
+
             draw() {
                 const alpha = this.life * this.brightness;
-                
+
                 // Main spark particle
                 sparkCtx.beginPath();
                 sparkCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -1154,52 +1176,52 @@
                 sparkCtx.shadowBlur = 15;
                 sparkCtx.shadowColor = `rgba(194, 176, 28, ${alpha})`;
                 sparkCtx.fill();
-                
+
                 // Bright core
                 sparkCtx.beginPath();
                 sparkCtx.arc(this.x, this.y, this.size * 0.4, 0, Math.PI * 2);
                 sparkCtx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
                 sparkCtx.shadowBlur = 20;
                 sparkCtx.fill();
-                
+
                 sparkCtx.shadowBlur = 0;
             }
         }
-        
+
         class LightningBolt {
             constructor(startX, startY) {
                 this.segments = [];
                 this.life = 1.0;
                 this.decay = 0.08;
-                
+
                 // Create jagged lightning path
                 let x = startX;
                 let y = startY;
                 const endX = startX + (Math.random() - 0.5) * 150;
                 const endY = startY + 80 + Math.random() * 100;
                 const segmentCount = 8 + Math.floor(Math.random() * 6);
-                
+
                 for (let i = 0; i <= segmentCount; i++) {
                     const progress = i / segmentCount;
                     const targetX = startX + (endX - startX) * progress;
                     const targetY = startY + (endY - startY) * progress;
-                    
+
                     x = targetX + (Math.random() - 0.5) * 40;
                     y = targetY + (Math.random() - 0.5) * 20;
-                    
+
                     this.segments.push({ x, y });
                 }
             }
-            
+
             update() {
                 this.life -= this.decay;
             }
-            
+
             draw() {
                 if (this.segments.length < 2) return;
-                
+
                 const alpha = this.life;
-                
+
                 // Outer glow
                 sparkCtx.beginPath();
                 sparkCtx.moveTo(this.segments[0].x, this.segments[0].y);
@@ -1211,7 +1233,7 @@
                 sparkCtx.shadowBlur = 20;
                 sparkCtx.shadowColor = `rgba(194, 176, 28, ${alpha})`;
                 sparkCtx.stroke();
-                
+
                 // Inner bright bolt
                 sparkCtx.beginPath();
                 sparkCtx.moveTo(this.segments[0].x, this.segments[0].y);
@@ -1223,29 +1245,29 @@
                 sparkCtx.shadowBlur = 15;
                 sparkCtx.shadowColor = `rgba(255, 255, 255, ${alpha})`;
                 sparkCtx.stroke();
-                
+
                 sparkCtx.shadowBlur = 0;
             }
         }
-        
+
         function createElectricalEffect() {
             const originX = sparkCanvas.width * sparkOrigin.x;
             const originY = sparkCanvas.height * sparkOrigin.y;
-            
+
             // Create sparks
             for (let i = 0; i < 12; i++) {
                 sparks.push(new ElectricSpark(originX, originY));
             }
-            
+
             // Random chance for lightning bolt
             if (Math.random() > 0.4) {
                 lightning.push(new LightningBolt(originX, originY));
             }
         }
-        
+
         function animateElectricalEffect() {
             sparkCtx.clearRect(0, 0, sparkCanvas.width, sparkCanvas.height);
-            
+
             // Update and draw lightning
             lightning = lightning.filter(bolt => {
                 bolt.update();
@@ -1255,7 +1277,7 @@
                 }
                 return false;
             });
-            
+
             // Update and draw sparks
             sparks = sparks.filter(spark => {
                 spark.update();
@@ -1265,7 +1287,7 @@
                 }
                 return false;
             });
-            
+
             // Continue animation if there are effects
             if (sparks.length > 0 || lightning.length > 0) {
                 requestAnimationFrame(animateElectricalEffect);
@@ -1274,34 +1296,34 @@
                 sparkAnimationRunning = false;
             }
         }
-        
+
         function triggerElectricalSparks() {
             electricalSparks.classList.add('active');
-            
+
             // Create bursts of sparks during the effect
             const burstInterval = setInterval(() => {
                 createElectricalEffect();
             }, 120);
-            
+
             // Start animation if not already running
             if (!sparkAnimationRunning) {
                 sparkAnimationRunning = true;
                 animateElectricalEffect();
             }
-            
+
             // Stop creating new effects after duration
             setTimeout(() => {
                 clearInterval(burstInterval);
             }, 1200);
         }
-        
+
         // Play zapper sound at random intervals with gaps
         function scheduleNextZapper() {
             if (!zapperActive || !ambientStarted) return;
-            
+
             // Random gap between plays: 8-20 seconds
             const gapDuration = 8000 + Math.random() * 12000;
-            
+
             setTimeout(() => {
                 if (zapperActive && ambientStarted) {
                     // Play the zapper sound
@@ -1309,13 +1331,13 @@
                     zapperSound.play()
                         .then(() => {
                             console.log('⚡ Zapper effect triggered');
-                            
+
                             // Trigger electrical spark visual effect
                             triggerElectricalSparks();
-                            
+
                             // Get the duration of the sound (3-6 seconds typically)
                             const soundDuration = zapperSound.duration || 4.5; // fallback to 4.5s
-                            
+
                             // After sound finishes, schedule the next one
                             setTimeout(() => {
                                 scheduleNextZapper();
@@ -1332,13 +1354,13 @@
                 }
             }, gapDuration);
         }
-        
+
         // Start zapper system
         function startZapperSystem() {
             if (!zapperActive && ambientStarted) {
                 zapperActive = true;
                 console.log('🔌 Random zapper system activated');
-                
+
                 // First zapper after initial delay (5-10 seconds)
                 setTimeout(() => {
                     if (zapperActive && ambientStarted) {
@@ -1346,10 +1368,10 @@
                         zapperSound.play()
                             .then(() => {
                                 console.log('⚡ Initial zapper effect');
-                                
+
                                 // Trigger electrical spark visual effect
                                 triggerElectricalSparks();
-                                
+
                                 // Wait for sound to finish, then schedule next
                                 const soundDuration = zapperSound.duration || 4.5;
                                 setTimeout(() => {
@@ -1364,7 +1386,7 @@
                 }, 5000 + Math.random() * 5000);
             }
         }
-        
+
         // Auto-start zapper when ambient starts
         document.addEventListener('click', () => {
             setTimeout(() => {
@@ -1373,7 +1395,7 @@
                 }
             }, 1000);
         }, { once: true });
-        
+
         document.addEventListener('keydown', () => {
             setTimeout(() => {
                 if (ambientStarted && !zapperActive) {
@@ -1381,14 +1403,14 @@
                 }
             }, 1000);
         }, { once: true });
-        
+
         // Toggle Lobby Code visibility
-        document.getElementById('toggleLobbyCodeBtn').addEventListener('click', function() {
+        document.getElementById('toggleLobbyCodeBtn').addEventListener('click', function () {
             const serverIdSection = document.getElementById('serverIdSection');
             const toggleBtn = document.getElementById('toggleLobbyCodeBtn');
             const toggleIcon = document.getElementById('lobbyCodeToggleIcon');
             const toggleText = toggleBtn.querySelector('span');
-            
+
             if (serverIdSection.style.display === 'none') {
                 // Show the section
                 serverIdSection.style.display = 'block';
@@ -1409,68 +1431,68 @@
                 toggleIcon.style.transform = 'rotate(0deg)';
             }
         });
-        
+
         // Add hover effect to toggle button
-        document.getElementById('toggleLobbyCodeBtn').addEventListener('mouseenter', function() {
+        document.getElementById('toggleLobbyCodeBtn').addEventListener('mouseenter', function () {
             this.style.backgroundColor = 'rgba(194, 176, 28, 0.1)';
             this.style.borderColor = 'var(--primary-color)';
         });
-        
-        document.getElementById('toggleLobbyCodeBtn').addEventListener('mouseleave', function() {
+
+        document.getElementById('toggleLobbyCodeBtn').addEventListener('mouseleave', function () {
             this.style.backgroundColor = 'rgba(20, 20, 18, 0.6)';
             this.style.borderColor = 'rgba(194, 176, 28, 0.3)';
         });
-        
+
         // Host ID copy functionality
-        document.getElementById('copyHostId').addEventListener('click', function() {
+        document.getElementById('copyHostId').addEventListener('click', function () {
             const hostId = document.getElementById('hostDoomCode').textContent;
-            navigator.clipboard.writeText(hostId).then(function() {
+            navigator.clipboard.writeText(hostId).then(function () {
                 // Show copy success feedback
                 const copyBtn = document.getElementById('copyHostId');
                 const originalHTML = copyBtn.innerHTML;
                 copyBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
                 copyBtn.style.backgroundColor = 'rgba(77, 110, 80, 0.5)';
-                
-                setTimeout(function() {
+
+                setTimeout(function () {
                     copyBtn.innerHTML = originalHTML;
                     copyBtn.style.backgroundColor = '';
                 }, 1000);
-                
+
                 // Add a notification
                 showNotification('Doom Code copied to clipboard. Spread the suffering.', 'info');
             });
         });
-        
+
         // Generate a random Doom Code if not already set
         function generateDoomCode() {
             const joinedServerCode = localStorage.getItem('joinedServerCode');
             const storedDoomCode = localStorage.getItem('hostDoomCode');
             const hostDoomCodeElement = document.getElementById('hostDoomCode');
-            
+
             // Check if joining someone else's server
             if (joinedServerCode) {
                 hostDoomCodeElement.textContent = joinedServerCode;
                 const statusElement = document.querySelector('.host-id-status');
                 statusElement.innerHTML = 'CONNECTED TO EXTERNAL SIGNAL • <span class="uptime">UPTIME: 01:23:45</span>';
                 statusElement.style.color = '#a23430';
-                
+
                 // Set the player role to "SUBORDINATE" instead of "SUPERVISOR"
                 const playerRole = document.querySelector('.player-role');
                 if (playerRole.textContent === 'SUPERVISOR') {
                     playerRole.textContent = 'SUBORDINATE';
-                    
+
                     // Update player display to show as non-host
                     const playerItem = document.querySelector('.player-item.host');
                     playerItem.classList.remove('host');
                     const nameText = playerItem.querySelector('.name-text');
                     nameText.textContent = 'YOU [CONNECTED]';
                 }
-                
+
                 // Clear the joined server code to avoid confusion on refresh
                 localStorage.removeItem('joinedServerCode');
                 return;
             }
-            
+
             // Generate a new code or use stored one
             if (storedDoomCode) {
                 hostDoomCodeElement.textContent = storedDoomCode;
@@ -1484,7 +1506,7 @@
                 localStorage.setItem('hostDoomCode', doomCode);
             }
         }
-        
+
         // Simple notification system
         function showNotification(message, type = 'info') {
             const notificationContainer = document.querySelector('.game-ui');
@@ -1494,13 +1516,13 @@
                 <div class="notification-icon"><i class="fa-solid fa-${type === 'info' ? 'info' : 'warning'}"></i></div>
                 <div class="notification-message">${message}</div>
             `;
-            
+
             notificationContainer.appendChild(notification);
-            
+
             setTimeout(() => {
                 notification.classList.add('show');
             }, 10);
-            
+
             setTimeout(() => {
                 notification.classList.remove('show');
                 setTimeout(() => {
@@ -1508,54 +1530,54 @@
                 }, 300);
             }, 3000);
         }
-        
+
         // Update uptime counter
         function updateUptime() {
             const startTime = localStorage.getItem('sessionStartTime') || Date.now().toString();
             if (!localStorage.getItem('sessionStartTime')) {
                 localStorage.setItem('sessionStartTime', startTime);
             }
-            
+
             const uptimeElement = document.querySelector('.uptime');
             const elapsedSeconds = Math.floor((Date.now() - parseInt(startTime)) / 1000);
             const hours = Math.floor(elapsedSeconds / 3600).toString().padStart(2, '0');
             const minutes = Math.floor((elapsedSeconds % 3600) / 60).toString().padStart(2, '0');
             const seconds = (elapsedSeconds % 60).toString().padStart(2, '0');
-            
+
             uptimeElement.textContent = `UPTIME: ${hours}:${minutes}:${seconds}`;
         }
-        
+
         // Add terminal shortcut (T key)
-        document.addEventListener('keydown', function(event) {
+        document.addEventListener('keydown', function (event) {
             // Check if T key is pressed and no input element is focused
             if (event.key === 't' || event.key === 'T') {
                 const activeElement = document.activeElement;
-                const isInputFocused = activeElement.tagName === 'INPUT' || 
-                                      activeElement.tagName === 'TEXTAREA' || 
-                                      activeElement.isContentEditable;
-                
+                const isInputFocused = activeElement.tagName === 'INPUT' ||
+                    activeElement.tagName === 'TEXTAREA' ||
+                    activeElement.isContentEditable;
+
                 if (!isInputFocused) {
                     // Show notification before navigating
                     showNotification('Accessing terminal system...', 'info');
-                    
+
                     // Navigate to terminal.html after a brief delay
                     setTimeout(() => {
                         window.location.href = 'terminal.html';
                     }, 500);
                 }
             }
-            
+
             // Check if B key is pressed for loading screen shortcut
             if (event.key === 'b' || event.key === 'B') {
                 const activeElement = document.activeElement;
-                const isInputFocused = activeElement.tagName === 'INPUT' || 
-                                      activeElement.tagName === 'TEXTAREA' || 
-                                      activeElement.isContentEditable;
-                
+                const isInputFocused = activeElement.tagName === 'INPUT' ||
+                    activeElement.tagName === 'TEXTAREA' ||
+                    activeElement.isContentEditable;
+
                 if (!isInputFocused) {
                     // Show notification before navigating
                     showNotification('Initiating loading sequence...', 'info');
-                    
+
                     // Navigate to loading.html after a brief delay
                     setTimeout(() => {
                         window.location.href = 'loading.html';
@@ -1563,16 +1585,16 @@
                 }
             }
         });
-        
+
         // ===================================
         // VOICE LEVEL INDICATOR FUNCTIONALITY
         // ===================================
-        
+
         let audioContext;
         let analyser;
         let microphone;
         let dataArray;
-        
+
         // Initialize voice level monitoring
         async function initVoiceLevel() {
             try {
@@ -1580,16 +1602,16 @@
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
                 analyser = audioContext.createAnalyser();
                 microphone = audioContext.createMediaStreamSource(stream);
-                
+
                 analyser.fftSize = 256;
                 const bufferLength = analyser.frequencyBinCount;
                 dataArray = new Uint8Array(bufferLength);
-                
+
                 microphone.connect(analyser);
-                
+
                 // Update voice bars continuously
                 updateVoiceBars();
-                
+
                 console.log('Voice level monitoring initialized');
             } catch (err) {
                 console.warn('Microphone access denied or unavailable:', err);
@@ -1597,7 +1619,7 @@
                 demoVoiceBars();
             }
         }
-        
+
         // Helper function to get color based on volume (green -> yellow -> red)
         function getVolumeColor(volume) {
             if (volume < 0.05) {
@@ -1606,39 +1628,39 @@
             } else if (volume < 0.4) {
                 // Quiet - green
                 const progress = volume / 0.4;
-                return { 
+                return {
                     r: Math.floor(80 + progress * 20),
-                    g: Math.floor(200 - progress * 30), 
+                    g: Math.floor(200 - progress * 30),
                     b: 80,
                     a: 0.7 + progress * 0.2
                 };
             } else if (volume < 0.7) {
                 // Medium - yellow/orange
                 const progress = (volume - 0.4) / 0.3;
-                return { 
+                return {
                     r: Math.floor(100 + progress * 155),
-                    g: Math.floor(170 - progress * 80), 
+                    g: Math.floor(170 - progress * 80),
                     b: Math.floor(80 - progress * 80),
                     a: 0.9
                 };
             } else {
                 // Loud - red
                 const progress = (volume - 0.7) / 0.3;
-                return { 
+                return {
                     r: 255,
-                    g: Math.floor(90 - progress * 90), 
+                    g: Math.floor(90 - progress * 90),
                     b: 0,
                     a: 1
                 };
             }
         }
-        
+
         // Update voice bars based on microphone input
         function updateVoiceBars() {
             if (!analyser) return;
-            
+
             analyser.getByteFrequencyData(dataArray);
-            
+
             // Calculate average volume with boost for better sensitivity
             let sum = 0;
             for (let i = 0; i < dataArray.length; i++) {
@@ -1646,15 +1668,15 @@
             }
             const average = sum / dataArray.length;
             let normalizedVolume = average / 255; // 0 to 1
-            
+
             // Boost sensitivity - amplify the volume for more reactivity
             normalizedVolume = Math.min(1, normalizedVolume * 2.5);
-            
+
             // Apply smoothing but keep it responsive
             if (!updateVoiceBars.lastVolume) updateVoiceBars.lastVolume = 0;
             normalizedVolume = updateVoiceBars.lastVolume * 0.3 + normalizedVolume * 0.7;
             updateVoiceBars.lastVolume = normalizedVolume;
-            
+
             // Update each bar based on volume level - lower thresholds for better reactivity
             const voiceBars = document.querySelectorAll('#voiceLevelIndicator .voice-bar');
             voiceBars.forEach((bar, index) => {
@@ -1662,10 +1684,10 @@
                 if (normalizedVolume > threshold) {
                     const heightPercent = Math.min(100, (index + 1) * 15 + (normalizedVolume * 70));
                     bar.style.height = heightPercent + '%';
-                    
+
                     const color = getVolumeColor(normalizedVolume);
                     bar.style.background = `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`;
-                    
+
                     if (normalizedVolume > 0.03) {
                         bar.style.boxShadow = `0 0 ${4 + normalizedVolume * 8}px rgba(${color.r}, ${color.g}, ${color.b}, ${normalizedVolume * 0.6})`;
                     } else {
@@ -1678,16 +1700,16 @@
                     bar.style.boxShadow = 'none';
                 }
             });
-            
+
             // Make the pepper react to volume (gets hotter when louder!)
             const pepper = document.querySelector('.voice-pepper-icon');
             if (pepper) {
                 const scale = 1 + (normalizedVolume * 0.6); // Scale up to 1.6x - more dramatic
                 const rotation = (normalizedVolume - 0.5) * 35; // Shake more vigorously
                 const color = getVolumeColor(normalizedVolume);
-                
+
                 pepper.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
-                
+
                 if (normalizedVolume < 0.03) {
                     // Gray when silent
                     pepper.style.color = 'rgba(150, 150, 150, 0.6)';
@@ -1698,26 +1720,26 @@
                     pepper.style.filter = `drop-shadow(0 0 ${4 + normalizedVolume * 12}px rgba(${color.r}, ${color.g}, ${color.b}, ${normalizedVolume * 0.9}))`;
                 }
             }
-            
+
             requestAnimationFrame(updateVoiceBars);
         }
-        
+
         // Demo mode (when mic access is unavailable)
         function demoVoiceBars() {
             setInterval(() => {
                 const voiceBars = document.querySelectorAll('#voiceLevelIndicator .voice-bar');
                 const pepper = document.querySelector('.voice-pepper-icon');
                 const randomVolume = Math.random() * 1.2; // 0 to 1.2 - more variation
-                
+
                 voiceBars.forEach((bar, index) => {
                     const threshold = (index) * 0.12;
                     if (randomVolume > threshold) {
                         const heightPercent = Math.min(100, (index + 1) * 15 + (randomVolume * 70));
                         bar.style.height = heightPercent + '%';
-                        
+
                         const color = getVolumeColor(Math.min(1, randomVolume));
                         bar.style.background = `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`;
-                        
+
                         if (randomVolume > 0.03) {
                             bar.style.boxShadow = `0 0 ${4 + randomVolume * 8}px rgba(${color.r}, ${color.g}, ${color.b}, ${Math.min(1, randomVolume) * 0.6})`;
                         } else {
@@ -1729,14 +1751,14 @@
                         bar.style.boxShadow = 'none';
                     }
                 });
-                
+
                 if (pepper) {
                     const scale = 1 + (Math.min(1, randomVolume) * 0.6);
                     const rotation = (Math.min(1, randomVolume) - 0.5) * 35;
                     const color = getVolumeColor(Math.min(1, randomVolume));
-                    
+
                     pepper.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
-                    
+
                     if (randomVolume < 0.03) {
                         pepper.style.color = 'rgba(150, 150, 150, 0.6)';
                         pepper.style.filter = 'drop-shadow(0 0 2px rgba(100, 100, 100, 0.3))';
@@ -1747,18 +1769,18 @@
                 }
             }, 150); // Faster update rate for more reactivity
         }
-        
+
         // Initialize the Doom Code and uptime
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             generateDoomCode();
             updateUptime();
             setInterval(updateUptime, 1000);
-            
+
             // Initialize voice level monitoring after a short delay
             setTimeout(() => {
                 initVoiceLevel();
             }, 1000);
-            
+
             // Add hints about terminal access and loading screen
             const controlsHints = document.querySelector('.hints-content');
             if (controlsHints) {
@@ -1773,7 +1795,7 @@
                         <span>Open Terminal</span>
                     `;
                     interfaceControls.parentNode.insertBefore(terminalHint, interfaceControls.nextSibling);
-                    
+
                     // Add loading screen hint
                     const loadingHint = document.createElement('div');
                     loadingHint.className = 'hint-item';
@@ -1786,27 +1808,27 @@
                 }
             }
         });
-        
+
         // ===================================
         // DEAD PLAYERS OVERLAY FUNCTIONALITY
         // ===================================
-        
+
         // Function to simulate voice activity (for demo purposes)
         // In a real implementation, this would be triggered by actual voice detection
         function simulateVoiceActivity() {
             const deadPlayerItems = document.querySelectorAll('.dead-player-item');
-            
+
             // Randomly make one player speak
             setInterval(() => {
                 // Remove speaking class from all players
                 deadPlayerItems.forEach(item => item.classList.remove('speaking'));
-                
+
                 // Random chance for a player to speak
                 if (Math.random() > 0.7) {
                     const randomIndex = Math.floor(Math.random() * deadPlayerItems.length);
                     const speakingPlayer = deadPlayerItems[randomIndex];
                     speakingPlayer.classList.add('speaking');
-                    
+
                     // Remove speaking class after random duration (1-3 seconds)
                     const speakDuration = 1000 + Math.random() * 2000;
                     setTimeout(() => {
@@ -1815,29 +1837,29 @@
                 }
             }, 3000); // Check every 3 seconds
         }
-        
+
         // Function to manually trigger voice activity for a specific player
         // Usage: triggerVoiceActivity(playerId, duration)
-        window.triggerVoiceActivity = function(playerId, duration = 2000) {
+        window.triggerVoiceActivity = function (playerId, duration = 2000) {
             const playerElement = document.querySelector(`.dead-player-item[data-player-id="${playerId}"]`);
             if (playerElement) {
                 playerElement.classList.add('speaking');
-                
+
                 // Auto-remove after duration
                 setTimeout(() => {
                     playerElement.classList.remove('speaking');
                 }, duration);
             }
         };
-        
+
         // Function to add a dead player dynamically
-        window.addDeadPlayer = function(playerName, playerId, status = 'TERMINATED') {
+        window.addDeadPlayer = function (playerName, playerId, status = 'TERMINATED') {
             const deadPlayersList = document.querySelector('.dead-players-list');
             const deceasedCount = document.querySelector('.deceased-count');
             const toggleCount = document.querySelector('.toggle-count');
-            
+
             if (!deadPlayersList) return;
-            
+
             // Create new dead player item
             const deadPlayerItem = document.createElement('div');
             deadPlayerItem.className = 'dead-player-item';
@@ -1865,35 +1887,35 @@
                     </div>
                 </div>
             `;
-            
+
             // Add to list
             deadPlayersList.appendChild(deadPlayerItem);
-            
+
             // Update counts
             const currentCount = parseInt(deceasedCount.textContent) || 0;
             const newCount = currentCount + 1;
             deceasedCount.textContent = newCount;
             if (toggleCount) toggleCount.textContent = newCount;
-            
+
             // Show notification with death type
             showNotification(`☠ ${playerName} has been eliminated`, 'death', 7000);
         };
-        
+
         // Function to remove a dead player
-        window.removeDeadPlayer = function(playerId) {
+        window.removeDeadPlayer = function (playerId) {
             const playerElement = document.querySelector(`.dead-player-item[data-player-id="${playerId}"]`);
             const deceasedCount = document.querySelector('.deceased-count');
             const toggleCount = document.querySelector('.toggle-count');
-            
+
             if (playerElement) {
                 // Fade out animation
                 playerElement.style.transition = 'all 0.3s ease';
                 playerElement.style.opacity = '0';
                 playerElement.style.transform = 'translateX(50px)';
-                
+
                 setTimeout(() => {
                     playerElement.remove();
-                    
+
                     // Update counts
                     const currentCount = parseInt(deceasedCount.textContent) || 0;
                     const newCount = Math.max(0, currentCount - 1);
@@ -1902,21 +1924,21 @@
                 }, 300);
             }
         };
-        
+
         // Timer for auto-hiding the button
         let buttonHideTimer = null;
-        
+
         // Function to show the toggle button temporarily
-        window.showDeadPlayersButton = function() {
+        window.showDeadPlayersButton = function () {
             const toggleButton = document.getElementById('deadPlayersToggle');
             if (toggleButton) {
                 toggleButton.classList.add('visible');
-                
+
                 // Clear existing timer
                 if (buttonHideTimer) {
                     clearTimeout(buttonHideTimer);
                 }
-                
+
                 // Set new timer to hide after 5 seconds
                 buttonHideTimer = setTimeout(() => {
                     toggleButton.classList.remove('visible');
@@ -1929,22 +1951,22 @@
                 }, 5000);
             }
         };
-        
+
         // Function to toggle overlay visibility
-        window.toggleDeadPlayersOverlay = function() {
+        window.toggleDeadPlayersOverlay = function () {
             const overlay = document.getElementById('deadPlayersOverlay');
             const toggleButton = document.getElementById('deadPlayersToggle');
-            
+
             if (overlay) {
                 const isVisible = overlay.classList.contains('visible');
-                
+
                 if (isVisible) {
                     overlay.classList.remove('visible');
                     toggleButton.classList.remove('active');
                 } else {
                     overlay.classList.add('visible');
                     toggleButton.classList.add('active');
-                    
+
                     // Keep button visible while overlay is open
                     if (buttonHideTimer) {
                         clearTimeout(buttonHideTimer);
@@ -1952,42 +1974,42 @@
                 }
             }
         };
-        
+
         // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Start simulating voice activity for demo
             simulateVoiceActivity();
-            
+
             // Add click event to toggle button
             const toggleButton = document.getElementById('deadPlayersToggle');
             if (toggleButton) {
-                toggleButton.addEventListener('click', function() {
+                toggleButton.addEventListener('click', function () {
                     toggleDeadPlayersOverlay();
                     // Refresh the timer when button is clicked
                     showDeadPlayersButton();
                 });
-                
+
                 // Pause auto-hide timer when hovering over button
-                toggleButton.addEventListener('mouseenter', function() {
+                toggleButton.addEventListener('mouseenter', function () {
                     if (buttonHideTimer) {
                         clearTimeout(buttonHideTimer);
                     }
                 });
-                
+
                 // Resume auto-hide timer when mouse leaves
-                toggleButton.addEventListener('mouseleave', function() {
+                toggleButton.addEventListener('mouseleave', function () {
                     showDeadPlayersButton();
                 });
             }
-            
+
             // Add keyboard shortcut to show button and toggle overlay (V key)
-            document.addEventListener('keydown', function(event) {
+            document.addEventListener('keydown', function (event) {
                 if (event.key === 'v' || event.key === 'V') {
                     const activeElement = document.activeElement;
-                    const isInputFocused = activeElement.tagName === 'INPUT' || 
-                                          activeElement.tagName === 'TEXTAREA' || 
-                                          activeElement.isContentEditable;
-                    
+                    const isInputFocused = activeElement.tagName === 'INPUT' ||
+                        activeElement.tagName === 'TEXTAREA' ||
+                        activeElement.isContentEditable;
+
                     if (!isInputFocused) {
                         // Show the button first
                         showDeadPlayersButton();
@@ -1996,7 +2018,7 @@
                     }
                 }
             });
-            
+
             // Add hint for dead players overlay toggle
             const controlsHints = document.querySelector('.hints-content');
             if (controlsHints) {
@@ -2016,4 +2038,5 @@
         });
     </script>
 </body>
+
 </html>

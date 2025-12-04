@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,20 +20,20 @@
             --error-color: #a23430;
             --scanline-color: rgba(20, 28, 20, 0.1);
         }
-        
+
         /* Custom Scrollbar Styling */
         ::-webkit-scrollbar {
             width: 10px;
             background: rgba(10, 10, 8, 0.9);
             border-left: 1px solid rgba(194, 176, 28, 0.2);
         }
-        
+
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(to bottom, var(--primary-color) 0%, #937f13 100%);
             border: 1px solid var(--primary-color);
             box-shadow: inset 0 0 3px rgba(194, 176, 28, 0.5);
         }
-        
+
         ::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(to bottom, #e6d02b 0%, var(--primary-color) 100%);
             box-shadow: 0 0 5px rgba(194, 176, 28, 0.7);
@@ -42,7 +43,7 @@
             background: rgba(20, 20, 18, 0.7);
             border-left: 1px solid rgba(194, 176, 28, 0.1);
         }
-        
+
         /* Firefox scrollbar */
         * {
             scrollbar-width: thin;
@@ -75,10 +76,10 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(45deg, 
-                rgba(10, 10, 8, 0.8) 0%,
-                rgba(20, 20, 18, 0.7) 50%,
-                rgba(10, 10, 8, 0.8) 100%);
+            background: linear-gradient(45deg,
+                    rgba(10, 10, 8, 0.8) 0%,
+                    rgba(20, 20, 18, 0.7) 50%,
+                    rgba(10, 10, 8, 0.8) 100%);
             z-index: 1;
         }
 
@@ -101,13 +102,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                var(--scanline-color),
-                var(--scanline-color) 2px,
-                transparent 2px,
-                transparent 4px
-            );
+            background: repeating-linear-gradient(0deg,
+                    var(--scanline-color),
+                    var(--scanline-color) 2px,
+                    transparent 2px,
+                    transparent 4px);
             pointer-events: none;
             z-index: 2;
             opacity: 0.3;
@@ -120,11 +119,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(
-                ellipse at center,
-                transparent 60%,
-                rgba(0, 0, 0, 0.6) 100%
-            );
+            background: radial-gradient(ellipse at center,
+                    transparent 60%,
+                    rgba(0, 0, 0, 0.6) 100%);
             pointer-events: none;
             z-index: 3;
         }
@@ -145,17 +142,49 @@
         }
 
         @keyframes noiseAnim {
-            0% { transform: translate(0, 0); }
-            10% { transform: translate(-5%, -5%); }
-            20% { transform: translate(-10%, 5%); }
-            30% { transform: translate(5%, -10%); }
-            40% { transform: translate(-5%, 15%); }
-            50% { transform: translate(-10%, 5%); }
-            60% { transform: translate(15%, 0); }
-            70% { transform: translate(0, 10%); }
-            80% { transform: translate(-15%, 0); }
-            90% { transform: translate(10%, 5%); }
-            100% { transform: translate(5%, 0); }
+            0% {
+                transform: translate(0, 0);
+            }
+
+            10% {
+                transform: translate(-5%, -5%);
+            }
+
+            20% {
+                transform: translate(-10%, 5%);
+            }
+
+            30% {
+                transform: translate(5%, -10%);
+            }
+
+            40% {
+                transform: translate(-5%, 15%);
+            }
+
+            50% {
+                transform: translate(-10%, 5%);
+            }
+
+            60% {
+                transform: translate(15%, 0);
+            }
+
+            70% {
+                transform: translate(0, 10%);
+            }
+
+            80% {
+                transform: translate(-15%, 0);
+            }
+
+            90% {
+                transform: translate(10%, 5%);
+            }
+
+            100% {
+                transform: translate(5%, 0);
+            }
         }
 
         /* Flicker for random screen flicker effect */
@@ -179,8 +208,8 @@
             background-color: rgba(18, 18, 16, 0.88);
             padding: 30px;
             border: none;
-            box-shadow: 
-                0 0 20px rgba(0, 0, 0, 0.9), 
+            box-shadow:
+                0 0 20px rgba(0, 0, 0, 0.9),
                 0 0 2px rgba(194, 176, 28, 0.03),
                 inset 0 0 50px rgba(15, 15, 13, 0.98),
                 inset 3px 3px 15px rgba(10, 10, 8, 0.5),
@@ -199,7 +228,7 @@
                 inset 0.5px 0 0 rgba(194, 176, 28, 0.14);
             overflow: hidden;
             animation: terminalAppear 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-            background-image: 
+            background-image:
                 /* Irregular border segments */
                 linear-gradient(0deg, rgba(194, 176, 28, 0.2) 0%, rgba(194, 176, 28, 0.2) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(194, 176, 28, 0.15) 0%, rgba(194, 176, 28, 0.15) 1px, transparent 1px),
@@ -208,19 +237,17 @@
                 /* Base gradients */
                 linear-gradient(135deg, rgba(25, 25, 22, 0.15) 0%, transparent 40%, rgba(15, 15, 13, 0.2) 100%),
                 linear-gradient(180deg, rgba(20, 20, 18, 0.1) 0%, rgba(15, 15, 13, 0.4) 100%),
-                repeating-linear-gradient(
-                    0deg,
+                repeating-linear-gradient(0deg,
                     transparent,
                     transparent 2px,
                     rgba(0, 0, 0, 0.03) 2px,
-                    rgba(0, 0, 0, 0.03) 3px
-                );
+                    rgba(0, 0, 0, 0.03) 3px);
             background-blend-mode: normal, normal, normal, normal, multiply, multiply, overlay;
             background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
             background-position: top, right, bottom, left, 0 0, 0 0, 0 0;
             background-repeat: no-repeat;
         }
-        
+
         .lobby-container::before {
             content: '';
             position: absolute;
@@ -233,10 +260,10 @@
             background-image:
                 /* Worn/missing border sections - top */
                 linear-gradient(90deg,
-                    transparent 0%, 
-                    transparent 8%, 
-                    rgba(194, 176, 28, 0.22) 8%, 
-                    rgba(194, 176, 28, 0.22) 35%, 
+                    transparent 0%,
+                    transparent 8%,
+                    rgba(194, 176, 28, 0.22) 8%,
+                    rgba(194, 176, 28, 0.22) 35%,
                     transparent 35%,
                     transparent 42%,
                     rgba(194, 176, 28, 0.18) 42%,
@@ -245,14 +272,13 @@
                     transparent 75%,
                     rgba(194, 176, 28, 0.2) 75%,
                     rgba(194, 176, 28, 0.2) 92%,
-                    transparent 92%
-                ),
+                    transparent 92%),
                 /* Worn/missing border sections - bottom */
                 linear-gradient(90deg,
-                    transparent 0%, 
-                    transparent 5%, 
-                    rgba(194, 176, 28, 0.18) 5%, 
-                    rgba(194, 176, 28, 0.18) 28%, 
+                    transparent 0%,
+                    transparent 5%,
+                    rgba(194, 176, 28, 0.18) 5%,
+                    rgba(194, 176, 28, 0.18) 28%,
                     transparent 28%,
                     transparent 38%,
                     rgba(194, 176, 28, 0.22) 38%,
@@ -261,37 +287,34 @@
                     transparent 78%,
                     rgba(194, 176, 28, 0.16) 78%,
                     rgba(194, 176, 28, 0.16) 95%,
-                    transparent 95%
-                ),
+                    transparent 95%),
                 /* Worn/missing border sections - left */
                 linear-gradient(0deg,
-                    transparent 0%, 
-                    transparent 10%, 
-                    rgba(194, 176, 28, 0.2) 10%, 
-                    rgba(194, 176, 28, 0.2) 42%, 
+                    transparent 0%,
+                    transparent 10%,
+                    rgba(194, 176, 28, 0.2) 10%,
+                    rgba(194, 176, 28, 0.2) 42%,
                     transparent 42%,
                     transparent 55%,
                     rgba(194, 176, 28, 0.18) 55%,
                     rgba(194, 176, 28, 0.18) 88%,
-                    transparent 88%
-                ),
+                    transparent 88%),
                 /* Worn/missing border sections - right */
                 linear-gradient(0deg,
-                    transparent 0%, 
-                    transparent 12%, 
-                    rgba(194, 176, 28, 0.16) 12%, 
-                    rgba(194, 176, 28, 0.16) 38%, 
+                    transparent 0%,
+                    transparent 12%,
+                    rgba(194, 176, 28, 0.16) 12%,
+                    rgba(194, 176, 28, 0.16) 38%,
                     transparent 38%,
                     transparent 48%,
                     rgba(194, 176, 28, 0.2) 48%,
                     rgba(194, 176, 28, 0.2) 85%,
-                    transparent 85%
-                );
+                    transparent 85%);
             background-size: 100% 1px, 100% 1px, 1px 100%, 1px 100%;
             background-position: top, bottom, left, right;
             background-repeat: no-repeat;
         }
-        
+
         .lobby-container::after {
             content: '';
             position: absolute;
@@ -300,7 +323,7 @@
             right: 0;
             bottom: 0;
             pointer-events: none;
-            background-image: 
+            background-image:
                 /* Dust spots */
                 radial-gradient(circle at 15% 12%, rgba(60, 55, 45, 0.15) 0%, transparent 2%),
                 radial-gradient(circle at 73% 8%, rgba(50, 48, 40, 0.12) 0%, transparent 1.5%),
@@ -319,17 +342,24 @@
                 /* Subtle edge fade */
                 linear-gradient(180deg, rgba(30, 30, 26, 0.08) 0%, transparent 15%, transparent 85%, rgba(20, 20, 18, 0.12) 100%),
                 linear-gradient(90deg, rgba(25, 25, 22, 0.06) 0%, transparent 10%, transparent 90%, rgba(25, 25, 22, 0.06) 100%);
-            box-shadow: 
+            box-shadow:
                 inset 0 0 20px rgba(10, 10, 8, 0.3),
                 inset 2px 2px 6px rgba(8, 8, 6, 0.25),
                 inset -1px -1px 4px rgba(30, 30, 26, 0.15);
         }
 
         @keyframes terminalAppear {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        
+
         /* Terminal damage and scratch effects */
         .terminal-damage {
             position: absolute;
@@ -350,7 +380,7 @@
                 radial-gradient(ellipse at 18% 15%, rgba(50, 48, 40, 0.15) 0%, transparent 8%),
                 radial-gradient(ellipse at 82% 78%, rgba(48, 46, 38, 0.12) 0%, transparent 7%);
         }
-        
+
         /* Dust overlay layer */
         .terminal-dust {
             position: absolute;
@@ -382,7 +412,7 @@
                 radial-gradient(circle at 72% 58%, rgba(170, 155, 30, 0.1) 0%, transparent 0.52%),
                 radial-gradient(circle at 20% 95%, rgba(170, 155, 30, 0.07) 0%, transparent 0.42%);
         }
-        
+
         /* Scanline effect on separate layer */
         .terminal-scanline {
             position: absolute;
@@ -390,19 +420,26 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(194, 176, 28, 0.25),
-                transparent);
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(194, 176, 28, 0.25),
+                    transparent);
             animation: scanline 4s linear infinite;
             opacity: 0.5;
             pointer-events: none;
             z-index: 10;
         }
-        
+
         @keyframes scanline {
-            0% { top: 0; opacity: 0.6; }
-            100% { top: 100%; opacity: 0; }
+            0% {
+                top: 0;
+                opacity: 0.6;
+            }
+
+            100% {
+                top: 100%;
+                opacity: 0;
+            }
         }
 
         .lobby-header {
@@ -412,12 +449,12 @@
             border-bottom: 1px solid rgba(194, 176, 28, 0.2);
             position: relative;
             z-index: 3;
-            background-image: linear-gradient(90deg, 
-                transparent 0%, 
-                rgba(20, 20, 18, 0.15) 50%, 
-                transparent 100%);
+            background-image: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(20, 20, 18, 0.15) 50%,
+                    transparent 100%);
         }
-        
+
         .lobby-header::after {
             content: '';
             position: absolute;
@@ -425,11 +462,11 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: linear-gradient(90deg, 
-                rgba(194, 176, 28, 0.1) 0%,
-                transparent 15%,
-                transparent 85%,
-                rgba(194, 176, 28, 0.08) 100%);
+            background: linear-gradient(90deg,
+                    rgba(194, 176, 28, 0.1) 0%,
+                    transparent 15%,
+                    transparent 85%,
+                    rgba(194, 176, 28, 0.08) 100%);
         }
 
         .lobby-title {
@@ -463,7 +500,7 @@
             align-items: center;
             position: relative;
             z-index: 3;
-            box-shadow: 
+            box-shadow:
                 inset 0 1px 2px rgba(0, 0, 0, 0.3),
                 inset 0 -1px 1px rgba(30, 30, 26, 0.1);
         }
@@ -586,10 +623,10 @@
             position: absolute;
             width: 100%;
             height: 50%;
-            background: linear-gradient(135deg, 
-                rgba(194, 176, 28, 0.8) 0%, 
-                rgba(147, 127, 19, 0.6) 50%,
-                rgba(194, 176, 28, 0.8) 100%);
+            background: linear-gradient(135deg,
+                    rgba(194, 176, 28, 0.8) 0%,
+                    rgba(147, 127, 19, 0.6) 50%,
+                    rgba(194, 176, 28, 0.8) 100%);
             transition: transform 0.15s ease-out;
             display: flex;
             align-items: center;
@@ -655,15 +692,20 @@
         }
 
         @keyframes speaking-pulse {
-            0% { box-shadow: 0 0 15px rgba(77, 110, 80, 0.6); }
-            100% { box-shadow: 0 0 25px rgba(77, 110, 80, 0.9); }
+            0% {
+                box-shadow: 0 0 15px rgba(77, 110, 80, 0.6);
+            }
+
+            100% {
+                box-shadow: 0 0 25px rgba(77, 110, 80, 0.9);
+            }
         }
 
         .player-item.speaking .player-avatar-half {
-            background: linear-gradient(135deg, 
-                rgba(77, 110, 80, 0.9) 0%, 
-                rgba(60, 90, 63, 0.7) 50%,
-                rgba(77, 110, 80, 0.9) 100%);
+            background: linear-gradient(135deg,
+                    rgba(77, 110, 80, 0.9) 0%,
+                    rgba(60, 90, 63, 0.7) 50%,
+                    rgba(77, 110, 80, 0.9) 100%);
         }
 
         .player-item.speaking .player-avatar-icon.top,
@@ -737,8 +779,15 @@
         }
 
         @keyframes mic-pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
         }
 
         .player-status {
@@ -889,23 +938,24 @@
             gap: 10px;
             outline: none;
             font-weight: 600;
-            background-image: 
-                linear-gradient(135deg, 
-                    rgba(25, 25, 22, 0.2) 0%, 
+            background-image:
+                linear-gradient(135deg,
+                    rgba(25, 25, 22, 0.2) 0%,
                     transparent 30%,
-                    rgba(18, 18, 16, 0.25) 70%, 
+                    rgba(18, 18, 16, 0.25) 70%,
                     transparent 100%);
-            box-shadow: 
+            box-shadow:
                 inset 0 1px 3px rgba(0, 0, 0, 0.4),
                 inset 0 -1px 1px rgba(30, 30, 26, 0.1),
                 0 1px 0 rgba(194, 176, 28, 0.05);
         }
 
-        .invite-button:hover, .invite-button:focus {
+        .invite-button:hover,
+        .invite-button:focus {
             color: var(--primary-color);
             background-color: rgba(18, 18, 16, 0.8);
             border-color: rgba(194, 176, 28, 0.4);
-            box-shadow: 
+            box-shadow:
                 0 0 15px rgba(194, 176, 28, 0.2),
                 inset 0 1px 3px rgba(0, 0, 0, 0.5),
                 inset 0 -1px 1px rgba(30, 30, 26, 0.15),
@@ -915,7 +965,7 @@
 
         .invite-button:active {
             transform: translateY(0) scale(0.98);
-            box-shadow: 
+            box-shadow:
                 0 0 8px rgba(194, 176, 28, 0.15),
                 inset 0 1px 3px rgba(0, 0, 0, 0.6),
                 inset 0 -1px 1px rgba(30, 30, 26, 0.2);
@@ -928,23 +978,29 @@
             top: 0;
             height: 100%;
             width: 3px;
-            background: linear-gradient(180deg, 
-                rgba(194, 176, 28, 0.6) 0%,
-                rgba(194, 176, 28, 0.9) 50%,
-                rgba(194, 176, 28, 0.6) 100%);
+            background: linear-gradient(180deg,
+                    rgba(194, 176, 28, 0.6) 0%,
+                    rgba(194, 176, 28, 0.9) 50%,
+                    rgba(194, 176, 28, 0.6) 100%);
             transform: scaleY(0);
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             opacity: 0;
         }
-        
-        .invite-button:hover::before, .invite-button:focus::before {
+
+        .invite-button:hover::before,
+        .invite-button:focus::before {
             transform: scaleY(1);
             opacity: 1;
         }
 
         @keyframes scan-move {
-            0% { left: -100%; }
-            100% { left: 100%; }
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
         }
 
         .lobby-actions {
@@ -971,22 +1027,23 @@
             overflow: hidden;
             outline: none;
             font-weight: 600;
-            background-image: 
-                linear-gradient(135deg, 
-                    rgba(25, 25, 22, 0.2) 0%, 
+            background-image:
+                linear-gradient(135deg,
+                    rgba(25, 25, 22, 0.2) 0%,
                     transparent 30%,
-                    rgba(18, 18, 16, 0.25) 70%, 
+                    rgba(18, 18, 16, 0.25) 70%,
                     transparent 100%);
-            box-shadow: 
+            box-shadow:
                 inset 0 1px 2px rgba(0, 0, 0, 0.3),
                 inset 0 -1px 1px rgba(30, 30, 26, 0.1),
                 0 1px 0 rgba(77, 110, 80, 0.05);
         }
 
-        .lobby-button:hover, .lobby-button:focus {
+        .lobby-button:hover,
+        .lobby-button:focus {
             background-color: rgba(18, 18, 16, 0.8);
             border-color: rgba(77, 110, 80, 0.45);
-            box-shadow: 
+            box-shadow:
                 0 0 15px rgba(77, 110, 80, 0.2),
                 inset 0 1px 2px rgba(0, 0, 0, 0.4),
                 inset 0 -1px 1px rgba(30, 30, 26, 0.15),
@@ -997,7 +1054,7 @@
 
         .lobby-button:active {
             transform: translateY(0) scale(0.98);
-            box-shadow: 
+            box-shadow:
                 0 0 8px rgba(77, 110, 80, 0.15),
                 inset 0 1px 2px rgba(0, 0, 0, 0.6),
                 inset 0 -1px 1px rgba(30, 30, 26, 0.2);
@@ -1006,16 +1063,17 @@
         .lobby-button.start-button {
             border-color: rgba(77, 110, 80, 0.3);
             color: var(--tertiary-color);
-            box-shadow: 
+            box-shadow:
                 inset 0 1px 2px rgba(0, 0, 0, 0.3),
                 inset 0 -1px 1px rgba(30, 30, 26, 0.1),
                 0 1px 0 rgba(77, 110, 80, 0.05);
         }
 
-        .lobby-button.start-button:hover, .lobby-button.start-button:focus {
+        .lobby-button.start-button:hover,
+        .lobby-button.start-button:focus {
             background-color: rgba(18, 18, 16, 0.8);
             border-color: rgba(77, 110, 80, 0.45);
-            box-shadow: 
+            box-shadow:
                 0 0 15px rgba(77, 110, 80, 0.25),
                 inset 0 1px 2px rgba(0, 0, 0, 0.4),
                 inset 0 -1px 1px rgba(30, 30, 26, 0.15),
@@ -1025,16 +1083,17 @@
         .lobby-button.cancel-button {
             border-color: rgba(162, 52, 48, 0.3);
             color: var(--secondary-color);
-            box-shadow: 
+            box-shadow:
                 inset 0 1px 2px rgba(0, 0, 0, 0.3),
                 inset 0 -1px 1px rgba(30, 30, 26, 0.1),
                 0 1px 0 rgba(162, 52, 48, 0.05);
         }
 
-        .lobby-button.cancel-button:hover, .lobby-button.cancel-button:focus {
+        .lobby-button.cancel-button:hover,
+        .lobby-button.cancel-button:focus {
             background-color: rgba(18, 18, 16, 0.8);
             border-color: rgba(162, 52, 48, 0.45);
-            box-shadow: 
+            box-shadow:
                 0 0 15px rgba(162, 52, 48, 0.2),
                 inset 0 1px 2px rgba(0, 0, 0, 0.4),
                 inset 0 -1px 1px rgba(30, 30, 26, 0.15),
@@ -1088,9 +1147,19 @@
         }
 
         @keyframes pulse {
-            0% { opacity: 1; box-shadow: 0 0 0 0 rgba(77, 110, 80, 0.7); }
-            50% { opacity: 0.6; }
-            100% { opacity: 1; box-shadow: 0 0 0 10px rgba(77, 110, 80, 0); }
+            0% {
+                opacity: 1;
+                box-shadow: 0 0 0 0 rgba(77, 110, 80, 0.7);
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+
+            100% {
+                opacity: 1;
+                box-shadow: 0 0 0 10px rgba(77, 110, 80, 0);
+            }
         }
 
         .corporate-message {
@@ -1122,59 +1191,59 @@
             height: 200%;
             top: -50%;
             left: -50%;
-            background: radial-gradient(ellipse at center, 
-                rgba(40, 40, 35, 0.4) 0%, 
-                rgba(30, 30, 26, 0.3) 20%,
-                rgba(20, 20, 18, 0.2) 40%,
-                transparent 70%);
+            background: radial-gradient(ellipse at center,
+                    rgba(40, 40, 35, 0.4) 0%,
+                    rgba(30, 30, 26, 0.3) 20%,
+                    rgba(20, 20, 18, 0.2) 40%,
+                    transparent 70%);
             filter: blur(60px);
             opacity: 0.6;
         }
 
         .fog-layer-1 {
             animation: fogDrift1 45s ease-in-out infinite;
-            background: radial-gradient(ellipse at 30% 40%, 
-                rgba(45, 45, 38, 0.45) 0%, 
-                rgba(35, 35, 30, 0.3) 25%,
-                transparent 60%);
+            background: radial-gradient(ellipse at 30% 40%,
+                    rgba(45, 45, 38, 0.45) 0%,
+                    rgba(35, 35, 30, 0.3) 25%,
+                    transparent 60%);
         }
 
         .fog-layer-2 {
             animation: fogDrift2 55s ease-in-out infinite;
             animation-delay: -15s;
-            background: radial-gradient(ellipse at 70% 60%, 
-                rgba(38, 38, 32, 0.4) 0%, 
-                rgba(28, 28, 24, 0.25) 30%,
-                transparent 65%);
+            background: radial-gradient(ellipse at 70% 60%,
+                    rgba(38, 38, 32, 0.4) 0%,
+                    rgba(28, 28, 24, 0.25) 30%,
+                    transparent 65%);
         }
 
         .fog-layer-3 {
             animation: fogDrift3 65s ease-in-out infinite;
             animation-delay: -25s;
-            background: radial-gradient(ellipse at 50% 30%, 
-                rgba(42, 42, 36, 0.35) 0%, 
-                rgba(32, 32, 28, 0.2) 28%,
-                transparent 58%);
+            background: radial-gradient(ellipse at 50% 30%,
+                    rgba(42, 42, 36, 0.35) 0%,
+                    rgba(32, 32, 28, 0.2) 28%,
+                    transparent 58%);
             filter: blur(80px);
         }
 
         .fog-layer-4 {
             animation: fogDrift4 50s ease-in-out infinite;
             animation-delay: -35s;
-            background: radial-gradient(ellipse at 20% 70%, 
-                rgba(40, 40, 34, 0.38) 0%, 
-                rgba(30, 30, 26, 0.22) 32%,
-                transparent 62%);
+            background: radial-gradient(ellipse at 20% 70%,
+                    rgba(40, 40, 34, 0.38) 0%,
+                    rgba(30, 30, 26, 0.22) 32%,
+                    transparent 62%);
             filter: blur(70px);
         }
 
         .fog-layer-5 {
             animation: fogDrift5 60s ease-in-out infinite;
             animation-delay: -20s;
-            background: radial-gradient(ellipse at 80% 20%, 
-                rgba(36, 36, 30, 0.42) 0%, 
-                rgba(26, 26, 22, 0.28) 26%,
-                transparent 55%);
+            background: radial-gradient(ellipse at 80% 20%,
+                    rgba(36, 36, 30, 0.42) 0%,
+                    rgba(26, 26, 22, 0.28) 26%,
+                    transparent 55%);
             filter: blur(65px);
             opacity: 0.5;
         }
@@ -1183,15 +1252,19 @@
             0% {
                 transform: translate(-5%, -5%) rotate(0deg) scale(1);
             }
+
             25% {
                 transform: translate(3%, -8%) rotate(3deg) scale(1.05);
             }
+
             50% {
                 transform: translate(8%, 2%) rotate(-2deg) scale(1.1);
             }
+
             75% {
                 transform: translate(-2%, 6%) rotate(4deg) scale(1.03);
             }
+
             100% {
                 transform: translate(-5%, -5%) rotate(0deg) scale(1);
             }
@@ -1201,15 +1274,19 @@
             0% {
                 transform: translate(5%, 8%) rotate(0deg) scale(1.05);
             }
+
             30% {
                 transform: translate(-4%, 3%) rotate(-3deg) scale(1);
             }
+
             60% {
                 transform: translate(-8%, -4%) rotate(2deg) scale(1.08);
             }
+
             85% {
                 transform: translate(2%, -7%) rotate(-4deg) scale(1.02);
             }
+
             100% {
                 transform: translate(5%, 8%) rotate(0deg) scale(1.05);
             }
@@ -1219,12 +1296,15 @@
             0% {
                 transform: translate(0%, 0%) rotate(1deg) scale(1);
             }
+
             33% {
                 transform: translate(-6%, 5%) rotate(-2deg) scale(1.06);
             }
+
             66% {
                 transform: translate(4%, -6%) rotate(3deg) scale(1.04);
             }
+
             100% {
                 transform: translate(0%, 0%) rotate(1deg) scale(1);
             }
@@ -1234,12 +1314,15 @@
             0% {
                 transform: translate(-3%, 4%) rotate(-1deg) scale(1.02);
             }
+
             40% {
                 transform: translate(6%, -2%) rotate(4deg) scale(1.07);
             }
+
             70% {
                 transform: translate(-5%, -6%) rotate(-3deg) scale(1);
             }
+
             100% {
                 transform: translate(-3%, 4%) rotate(-1deg) scale(1.02);
             }
@@ -1249,12 +1332,15 @@
             0% {
                 transform: translate(4%, -6%) rotate(2deg) scale(1.04);
             }
+
             35% {
                 transform: translate(-7%, 4%) rotate(-4deg) scale(1.09);
             }
+
             65% {
                 transform: translate(3%, 7%) rotate(3deg) scale(1.01);
             }
+
             100% {
                 transform: translate(4%, -6%) rotate(2deg) scale(1.04);
             }
@@ -1290,8 +1376,8 @@
             position: relative;
             border: none;
             overflow: hidden;
-            box-shadow: 
-                0 0 20px rgba(0, 0, 0, 0.9), 
+            box-shadow:
+                0 0 20px rgba(0, 0, 0, 0.9),
                 0 0 2px rgba(194, 176, 28, 0.03),
                 inset 0 0 50px rgba(15, 15, 13, 0.98),
                 inset 3px 3px 15px rgba(10, 10, 8, 0.5),
@@ -1309,7 +1395,7 @@
                 inset 1px 0 0 rgba(194, 176, 28, 0.2),
                 inset 0.5px 0 0 rgba(194, 176, 28, 0.14);
             animation: dialog-appear 0.3s ease;
-            background-image: 
+            background-image:
                 /* Irregular border segments */
                 linear-gradient(0deg, rgba(194, 176, 28, 0.2) 0%, rgba(194, 176, 28, 0.2) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(194, 176, 28, 0.15) 0%, rgba(194, 176, 28, 0.15) 1px, transparent 1px),
@@ -1318,19 +1404,17 @@
                 /* Base gradients */
                 linear-gradient(135deg, rgba(25, 25, 22, 0.15) 0%, transparent 40%, rgba(15, 15, 13, 0.2) 100%),
                 linear-gradient(180deg, rgba(20, 20, 18, 0.1) 0%, rgba(15, 15, 13, 0.4) 100%),
-                repeating-linear-gradient(
-                    0deg,
+                repeating-linear-gradient(0deg,
                     transparent,
                     transparent 2px,
                     rgba(0, 0, 0, 0.03) 2px,
-                    rgba(0, 0, 0, 0.03) 3px
-                );
+                    rgba(0, 0, 0, 0.03) 3px);
             background-blend-mode: normal, normal, normal, normal, multiply, multiply, overlay;
             background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
             background-position: top, right, bottom, left, 0 0, 0 0, 0 0;
             background-repeat: no-repeat;
         }
-        
+
         .confirmation-dialog::before {
             content: '';
             position: absolute;
@@ -1343,10 +1427,10 @@
             background-image:
                 /* Worn/missing border sections - top */
                 linear-gradient(90deg,
-                    transparent 0%, 
-                    transparent 8%, 
-                    rgba(194, 176, 28, 0.22) 8%, 
-                    rgba(194, 176, 28, 0.22) 35%, 
+                    transparent 0%,
+                    transparent 8%,
+                    rgba(194, 176, 28, 0.22) 8%,
+                    rgba(194, 176, 28, 0.22) 35%,
                     transparent 35%,
                     transparent 42%,
                     rgba(194, 176, 28, 0.18) 42%,
@@ -1355,14 +1439,13 @@
                     transparent 75%,
                     rgba(194, 176, 28, 0.2) 75%,
                     rgba(194, 176, 28, 0.2) 92%,
-                    transparent 92%
-                ),
+                    transparent 92%),
                 /* Worn/missing border sections - bottom */
                 linear-gradient(90deg,
-                    transparent 0%, 
-                    transparent 5%, 
-                    rgba(194, 176, 28, 0.18) 5%, 
-                    rgba(194, 176, 28, 0.18) 28%, 
+                    transparent 0%,
+                    transparent 5%,
+                    rgba(194, 176, 28, 0.18) 5%,
+                    rgba(194, 176, 28, 0.18) 28%,
                     transparent 28%,
                     transparent 38%,
                     rgba(194, 176, 28, 0.22) 38%,
@@ -1371,37 +1454,34 @@
                     transparent 78%,
                     rgba(194, 176, 28, 0.16) 78%,
                     rgba(194, 176, 28, 0.16) 95%,
-                    transparent 95%
-                ),
+                    transparent 95%),
                 /* Worn/missing border sections - left */
                 linear-gradient(0deg,
-                    transparent 0%, 
-                    transparent 10%, 
-                    rgba(194, 176, 28, 0.2) 10%, 
-                    rgba(194, 176, 28, 0.2) 42%, 
+                    transparent 0%,
+                    transparent 10%,
+                    rgba(194, 176, 28, 0.2) 10%,
+                    rgba(194, 176, 28, 0.2) 42%,
                     transparent 42%,
                     transparent 55%,
                     rgba(194, 176, 28, 0.18) 55%,
                     rgba(194, 176, 28, 0.18) 88%,
-                    transparent 88%
-                ),
+                    transparent 88%),
                 /* Worn/missing border sections - right */
                 linear-gradient(0deg,
-                    transparent 0%, 
-                    transparent 12%, 
-                    rgba(194, 176, 28, 0.16) 12%, 
-                    rgba(194, 176, 28, 0.16) 38%, 
+                    transparent 0%,
+                    transparent 12%,
+                    rgba(194, 176, 28, 0.16) 12%,
+                    rgba(194, 176, 28, 0.16) 38%,
                     transparent 38%,
                     transparent 48%,
                     rgba(194, 176, 28, 0.2) 48%,
                     rgba(194, 176, 28, 0.2) 85%,
-                    transparent 85%
-                );
+                    transparent 85%);
             background-size: 100% 1px, 100% 1px, 1px 100%, 1px 100%;
             background-position: top, bottom, left, right;
             background-repeat: no-repeat;
         }
-        
+
         .confirmation-dialog::after {
             content: '';
             position: absolute;
@@ -1410,7 +1490,7 @@
             right: 0;
             bottom: 0;
             pointer-events: none;
-            background-image: 
+            background-image:
                 /* Dust spots */
                 radial-gradient(circle at 15% 12%, rgba(60, 55, 45, 0.15) 0%, transparent 2%),
                 radial-gradient(circle at 73% 8%, rgba(50, 48, 40, 0.12) 0%, transparent 1.5%),
@@ -1429,15 +1509,22 @@
                 /* Subtle edge fade */
                 linear-gradient(180deg, rgba(30, 30, 26, 0.08) 0%, transparent 15%, transparent 85%, rgba(20, 20, 18, 0.12) 100%),
                 linear-gradient(90deg, rgba(25, 25, 22, 0.06) 0%, transparent 10%, transparent 90%, rgba(25, 25, 22, 0.06) 100%);
-            box-shadow: 
+            box-shadow:
                 inset 0 0 20px rgba(10, 10, 8, 0.3),
                 inset 2px 2px 6px rgba(8, 8, 6, 0.25),
                 inset -1px -1px 4px rgba(30, 30, 26, 0.15);
         }
 
         @keyframes dialog-appear {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         .confirmation-header {
@@ -1454,12 +1541,12 @@
             padding-bottom: 18px;
             border-bottom: 1px solid rgba(194, 176, 28, 0.2);
             font-weight: 600;
-            background-image: linear-gradient(90deg, 
-                transparent 0%, 
-                rgba(20, 20, 18, 0.15) 50%, 
-                transparent 100%);
+            background-image: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(20, 20, 18, 0.15) 50%,
+                    transparent 100%);
         }
-        
+
         .confirmation-header::after {
             content: '';
             position: absolute;
@@ -1467,11 +1554,11 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: linear-gradient(90deg, 
-                rgba(194, 176, 28, 0.1) 0%,
-                transparent 15%,
-                transparent 85%,
-                rgba(194, 176, 28, 0.08) 100%);
+            background: linear-gradient(90deg,
+                    rgba(194, 176, 28, 0.1) 0%,
+                    transparent 15%,
+                    transparent 85%,
+                    rgba(194, 176, 28, 0.08) 100%);
         }
 
         .confirmation-message {
@@ -1508,7 +1595,7 @@
             transition: all 0.3s ease;
             text-align: center;
             font-weight: 600;
-            box-shadow: 
+            box-shadow:
                 inset 0 1px 2px rgba(0, 0, 0, 0.3),
                 inset 0 -1px 1px rgba(30, 30, 26, 0.1);
         }
@@ -1516,7 +1603,7 @@
         .confirmation-button:hover {
             background-color: rgba(18, 18, 16, 0.8);
             border-color: rgba(194, 176, 28, 0.5);
-            box-shadow: 
+            box-shadow:
                 0 0 15px rgba(194, 176, 28, 0.3),
                 inset 0 1px 2px rgba(0, 0, 0, 0.4);
             transform: translateY(-2px);
@@ -1533,12 +1620,13 @@
 
         .confirmation-button.deny:hover {
             border-color: rgba(162, 52, 48, 0.5);
-            box-shadow: 
+            box-shadow:
                 0 0 15px rgba(162, 52, 48, 0.3),
                 inset 0 1px 2px rgba(0, 0, 0, 0.4);
         }
     </style>
 </head>
+
 <body>
     <!-- Volumetric Fog -->
     <div class="fog-container">
@@ -1548,7 +1636,7 @@
         <div class="fog-layer fog-layer-4"></div>
         <div class="fog-layer fog-layer-5"></div>
     </div>
-    
+
     <!-- CRT Effects -->
     <div class="crt-overlay">
         <div class="scanlines"></div>
@@ -1562,7 +1650,7 @@
         <div class="terminal-damage"></div>
         <div class="terminal-dust"></div>
         <div class="terminal-scanline"></div>
-        
+
         <div class="corner-element top-left"></div>
         <div class="corner-element top-right"></div>
         <div class="corner-element bottom-left"></div>
@@ -1574,14 +1662,16 @@
         </div>
 
         <!-- Toggle Lobby Code Button -->
-        <button class="toggle-code-btn" id="toggleLobbyCode" style="width: 100%; margin-bottom: 15px; padding: 12px; background-color: rgba(20, 20, 18, 0.6); border: 1px solid rgba(194, 176, 28, 0.3); color: var(--primary-color); font-family: 'Share Tech Mono', monospace; font-size: 16px; letter-spacing: 0.5px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: space-between; text-transform: uppercase;">
+        <button class="toggle-code-btn" id="toggleLobbyCode"
+            style="width: 100%; margin-bottom: 15px; padding: 12px; background-color: rgba(20, 20, 18, 0.6); border: 1px solid rgba(194, 176, 28, 0.3); color: var(--primary-color); font-family: 'Share Tech Mono', monospace; font-size: 16px; letter-spacing: 0.5px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: space-between; text-transform: uppercase;">
             <span id="toggleCodeText">
                 <i class="fa-solid fa-eye"></i> SHOW DOOM CODE
             </span>
             <i class="fa-solid fa-chevron-down" id="lobbyToggleIcon" style="transition: transform 0.3s ease;"></i>
         </button>
-        
-        <div class="server-info" id="lobbyServerInfo" style="display: none; opacity: 0; transition: opacity 0.3s ease, margin 0.3s ease; margin-bottom: 0;">
+
+        <div class="server-info" id="lobbyServerInfo"
+            style="display: none; opacity: 0; transition: opacity 0.3s ease, margin 0.3s ease; margin-bottom: 0;">
             <div class="doom-code-display">
                 <span class="doom-code-label">DOOM CODE:</span>
                 <span class="doom-code-value" id="lobbyDoomCode">#LOADING</span>
@@ -1592,7 +1682,8 @@
         </div>
 
         <div class="warning-box">
-            <i class="fa-solid fa-skull-crossbones"></i> WARNING: WAITING FOR ADDITIONAL SACRIFICIAL EMPLOYEES • LONELINESS INCREASES MORTALITY BY 47% <i class="fa-solid fa-skull-crossbones"></i>
+            <i class="fa-solid fa-skull-crossbones"></i> WARNING: WAITING FOR ADDITIONAL SACRIFICIAL EMPLOYEES •
+            LONELINESS INCREASES MORTALITY BY 47% <i class="fa-solid fa-skull-crossbones"></i>
         </div>
 
         <div class="players-section">
@@ -1641,7 +1732,8 @@
                     <div class="player-controls">
                         <div class="player-volume-control">
                             <i class="fa-solid fa-volume-high volume-icon mute-toggle" data-player-id="player2"></i>
-                            <input type="range" min="0" max="100" value="75" class="volume-slider" data-player-id="player2">
+                            <input type="range" min="0" max="100" value="75" class="volume-slider"
+                                data-player-id="player2">
                             <span class="volume-percentage">75%</span>
                         </div>
                         <div class="player-status">CONNECTED</div>
@@ -1680,12 +1772,12 @@
             <div class="terminal-damage"></div>
             <div class="terminal-dust"></div>
             <div class="terminal-scanline"></div>
-            
+
             <div class="corner-element top-left"></div>
             <div class="corner-element top-right"></div>
             <div class="corner-element bottom-left"></div>
             <div class="corner-element bottom-right"></div>
-            
+
             <div class="confirmation-header">WARNING: EXPEDITION ABANDONMENT</div>
             <div class="confirmation-message" id="confirmationMessage">
                 WARNING: Abandoning expedition will result in a demerit on your permanent record.
@@ -1703,28 +1795,28 @@
 
     <script>
         // Initialize audio when page loads
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             window.audioManager.initializeAudio();
-            
+
             // Add sound effects to all interactive elements
             const interactiveElements = document.querySelectorAll('.lobby-button, .copy-code-btn, .invite-button, .toggle-code-btn');
             interactiveElements.forEach(element => {
-                element.addEventListener('mouseenter', function() {
+                element.addEventListener('mouseenter', function () {
                     window.audioManager.playSound(window.audioManager.hoverSound);
                 });
-                
-                element.addEventListener('click', function() {
+
+                element.addEventListener('click', function () {
                     window.audioManager.playSound(window.audioManager.clickSound);
                 });
             });
         });
 
         // Toggle Lobby Code visibility
-        document.getElementById('toggleLobbyCode').addEventListener('click', function() {
+        document.getElementById('toggleLobbyCode').addEventListener('click', function () {
             const serverInfo = document.getElementById('lobbyServerInfo');
             const toggleIcon = document.getElementById('lobbyToggleIcon');
             const toggleText = document.getElementById('toggleCodeText');
-            
+
             if (serverInfo.style.display === 'none') {
                 // Show the section
                 serverInfo.style.display = 'flex';
@@ -1745,14 +1837,14 @@
                 toggleIcon.style.transform = 'rotate(0deg)';
             }
         });
-        
+
         // Add hover effect to toggle button
-        document.getElementById('toggleLobbyCode').addEventListener('mouseenter', function() {
+        document.getElementById('toggleLobbyCode').addEventListener('mouseenter', function () {
             this.style.backgroundColor = 'rgba(194, 176, 28, 0.1)';
             this.style.borderColor = 'var(--primary-color)';
         });
-        
-        document.getElementById('toggleLobbyCode').addEventListener('mouseleave', function() {
+
+        document.getElementById('toggleLobbyCode').addEventListener('mouseleave', function () {
             this.style.backgroundColor = 'rgba(20, 20, 18, 0.6)';
             this.style.borderColor = 'rgba(194, 176, 28, 0.3)';
         });
@@ -1761,7 +1853,7 @@
         function generateDoomCode() {
             const storedDoomCode = localStorage.getItem('hostDoomCode');
             const doomCodeElement = document.getElementById('lobbyDoomCode');
-            
+
             if (storedDoomCode) {
                 doomCodeElement.textContent = storedDoomCode;
             } else {
@@ -1776,27 +1868,27 @@
         }
 
         // Copy Doom Code to clipboard
-        document.getElementById('copyDoomCode').addEventListener('click', function() {
+        document.getElementById('copyDoomCode').addEventListener('click', function () {
             const doomCode = document.getElementById('lobbyDoomCode').textContent;
-            navigator.clipboard.writeText(doomCode).then(function() {
+            navigator.clipboard.writeText(doomCode).then(function () {
                 const copyBtn = document.getElementById('copyDoomCode');
                 const originalHTML = copyBtn.innerHTML;
                 copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> COPIED';
                 copyBtn.style.backgroundColor = 'rgba(77, 110, 80, 0.3)';
-                
-                setTimeout(function() {
+
+                setTimeout(function () {
                     copyBtn.innerHTML = originalHTML;
                     copyBtn.style.backgroundColor = '';
                 }, 2000);
-                
+
                 showNotification('Doom Code copied. Share with colleagues to increase collective suffering.', 'success');
             });
         });
 
         // Invite Friends button
-        document.getElementById('inviteFriendsBtn').addEventListener('click', function() {
+        document.getElementById('inviteFriendsBtn').addEventListener('click', function () {
             const doomCode = document.getElementById('lobbyDoomCode').textContent;
-            
+
             // Try to use Web Share API if available (mobile/modern browsers)
             if (navigator.share) {
                 navigator.share({
@@ -1818,56 +1910,56 @@
         // Fallback function to copy invite text to clipboard
         function copyInviteToClipboard(doomCode) {
             const inviteText = `🚀 JOIN MY PLANET HOARDERS EXPEDITION! 🚀\n\nDoom Code: ${doomCode}\n\n⚠️ WARNING: Survival probability estimated at 12.7%\n💀 Company accepts no liability for employee disintegration\n🏥 Medical disclaimer forms pre-signed\n\nJoin the expedition at your own risk!\n\nLet the suffering begin! 💀`;
-            
-            navigator.clipboard.writeText(inviteText).then(function() {
+
+            navigator.clipboard.writeText(inviteText).then(function () {
                 const inviteBtn = document.getElementById('inviteFriendsBtn');
                 const originalHTML = inviteBtn.innerHTML;
                 inviteBtn.innerHTML = '<i class="fa-solid fa-check"></i> INVITATION COPIED <i class="fa-solid fa-check"></i>';
                 inviteBtn.style.backgroundColor = 'rgba(77, 110, 80, 0.3)';
-                
-                setTimeout(function() {
+
+                setTimeout(function () {
                     inviteBtn.innerHTML = originalHTML;
                     inviteBtn.style.backgroundColor = '';
                 }, 2500);
-                
+
                 showNotification('Invitation copied to clipboard. Spread the misery far and wide!', 'success');
-            }).catch(function(err) {
+            }).catch(function (err) {
                 console.error('Failed to copy: ', err);
                 showNotification('ERROR: Failed to copy invitation. Your isolation continues.', 'error');
             });
         }
 
         // Start expedition button
-        document.getElementById('startExpedition').addEventListener('click', function() {
-            window.audioManager.playSound(window.audioManager.selectSound);
-            
+        document.getElementById('startExpedition').addEventListener('click', function () {
+
+
             // Navigate to loading page
             window.location.href = 'loading.html';
         });
 
         // Cancel lobby button
-        document.getElementById('cancelLobby').addEventListener('click', function() {
+        document.getElementById('cancelLobby').addEventListener('click', function () {
             window.audioManager.playSound(window.audioManager.clickSound);
-            
+
             // Show custom confirmation dialog
             const overlay = document.getElementById('confirmationOverlay');
             overlay.classList.add('active');
         });
 
         // Handle confirmation dialog buttons
-        document.getElementById('confirmButton').addEventListener('click', function() {
-            window.audioManager.playSound(window.audioManager.selectSound);
-            
+        document.getElementById('confirmButton').addEventListener('click', function () {
+
+
             // Redirect to main menu
             window.location.href = 'main-menu.html';
         });
-        
-        document.getElementById('denyButton').addEventListener('click', function() {
+
+        document.getElementById('denyButton').addEventListener('click', function () {
             window.audioManager.playSound(window.audioManager.clickSound);
-            
+
             // Close the dialog
             document.getElementById('confirmationOverlay').classList.remove('active');
-            
+
             // Add a glitch effect to the screen
             const flicker = document.querySelector('.flicker');
             flicker.style.backgroundColor = 'rgba(10, 10, 8, 0.3)';
@@ -1875,9 +1967,9 @@
                 flicker.style.backgroundColor = 'rgba(10, 10, 8, 0)';
             }, 100);
         });
-        
+
         // Close dialog when clicking outside
-        document.getElementById('confirmationOverlay').addEventListener('click', function(e) {
+        document.getElementById('confirmationOverlay').addEventListener('click', function (e) {
             if (e.target === this) {
                 window.audioManager.playSound(window.audioManager.clickSound);
                 this.classList.remove('active');
@@ -1887,7 +1979,7 @@
         // Add hover sound effects to confirmation buttons
         const confirmationButtons = document.querySelectorAll('.confirmation-button');
         confirmationButtons.forEach(button => {
-            button.addEventListener('mouseenter', function() {
+            button.addEventListener('mouseenter', function () {
                 window.audioManager.playSound(window.audioManager.hoverSound);
             });
         });
@@ -1912,7 +2004,7 @@
             notification.style.bottom = '20px';
             notification.style.right = '20px';
             notification.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
-            
+
             // Set color based on type
             let borderColor = 'var(--primary-color)';
             let textColor = 'var(--primary-color)';
@@ -1923,7 +2015,7 @@
                 borderColor = 'var(--secondary-color)';
                 textColor = 'var(--secondary-color)';
             }
-            
+
             notification.style.border = '1px solid ' + borderColor;
             notification.style.color = textColor;
             notification.style.padding = '15px 20px';
@@ -1933,13 +2025,13 @@
             notification.style.opacity = '0';
             notification.style.transition = 'opacity 0.3s ease';
             notification.textContent = message;
-            
+
             document.body.appendChild(notification);
-            
+
             setTimeout(() => {
                 notification.style.opacity = '1';
             }, 100);
-            
+
             setTimeout(() => {
                 notification.style.opacity = '0';
                 setTimeout(() => {
@@ -1963,37 +2055,37 @@
         // Request microphone access and setup audio analysis
         async function setupMicrophone() {
             try {
-                mediaStream = await navigator.mediaDevices.getUserMedia({ 
+                mediaStream = await navigator.mediaDevices.getUserMedia({
                     audio: {
                         echoCancellation: true,
                         noiseSuppression: true,
                         autoGainControl: true
-                    } 
+                    }
                 });
-                
+
                 // Create audio context
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
                 analyser = audioContext.createAnalyser();
                 microphone = audioContext.createMediaStreamSource(mediaStream);
-                
+
                 // Configure analyser
                 analyser.fftSize = 512;
                 analyser.smoothingTimeConstant = 0.8;
                 bufferLength = analyser.frequencyBinCount;
                 dataArray = new Uint8Array(bufferLength);
-                
+
                 // Connect microphone to analyser
                 microphone.connect(analyser);
-                
+
                 microphoneActive = true;
                 microphoneEnabled = true;
-                
+
                 // Update button UI
                 updateMicButtonUI();
-                
+
                 // Start monitoring audio levels
                 monitorAudioLevel();
-                
+
                 showNotification('Microphone activated. Voice monitoring engaged.', 'success');
             } catch (error) {
                 console.error('Microphone access denied:', error);
@@ -2009,7 +2101,7 @@
             } else {
                 microphoneEnabled = !microphoneEnabled;
                 updateMicButtonUI();
-                
+
                 if (microphoneEnabled) {
                     showNotification('Microphone enabled.', 'success');
                 } else {
@@ -2030,7 +2122,7 @@
             if (hostPlayer) {
                 const playerMicToggle = hostPlayer.querySelector('.player-mic-toggle');
                 const playerMicIcon = playerMicToggle.querySelector('i');
-                
+
                 if (microphoneEnabled) {
                     playerMicToggle.classList.add('active');
                     playerMicIcon.classList.remove('fa-microphone-slash');
@@ -2046,21 +2138,21 @@
         // Monitor audio level and trigger speaking animation
         function monitorAudioLevel() {
             if (!microphoneActive || !analyser) return;
-            
+
             analyser.getByteFrequencyData(dataArray);
-            
+
             // Calculate average volume
             let sum = 0;
             for (let i = 0; i < bufferLength; i++) {
                 sum += dataArray[i];
             }
             const average = sum / bufferLength;
-            
+
             // Threshold for detecting speech (adjust as needed)
             const speechThreshold = 25;
-            
+
             const hostPlayer = document.querySelector('.player-item[data-player-id="host"]');
-            
+
             if (hostPlayer) {
                 // Only animate if microphone is enabled
                 if (microphoneEnabled && average > speechThreshold) {
@@ -2073,7 +2165,7 @@
                     }
                 }
             }
-            
+
             // Continue monitoring
             requestAnimationFrame(monitorAudioLevel);
         }
@@ -2083,14 +2175,14 @@
             const hostPlayer = document.querySelector('.player-item[data-player-id="host"]');
             if (hostPlayer) {
                 const playerMicToggle = hostPlayer.querySelector('.player-mic-toggle');
-                playerMicToggle.addEventListener('click', function(e) {
+                playerMicToggle.addEventListener('click', function (e) {
                     e.stopPropagation();
                     window.audioManager.playSound(window.audioManager.clickSound);
                     toggleMicrophone();
                 });
-                
+
                 // Add hover sound effect
-                playerMicToggle.addEventListener('mouseenter', function() {
+                playerMicToggle.addEventListener('mouseenter', function () {
                     window.audioManager.playSound(window.audioManager.hoverSound);
                 });
             }
@@ -2107,15 +2199,15 @@
             ];
 
             const randomTime = Math.random() * 10000 + 5000; // Random time between 5-15 seconds
-            
+
             setTimeout(() => {
                 const playersList = document.getElementById('playersList');
                 const currentPlayerCount = playersList.children.length;
-                
+
                 if (currentPlayerCount < 4) {
                     const randomName = playerNames[Math.floor(Math.random() * playerNames.length)];
                     const playerId = 'player_' + Date.now();
-                    
+
                     const newPlayer = document.createElement('div');
                     newPlayer.className = 'player-item';
                     newPlayer.setAttribute('data-player-id', playerId);
@@ -2140,24 +2232,24 @@
                         </div>
                         <div class="player-status">CONNECTED</div>
                     `;
-                    
+
                     playersList.appendChild(newPlayer);
-                    
+
                     setTimeout(() => {
                         newPlayer.style.transition = 'all 0.5s ease';
                         newPlayer.style.opacity = '1';
                         newPlayer.style.transform = 'translateX(0)';
                     }, 10);
-                    
+
                     // Update player count
                     const playerCountElement = document.getElementById('playerCount');
                     playerCountElement.textContent = playersList.children.length;
-                    
+
                     showNotification(`${randomName.split('[')[0].trim()} has joined the expedition. Their suffering begins.`, 'info');
-                    
+
                     // Simulate voice activity for other players
                     simulateOtherPlayerVoice(playerId);
-                    
+
                     // Continue simulating if room available
                     if (playersList.children.length < 4) {
                         simulatePlayerJoin();
@@ -2172,7 +2264,7 @@
                 const player = document.querySelector(`.player-item[data-player-id="${playerId}"]`);
                 if (player && Math.random() > 0.85) {
                     player.classList.add('speaking');
-                    
+
                     const duration = 1000 + Math.random() * 3000;
                     setTimeout(() => {
                         player.classList.remove('speaking');
@@ -2184,23 +2276,23 @@
         // Volume slider functionality
         function setupVolumeSliders() {
             const volumeSliders = document.querySelectorAll('.volume-slider');
-            
+
             volumeSliders.forEach(slider => {
-                slider.addEventListener('input', function() {
+                slider.addEventListener('input', function () {
                     const playerId = this.getAttribute('data-player-id');
                     const volume = this.value;
                     const playerItem = document.querySelector(`.player-item[data-player-id="${playerId}"]`);
-                    
+
                     if (playerItem) {
                         const volumePercentage = playerItem.querySelector('.volume-percentage');
                         const volumeIcon = playerItem.querySelector('.volume-icon');
-                        
+
                         // Update percentage display
                         volumePercentage.textContent = volume + '%';
-                        
+
                         // Update icon based on volume level
                         volumeIcon.classList.remove('fa-volume-high', 'fa-volume-low', 'fa-volume-off', 'fa-volume-xmark');
-                        
+
                         if (volume == 0) {
                             volumeIcon.classList.add('fa-volume-xmark', 'muted');
                         } else {
@@ -2213,14 +2305,14 @@
                                 volumeIcon.classList.add('fa-volume-high');
                             }
                         }
-                        
+
                         // Log volume change
                         console.log(`Volume for ${playerId} set to ${volume}%`);
                     }
                 });
-                
+
                 // Add hover sound effect
-                slider.addEventListener('mouseenter', function() {
+                slider.addEventListener('mouseenter', function () {
                     window.audioManager.playSound(window.audioManager.hoverSound);
                 });
             });
@@ -2229,27 +2321,27 @@
         // Setup mute toggle for other players (via volume icon click)
         function setupMuteToggles() {
             const muteToggles = document.querySelectorAll('.volume-icon.mute-toggle');
-            
+
             muteToggles.forEach(toggle => {
                 const playerId = toggle.getAttribute('data-player-id');
                 const playerItem = document.querySelector(`.player-item[data-player-id="${playerId}"]`);
                 let savedVolume = 75; // Store the volume before muting
-                
-                toggle.addEventListener('click', function(e) {
+
+                toggle.addEventListener('click', function (e) {
                     e.stopPropagation();
                     window.audioManager.playSound(window.audioManager.clickSound);
-                    
+
                     if (playerItem) {
                         const volumeSlider = playerItem.querySelector('.volume-slider');
                         const volumePercentage = playerItem.querySelector('.volume-percentage');
                         const playerName = playerItem.querySelector('.player-name').textContent;
-                        
+
                         // Check if currently muted (volume is 0)
                         if (volumeSlider.value == 0) {
                             // Unmute - restore previous volume
                             volumeSlider.value = savedVolume;
                             volumePercentage.textContent = savedVolume + '%';
-                            
+
                             // Update icon
                             this.classList.remove('fa-volume-xmark', 'muted');
                             if (savedVolume < 30) {
@@ -2259,28 +2351,28 @@
                             } else {
                                 this.classList.add('fa-volume-high');
                             }
-                            
+
                             showNotification(`${playerName.split('[')[0].trim()} unmuted.`, 'success');
                         } else {
                             // Mute - save current volume and set to 0
                             savedVolume = volumeSlider.value;
                             volumeSlider.value = 0;
                             volumePercentage.textContent = '0%';
-                            
+
                             // Update icon
                             this.classList.remove('fa-volume-high', 'fa-volume-low', 'fa-volume-off');
                             this.classList.add('fa-volume-xmark', 'muted');
-                            
+
                             // Remove speaking class when muted
                             playerItem.classList.remove('speaking');
-                            
+
                             showNotification(`${playerName.split('[')[0].trim()} muted.`, 'info');
                         }
                     }
                 });
-                
+
                 // Add hover sound effect
-                toggle.addEventListener('mouseenter', function() {
+                toggle.addEventListener('mouseenter', function () {
                     window.audioManager.playSound(window.audioManager.hoverSound);
                 });
             });
@@ -2294,10 +2386,10 @@
                 setInterval(() => {
                     const volumeSlider = player2.querySelector('.volume-slider');
                     const isMuted = volumeSlider && volumeSlider.value == 0;
-                    
+
                     if (!isMuted && Math.random() > 0.80) {
                         player2.classList.add('speaking');
-                        
+
                         const duration = 800 + Math.random() * 2500;
                         setTimeout(() => {
                             player2.classList.remove('speaking');
@@ -2309,17 +2401,17 @@
 
         // Initialize
         generateDoomCode();
-        
+
         // Setup volume sliders and player controls
         setTimeout(() => {
             setupVolumeSliders();
             setupMuteToggles();
             setupPlayer2VoiceActivity();
         }, 100);
-        
+
         // Note: Microphone access is requested when user clicks the mic toggle button
         // This ensures compliance with browser autoplay/permission policies
-        
+
         // Uncomment the line below to enable automatic player joining simulation
         // simulatePlayerJoin();
 
@@ -2332,17 +2424,18 @@
                 "UPDATE: Medical bay stocked with 73% more body bags.",
                 "REMINDER: Your organs have been pre-registered for donation."
             ];
-            
+
             const randomMessage = messages[Math.floor(Math.random() * messages.length)];
             showNotification(randomMessage, 'info');
-            
+
             // Schedule next message
             const nextMessageTime = 15000 + Math.random() * 20000;
             setTimeout(showOminousMessage, nextMessageTime);
         }
-        
+
         // Start showing messages after initial delay
         setTimeout(showOminousMessage, 10000);
     </script>
 </body>
+
 </html>

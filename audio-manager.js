@@ -1,13 +1,11 @@
 // Audio elements
 const hoverSound = new Audio('sounds/hover.mp3');
 const clickSound = new Audio('sounds/click.mp3');
-const selectSound = new Audio('sounds/select.mp3');
 const backgroundMusic = new Audio('sounds/menu_music.mp3');
 
 // Set volume levels
 hoverSound.volume = 0.3;
 clickSound.volume = 0.4;
-selectSound.volume = 0.5;
 backgroundMusic.volume = 0.2;
 backgroundMusic.loop = true;
 
@@ -207,7 +205,6 @@ function initializeAudio() {
 window.audioManager = {
     hoverSound,
     clickSound,
-    selectSound,
     backgroundMusic,
     playSound,
     toggleAudio,

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,20 +20,20 @@
             --error-color: #a23430;
             --scanline-color: rgba(20, 28, 20, 0.1);
         }
-        
+
         /* Custom Scrollbar Styling */
         ::-webkit-scrollbar {
             width: 10px;
             background: rgba(10, 10, 8, 0.9);
             border-left: 1px solid rgba(194, 176, 28, 0.2);
         }
-        
+
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(to bottom, var(--primary-color) 0%, #937f13 100%);
             border: 1px solid var(--primary-color);
             box-shadow: inset 0 0 3px rgba(194, 176, 28, 0.5);
         }
-        
+
         ::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(to bottom, #e6d02b 0%, var(--primary-color) 100%);
             box-shadow: 0 0 5px rgba(194, 176, 28, 0.7);
@@ -42,11 +43,11 @@
             background: rgba(20, 20, 18, 0.7);
             border-left: 1px solid rgba(194, 176, 28, 0.1);
         }
-        
+
         ::-webkit-scrollbar-corner {
             background: rgba(20, 20, 18, 0.9);
         }
-        
+
         /* Firefox scrollbar */
         * {
             scrollbar-width: thin;
@@ -79,10 +80,10 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(45deg, 
-                rgba(10, 10, 8, 0.8) 0%,
-                rgba(20, 20, 18, 0.7) 50%,
-                rgba(10, 10, 8, 0.8) 100%);
+            background: linear-gradient(45deg,
+                    rgba(10, 10, 8, 0.8) 0%,
+                    rgba(20, 20, 18, 0.7) 50%,
+                    rgba(10, 10, 8, 0.8) 100%);
             z-index: 1;
         }
 
@@ -105,13 +106,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                var(--scanline-color),
-                var(--scanline-color) 2px,
-                transparent 2px,
-                transparent 4px
-            );
+            background: repeating-linear-gradient(0deg,
+                    var(--scanline-color),
+                    var(--scanline-color) 2px,
+                    transparent 2px,
+                    transparent 4px);
             pointer-events: none;
             z-index: 2;
             opacity: 0.3;
@@ -124,11 +123,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(
-                ellipse at center,
-                transparent 60%,
-                rgba(0, 0, 0, 0.6) 100%
-            );
+            background: radial-gradient(ellipse at center,
+                    transparent 60%,
+                    rgba(0, 0, 0, 0.6) 100%);
             pointer-events: none;
             z-index: 3;
         }
@@ -149,17 +146,49 @@
         }
 
         @keyframes noiseAnim {
-            0% { transform: translate(0, 0); }
-            10% { transform: translate(-5%, -5%); }
-            20% { transform: translate(-10%, 5%); }
-            30% { transform: translate(5%, -10%); }
-            40% { transform: translate(-5%, 15%); }
-            50% { transform: translate(-10%, 5%); }
-            60% { transform: translate(15%, 0); }
-            70% { transform: translate(0, 10%); }
-            80% { transform: translate(-15%, 0); }
-            90% { transform: translate(10%, 5%); }
-            100% { transform: translate(5%, 0); }
+            0% {
+                transform: translate(0, 0);
+            }
+
+            10% {
+                transform: translate(-5%, -5%);
+            }
+
+            20% {
+                transform: translate(-10%, 5%);
+            }
+
+            30% {
+                transform: translate(5%, -10%);
+            }
+
+            40% {
+                transform: translate(-5%, 15%);
+            }
+
+            50% {
+                transform: translate(-10%, 5%);
+            }
+
+            60% {
+                transform: translate(15%, 0);
+            }
+
+            70% {
+                transform: translate(0, 10%);
+            }
+
+            80% {
+                transform: translate(-15%, 0);
+            }
+
+            90% {
+                transform: translate(10%, 5%);
+            }
+
+            100% {
+                transform: translate(5%, 0);
+            }
         }
 
         /* Flicker for random screen flicker effect */
@@ -184,17 +213,23 @@
         }
 
         @keyframes terminal-float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
         }
 
         .game-logo {
             width: 500px;
             height: auto;
-            filter: drop-shadow(0 0 10px rgba(77, 110, 80, 0.5)) 
-                    drop-shadow(0 0 20px rgba(40, 60, 40, 0.4))
-                    brightness(0.95);
+            filter: drop-shadow(0 0 10px rgba(77, 110, 80, 0.5)) drop-shadow(0 0 20px rgba(40, 60, 40, 0.4)) brightness(0.95);
             transition: all 0.3s;
             position: relative;
         }
@@ -207,59 +242,52 @@
         @keyframes terminalGlitch {
             0% {
                 transform: translate(0);
-                filter: drop-shadow(0 0 10px rgba(77, 110, 80, 0.5)) 
-                        drop-shadow(0 0 20px rgba(40, 60, 40, 0.4))
-                        brightness(0.95);
+                filter: drop-shadow(0 0 10px rgba(77, 110, 80, 0.5)) drop-shadow(0 0 20px rgba(40, 60, 40, 0.4)) brightness(0.95);
             }
+
             10% {
                 transform: translate(-2px, 1px);
-                filter: drop-shadow(2px 0 0 rgba(247, 185, 51, 0.7))
-                        drop-shadow(-2px 0 0 rgba(162, 52, 48, 0.7))
-                        brightness(1.1);
+                filter: drop-shadow(2px 0 0 rgba(247, 185, 51, 0.7)) drop-shadow(-2px 0 0 rgba(162, 52, 48, 0.7)) brightness(1.1);
             }
+
             20% {
                 transform: translate(2px, -1px);
-                filter: drop-shadow(-2px 0 0 rgba(77, 110, 80, 0.8))
-                        drop-shadow(2px 0 0 rgba(247, 185, 51, 0.6))
-                        brightness(0.9);
+                filter: drop-shadow(-2px 0 0 rgba(77, 110, 80, 0.8)) drop-shadow(2px 0 0 rgba(247, 185, 51, 0.6)) brightness(0.9);
             }
+
             30% {
                 transform: translate(-1px, 2px);
-                filter: drop-shadow(1px 0 0 rgba(162, 52, 48, 0.8))
-                        drop-shadow(-1px 0 0 rgba(77, 110, 80, 0.7))
-                        brightness(1.05);
+                filter: drop-shadow(1px 0 0 rgba(162, 52, 48, 0.8)) drop-shadow(-1px 0 0 rgba(77, 110, 80, 0.7)) brightness(1.05);
             }
+
             40% {
                 transform: translate(1px, -2px) scale(1.01, 0.99);
-                filter: drop-shadow(0 0 5px rgba(247, 185, 51, 0.9))
-                        brightness(1.15);
+                filter: drop-shadow(0 0 5px rgba(247, 185, 51, 0.9)) brightness(1.15);
             }
+
             50% {
                 transform: translate(-2px, 0) scale(0.99, 1.01);
-                filter: drop-shadow(3px 0 0 rgba(247, 185, 51, 0.6))
-                        drop-shadow(-3px 0 0 rgba(162, 52, 48, 0.6))
-                        brightness(0.85);
+                filter: drop-shadow(3px 0 0 rgba(247, 185, 51, 0.6)) drop-shadow(-3px 0 0 rgba(162, 52, 48, 0.6)) brightness(0.85);
             }
+
             60% {
                 transform: translate(2px, 1px);
-                filter: drop-shadow(-1px 0 0 rgba(77, 110, 80, 0.9))
-                        brightness(1.1);
+                filter: drop-shadow(-1px 0 0 rgba(77, 110, 80, 0.9)) brightness(1.1);
             }
+
             70% {
                 transform: translate(0, -1px) scale(1.005, 0.995);
-                filter: drop-shadow(1px 0 0 rgba(247, 185, 51, 0.7))
-                        brightness(0.95);
+                filter: drop-shadow(1px 0 0 rgba(247, 185, 51, 0.7)) brightness(0.95);
             }
+
             85% {
                 transform: translate(-1px, 0);
-                filter: drop-shadow(0 0 8px rgba(77, 110, 80, 0.6))
-                        brightness(1.0);
+                filter: drop-shadow(0 0 8px rgba(77, 110, 80, 0.6)) brightness(1.0);
             }
+
             100% {
                 transform: translate(0);
-                filter: drop-shadow(0 0 10px rgba(77, 110, 80, 0.5)) 
-                        drop-shadow(0 0 20px rgba(40, 60, 40, 0.4))
-                        brightness(0.95);
+                filter: drop-shadow(0 0 10px rgba(77, 110, 80, 0.5)) drop-shadow(0 0 20px rgba(40, 60, 40, 0.4)) brightness(0.95);
             }
         }
 
@@ -270,8 +298,8 @@
             background-color: rgba(18, 18, 16, 0.88);
             padding: 30px;
             border: none;
-            box-shadow: 
-                0 0 20px rgba(0, 0, 0, 0.9), 
+            box-shadow:
+                0 0 20px rgba(0, 0, 0, 0.9),
                 0 0 2px rgba(194, 176, 28, 0.03),
                 inset 0 0 50px rgba(15, 15, 13, 0.98),
                 inset 3px 3px 15px rgba(10, 10, 8, 0.5),
@@ -289,7 +317,7 @@
                 inset 1px 0 0 rgba(194, 176, 28, 0.2),
                 inset 0.5px 0 0 rgba(194, 176, 28, 0.14);
             overflow: hidden;
-            background-image: 
+            background-image:
                 /* Irregular border segments */
                 linear-gradient(0deg, rgba(194, 176, 28, 0.2) 0%, rgba(194, 176, 28, 0.2) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(194, 176, 28, 0.15) 0%, rgba(194, 176, 28, 0.15) 1px, transparent 1px),
@@ -298,13 +326,11 @@
                 /* Base gradients */
                 linear-gradient(135deg, rgba(25, 25, 22, 0.15) 0%, transparent 40%, rgba(15, 15, 13, 0.2) 100%),
                 linear-gradient(180deg, rgba(20, 20, 18, 0.1) 0%, rgba(15, 15, 13, 0.4) 100%),
-                repeating-linear-gradient(
-                    0deg,
+                repeating-linear-gradient(0deg,
                     transparent,
                     transparent 2px,
                     rgba(0, 0, 0, 0.03) 2px,
-                    rgba(0, 0, 0, 0.03) 3px
-                );
+                    rgba(0, 0, 0, 0.03) 3px);
             background-blend-mode: normal, normal, normal, normal, multiply, multiply, overlay;
             background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
             background-position: top, right, bottom, left, 0 0, 0 0, 0 0;
@@ -323,10 +349,10 @@
             background-image:
                 /* Worn/missing border sections - top */
                 linear-gradient(90deg,
-                    transparent 0%, 
-                    transparent 8%, 
-                    rgba(194, 176, 28, 0.22) 8%, 
-                    rgba(194, 176, 28, 0.22) 35%, 
+                    transparent 0%,
+                    transparent 8%,
+                    rgba(194, 176, 28, 0.22) 8%,
+                    rgba(194, 176, 28, 0.22) 35%,
                     transparent 35%,
                     transparent 42%,
                     rgba(194, 176, 28, 0.18) 42%,
@@ -335,14 +361,13 @@
                     transparent 75%,
                     rgba(194, 176, 28, 0.2) 75%,
                     rgba(194, 176, 28, 0.2) 92%,
-                    transparent 92%
-                ),
+                    transparent 92%),
                 /* Worn/missing border sections - bottom */
                 linear-gradient(90deg,
-                    transparent 0%, 
-                    transparent 5%, 
-                    rgba(194, 176, 28, 0.18) 5%, 
-                    rgba(194, 176, 28, 0.18) 28%, 
+                    transparent 0%,
+                    transparent 5%,
+                    rgba(194, 176, 28, 0.18) 5%,
+                    rgba(194, 176, 28, 0.18) 28%,
                     transparent 28%,
                     transparent 38%,
                     rgba(194, 176, 28, 0.22) 38%,
@@ -351,32 +376,29 @@
                     transparent 78%,
                     rgba(194, 176, 28, 0.16) 78%,
                     rgba(194, 176, 28, 0.16) 95%,
-                    transparent 95%
-                ),
+                    transparent 95%),
                 /* Worn/missing border sections - left */
                 linear-gradient(0deg,
-                    transparent 0%, 
-                    transparent 10%, 
-                    rgba(194, 176, 28, 0.2) 10%, 
-                    rgba(194, 176, 28, 0.2) 42%, 
+                    transparent 0%,
+                    transparent 10%,
+                    rgba(194, 176, 28, 0.2) 10%,
+                    rgba(194, 176, 28, 0.2) 42%,
                     transparent 42%,
                     transparent 55%,
                     rgba(194, 176, 28, 0.18) 55%,
                     rgba(194, 176, 28, 0.18) 88%,
-                    transparent 88%
-                ),
+                    transparent 88%),
                 /* Worn/missing border sections - right */
                 linear-gradient(0deg,
-                    transparent 0%, 
-                    transparent 12%, 
-                    rgba(194, 176, 28, 0.16) 12%, 
-                    rgba(194, 176, 28, 0.16) 38%, 
+                    transparent 0%,
+                    transparent 12%,
+                    rgba(194, 176, 28, 0.16) 12%,
+                    rgba(194, 176, 28, 0.16) 38%,
                     transparent 38%,
                     transparent 48%,
                     rgba(194, 176, 28, 0.2) 48%,
                     rgba(194, 176, 28, 0.2) 85%,
-                    transparent 85%
-                );
+                    transparent 85%);
             background-size: 100% 1px, 100% 1px, 1px 100%, 1px 100%;
             background-position: top, bottom, left, right;
             background-repeat: no-repeat;
@@ -390,7 +412,7 @@
             right: 0;
             bottom: 0;
             pointer-events: none;
-            background-image: 
+            background-image:
                 /* Dust spots */
                 radial-gradient(circle at 15% 12%, rgba(60, 55, 45, 0.15) 0%, transparent 2%),
                 radial-gradient(circle at 73% 8%, rgba(50, 48, 40, 0.12) 0%, transparent 1.5%),
@@ -409,7 +431,7 @@
                 /* Subtle edge fade */
                 linear-gradient(180deg, rgba(30, 30, 26, 0.08) 0%, transparent 15%, transparent 85%, rgba(20, 20, 18, 0.12) 100%),
                 linear-gradient(90deg, rgba(25, 25, 22, 0.06) 0%, transparent 10%, transparent 90%, rgba(25, 25, 22, 0.06) 100%);
-            box-shadow: 
+            box-shadow:
                 inset 0 0 20px rgba(10, 10, 8, 0.3),
                 inset 2px 2px 6px rgba(8, 8, 6, 0.25),
                 inset -1px -1px 4px rgba(30, 30, 26, 0.15);
@@ -435,7 +457,7 @@
                 radial-gradient(ellipse at 18% 15%, rgba(50, 48, 40, 0.15) 0%, transparent 8%),
                 radial-gradient(ellipse at 82% 78%, rgba(48, 46, 38, 0.12) 0%, transparent 7%);
         }
-        
+
         /* Dust overlay layer */
         .terminal-dust {
             position: absolute;
@@ -467,7 +489,7 @@
                 radial-gradient(circle at 72% 58%, rgba(170, 155, 30, 0.1) 0%, transparent 0.52%),
                 radial-gradient(circle at 20% 95%, rgba(170, 155, 30, 0.07) 0%, transparent 0.42%);
         }
-        
+
         /* Scanline effect on separate layer */
         .terminal-scanline {
             position: absolute;
@@ -475,19 +497,26 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(194, 176, 28, 0.25),
-                transparent);
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(194, 176, 28, 0.25),
+                    transparent);
             animation: scanline 4s linear infinite;
             opacity: 0.5;
             pointer-events: none;
             z-index: 10;
         }
-        
+
         @keyframes scanline {
-            0% { top: 0; opacity: 0.6; }
-            100% { top: 100%; opacity: 0; }
+            0% {
+                top: 0;
+                opacity: 0.6;
+            }
+
+            100% {
+                top: 100%;
+                opacity: 0;
+            }
         }
 
         .expedition-header {
@@ -496,10 +525,10 @@
             position: relative;
             padding-bottom: 20px;
             z-index: 3;
-            background-image: linear-gradient(90deg, 
-                transparent 0%, 
-                rgba(20, 20, 18, 0.15) 50%, 
-                transparent 100%);
+            background-image: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(20, 20, 18, 0.15) 50%,
+                    transparent 100%);
         }
 
         .expedition-header::after {
@@ -510,14 +539,12 @@
             transform: translateX(-50%);
             width: 80%;
             height: 1px;
-            background: linear-gradient(
-                to right,
-                transparent 0%,
-                rgba(194, 176, 28, 0.2) 20%,
-                rgba(194, 176, 28, 0.3) 50%,
-                rgba(194, 176, 28, 0.2) 80%,
-                transparent 100%
-            );
+            background: linear-gradient(to right,
+                    transparent 0%,
+                    rgba(194, 176, 28, 0.2) 20%,
+                    rgba(194, 176, 28, 0.3) 50%,
+                    rgba(194, 176, 28, 0.2) 80%,
+                    transparent 100%);
         }
 
         .expedition-title {
@@ -534,11 +561,27 @@
         }
 
         @keyframes text-glitch {
-            0%, 100% { text-shadow: 0 0 10px rgba(194, 176, 28, 0.5); }
-            98% { text-shadow: 0 0 10px rgba(194, 176, 28, 0.5); }
-            98.5% { text-shadow: -2px 0 var(--primary-color), 2px 2px var(--secondary-color); }
-            99% { text-shadow: 0 0 10px rgba(194, 176, 28, 0.5); }
-            99.5% { text-shadow: 2px -2px var(--primary-color), -2px 0 var(--secondary-color); }
+
+            0%,
+            100% {
+                text-shadow: 0 0 10px rgba(194, 176, 28, 0.5);
+            }
+
+            98% {
+                text-shadow: 0 0 10px rgba(194, 176, 28, 0.5);
+            }
+
+            98.5% {
+                text-shadow: -2px 0 var(--primary-color), 2px 2px var(--secondary-color);
+            }
+
+            99% {
+                text-shadow: 0 0 10px rgba(194, 176, 28, 0.5);
+            }
+
+            99.5% {
+                text-shadow: 2px -2px var(--primary-color), -2px 0 var(--secondary-color);
+            }
         }
 
         .expedition-subtitle {
@@ -569,7 +612,7 @@
             line-height: 1.6;
             font-weight: 500;
         }
-        
+
         .warning-message strong {
             font-weight: 700;
             letter-spacing: 0.3px;
@@ -587,8 +630,13 @@
         }
 
         @keyframes scan-move {
-            0% { left: -100%; }
-            100% { left: 100%; }
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
         }
 
         .expedition-options {
@@ -621,7 +669,7 @@
             align-items: center;
             justify-content: center;
             gap: 12px;
-            background-image: 
+            background-image:
                 /* Small scratches on buttons */
                 linear-gradient(88deg, transparent 0%, transparent 52%, rgba(60, 58, 50, 0.15) 52.2%, transparent 52.4%),
                 linear-gradient(110deg, transparent 0%, transparent 75%, rgba(55, 53, 45, 0.12) 75.1%, transparent 75.3%),
@@ -629,30 +677,29 @@
                 radial-gradient(circle at 85% 20%, rgba(50, 48, 42, 0.08) 0%, transparent 3%),
                 radial-gradient(circle at 15% 80%, rgba(48, 46, 40, 0.07) 0%, transparent 2.5%),
                 /* Subtle wear gradient */
-                linear-gradient(135deg, 
-                    rgba(25, 25, 22, 0.2) 0%, 
+                linear-gradient(135deg,
+                    rgba(25, 25, 22, 0.2) 0%,
                     transparent 30%,
-                    rgba(18, 18, 16, 0.25) 70%, 
+                    rgba(18, 18, 16, 0.25) 70%,
                     transparent 100%),
                 /* Texture */
-                repeating-linear-gradient(
-                    90deg,
+                repeating-linear-gradient(90deg,
                     transparent,
                     transparent 3px,
                     rgba(0, 0, 0, 0.02) 3px,
-                    rgba(0, 0, 0, 0.02) 4px
-                );
-            box-shadow: 
+                    rgba(0, 0, 0, 0.02) 4px);
+            box-shadow:
                 inset 0 1px 3px rgba(0, 0, 0, 0.4),
                 inset 0 -1px 1px rgba(30, 30, 26, 0.1),
                 0 1px 0 rgba(194, 176, 28, 0.05);
         }
 
-        .option-button:hover, .option-button:focus {
+        .option-button:hover,
+        .option-button:focus {
             color: var(--primary-color);
             background-color: rgba(18, 18, 16, 0.8);
             border-color: rgba(194, 176, 28, 0.4);
-            box-shadow: 
+            box-shadow:
                 0 0 15px rgba(194, 176, 28, 0.2),
                 inset 0 1px 3px rgba(0, 0, 0, 0.5),
                 inset 0 -1px 1px rgba(30, 30, 26, 0.15),
@@ -660,10 +707,10 @@
             transform: translateY(-2px);
             outline: none;
         }
-        
+
         .option-button:focus {
             border-color: rgba(194, 176, 28, 0.6);
-            box-shadow: 
+            box-shadow:
                 0 0 20px rgba(194, 176, 28, 0.3),
                 inset 0 0 10px rgba(194, 176, 28, 0.1),
                 inset 0 1px 3px rgba(0, 0, 0, 0.5),
@@ -673,7 +720,7 @@
 
         .option-button:active {
             transform: translateY(0) scale(0.98);
-            box-shadow: 
+            box-shadow:
                 0 0 8px rgba(194, 176, 28, 0.15),
                 inset 0 1px 3px rgba(0, 0, 0, 0.6),
                 inset 0 -1px 1px rgba(30, 30, 26, 0.2);
@@ -686,16 +733,17 @@
             top: 0;
             height: 100%;
             width: 3px;
-            background: linear-gradient(180deg, 
-                rgba(194, 176, 28, 0.6) 0%,
-                rgba(194, 176, 28, 0.9) 50%,
-                rgba(194, 176, 28, 0.6) 100%);
+            background: linear-gradient(180deg,
+                    rgba(194, 176, 28, 0.6) 0%,
+                    rgba(194, 176, 28, 0.9) 50%,
+                    rgba(194, 176, 28, 0.6) 100%);
             transform: scaleY(0);
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             opacity: 0;
         }
 
-        .option-button:hover::before, .option-button:focus::before {
+        .option-button:hover::before,
+        .option-button:focus::before {
             transform: scaleY(1);
             opacity: 1;
         }
@@ -707,10 +755,10 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(90deg, 
-                transparent 0%,
-                rgba(194, 176, 28, 0.15) 50%,
-                transparent 100%);
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(194, 176, 28, 0.15) 50%,
+                    transparent 100%);
             transform: translateX(-100%);
             transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             opacity: 0;
@@ -730,7 +778,8 @@
             transform: translateX(0);
         }
 
-        .option-button:hover i, .option-button:focus i {
+        .option-button:hover i,
+        .option-button:focus i {
             opacity: 1;
             filter: brightness(1.1) saturate(1.1) drop-shadow(0 0 4px rgba(247, 185, 51, 0.4));
             transform: translateX(3px);
@@ -745,8 +794,15 @@
         }
 
         @keyframes form-appear {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .input-group {
@@ -774,7 +830,7 @@
             position: relative;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             letter-spacing: 0.3px;
-            box-shadow: 
+            box-shadow:
                 inset 0 1px 2px rgba(0, 0, 0, 0.3),
                 inset 0 -1px 1px rgba(30, 30, 26, 0.1);
         }
@@ -786,7 +842,7 @@
         .form-input:focus {
             outline: none;
             background-color: rgba(18, 18, 16, 0.7);
-            box-shadow: 
+            box-shadow:
                 0 0 15px rgba(194, 176, 28, 0.35),
                 inset 0 0 8px rgba(194, 176, 28, 0.1),
                 inset 0 1px 2px rgba(0, 0, 0, 0.4);
@@ -815,17 +871,18 @@
             outline: none;
             letter-spacing: 0.3px;
             font-weight: 600;
-            box-shadow: 
+            box-shadow:
                 inset 0 1px 2px rgba(0, 0, 0, 0.3),
                 inset 0 -1px 1px rgba(30, 30, 26, 0.1),
                 0 1px 0 rgba(194, 176, 28, 0.05);
         }
 
-        .paste-button:hover, .paste-button:focus {
+        .paste-button:hover,
+        .paste-button:focus {
             color: var(--primary-color);
             background-color: rgba(18, 18, 16, 0.8);
             border-color: rgba(194, 176, 28, 0.4);
-            box-shadow: 
+            box-shadow:
                 0 0 10px rgba(194, 176, 28, 0.2),
                 inset 0 1px 2px rgba(0, 0, 0, 0.4),
                 inset 0 -1px 1px rgba(30, 30, 26, 0.15),
@@ -833,10 +890,10 @@
             transform: translateY(-1px);
             outline: none;
         }
-        
+
         .paste-button:focus {
             border-color: rgba(194, 176, 28, 0.6);
-            box-shadow: 
+            box-shadow:
                 0 0 15px rgba(194, 176, 28, 0.3),
                 inset 0 0 8px rgba(194, 176, 28, 0.08),
                 inset 0 1px 2px rgba(0, 0, 0, 0.4),
@@ -869,23 +926,24 @@
             overflow: hidden;
             outline: none;
             font-weight: 600;
-            background-image: 
-                linear-gradient(135deg, 
-                    rgba(25, 25, 22, 0.2) 0%, 
+            background-image:
+                linear-gradient(135deg,
+                    rgba(25, 25, 22, 0.2) 0%,
                     transparent 30%,
-                    rgba(18, 18, 16, 0.25) 70%, 
+                    rgba(18, 18, 16, 0.25) 70%,
                     transparent 100%);
-            box-shadow: 
+            box-shadow:
                 inset 0 1px 3px rgba(0, 0, 0, 0.4),
                 inset 0 -1px 1px rgba(30, 30, 26, 0.1),
                 0 1px 0 rgba(194, 176, 28, 0.05);
         }
 
-        .form-submit:hover, .form-submit:focus {
+        .form-submit:hover,
+        .form-submit:focus {
             color: var(--primary-color);
             background-color: rgba(18, 18, 16, 0.8);
             border-color: rgba(194, 176, 28, 0.4);
-            box-shadow: 
+            box-shadow:
                 0 0 15px rgba(194, 176, 28, 0.2),
                 inset 0 1px 3px rgba(0, 0, 0, 0.5),
                 inset 0 -1px 1px rgba(30, 30, 26, 0.15),
@@ -893,10 +951,10 @@
             transform: translateY(-2px);
             outline: none;
         }
-        
+
         .form-submit:focus {
             border-color: rgba(194, 176, 28, 0.6);
-            box-shadow: 
+            box-shadow:
                 0 0 20px rgba(194, 176, 28, 0.3),
                 inset 0 0 10px rgba(194, 176, 28, 0.1),
                 inset 0 1px 3px rgba(0, 0, 0, 0.5),
@@ -906,7 +964,7 @@
 
         .form-submit:active {
             transform: translateY(0) scale(0.98);
-            box-shadow: 
+            box-shadow:
                 0 0 8px rgba(194, 176, 28, 0.15),
                 inset 0 1px 3px rgba(0, 0, 0, 0.6),
                 inset 0 -1px 1px rgba(30, 30, 26, 0.2);
@@ -933,14 +991,15 @@
             outline: none;
         }
 
-        .back-link:hover, .back-link:focus {
+        .back-link:hover,
+        .back-link:focus {
             color: var(--primary-color);
             opacity: 1;
             transform: translateX(-3px);
             filter: drop-shadow(0 0 4px rgba(247, 185, 51, 0.3));
             outline: none;
         }
-        
+
         .back-link:focus {
             filter: drop-shadow(0 0 6px rgba(247, 185, 51, 0.5));
         }
@@ -949,7 +1008,8 @@
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .back-link:hover i, .back-link:focus i {
+        .back-link:hover i,
+        .back-link:focus i {
             transform: translateX(-2px);
         }
 
@@ -1034,8 +1094,8 @@
             position: relative;
             border: none;
             overflow: hidden;
-            box-shadow: 
-                0 0 20px rgba(0, 0, 0, 0.9), 
+            box-shadow:
+                0 0 20px rgba(0, 0, 0, 0.9),
                 0 0 2px rgba(194, 176, 28, 0.03),
                 inset 0 0 50px rgba(15, 15, 13, 0.98),
                 inset 3px 3px 15px rgba(10, 10, 8, 0.5),
@@ -1053,7 +1113,7 @@
                 inset 1px 0 0 rgba(194, 176, 28, 0.2),
                 inset 0.5px 0 0 rgba(194, 176, 28, 0.14);
             animation: dialog-appear 0.3s ease;
-            background-image: 
+            background-image:
                 /* Irregular border segments */
                 linear-gradient(0deg, rgba(194, 176, 28, 0.2) 0%, rgba(194, 176, 28, 0.2) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(194, 176, 28, 0.15) 0%, rgba(194, 176, 28, 0.15) 1px, transparent 1px),
@@ -1062,19 +1122,17 @@
                 /* Base gradients */
                 linear-gradient(135deg, rgba(25, 25, 22, 0.15) 0%, transparent 40%, rgba(15, 15, 13, 0.2) 100%),
                 linear-gradient(180deg, rgba(20, 20, 18, 0.1) 0%, rgba(15, 15, 13, 0.4) 100%),
-                repeating-linear-gradient(
-                    0deg,
+                repeating-linear-gradient(0deg,
                     transparent,
                     transparent 2px,
                     rgba(0, 0, 0, 0.03) 2px,
-                    rgba(0, 0, 0, 0.03) 3px
-                );
+                    rgba(0, 0, 0, 0.03) 3px);
             background-blend-mode: normal, normal, normal, normal, multiply, multiply, overlay;
             background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
             background-position: top, right, bottom, left, 0 0, 0 0, 0 0;
             background-repeat: no-repeat;
         }
-        
+
         .confirmation-dialog::before {
             content: '';
             position: absolute;
@@ -1087,10 +1145,10 @@
             background-image:
                 /* Worn/missing border sections - top */
                 linear-gradient(90deg,
-                    transparent 0%, 
-                    transparent 8%, 
-                    rgba(194, 176, 28, 0.22) 8%, 
-                    rgba(194, 176, 28, 0.22) 35%, 
+                    transparent 0%,
+                    transparent 8%,
+                    rgba(194, 176, 28, 0.22) 8%,
+                    rgba(194, 176, 28, 0.22) 35%,
                     transparent 35%,
                     transparent 42%,
                     rgba(194, 176, 28, 0.18) 42%,
@@ -1099,14 +1157,13 @@
                     transparent 75%,
                     rgba(194, 176, 28, 0.2) 75%,
                     rgba(194, 176, 28, 0.2) 92%,
-                    transparent 92%
-                ),
+                    transparent 92%),
                 /* Worn/missing border sections - bottom */
                 linear-gradient(90deg,
-                    transparent 0%, 
-                    transparent 5%, 
-                    rgba(194, 176, 28, 0.18) 5%, 
-                    rgba(194, 176, 28, 0.18) 28%, 
+                    transparent 0%,
+                    transparent 5%,
+                    rgba(194, 176, 28, 0.18) 5%,
+                    rgba(194, 176, 28, 0.18) 28%,
                     transparent 28%,
                     transparent 38%,
                     rgba(194, 176, 28, 0.22) 38%,
@@ -1115,37 +1172,34 @@
                     transparent 78%,
                     rgba(194, 176, 28, 0.16) 78%,
                     rgba(194, 176, 28, 0.16) 95%,
-                    transparent 95%
-                ),
+                    transparent 95%),
                 /* Worn/missing border sections - left */
                 linear-gradient(0deg,
-                    transparent 0%, 
-                    transparent 10%, 
-                    rgba(194, 176, 28, 0.2) 10%, 
-                    rgba(194, 176, 28, 0.2) 42%, 
+                    transparent 0%,
+                    transparent 10%,
+                    rgba(194, 176, 28, 0.2) 10%,
+                    rgba(194, 176, 28, 0.2) 42%,
                     transparent 42%,
                     transparent 55%,
                     rgba(194, 176, 28, 0.18) 55%,
                     rgba(194, 176, 28, 0.18) 88%,
-                    transparent 88%
-                ),
+                    transparent 88%),
                 /* Worn/missing border sections - right */
                 linear-gradient(0deg,
-                    transparent 0%, 
-                    transparent 12%, 
-                    rgba(194, 176, 28, 0.16) 12%, 
-                    rgba(194, 176, 28, 0.16) 38%, 
+                    transparent 0%,
+                    transparent 12%,
+                    rgba(194, 176, 28, 0.16) 12%,
+                    rgba(194, 176, 28, 0.16) 38%,
                     transparent 38%,
                     transparent 48%,
                     rgba(194, 176, 28, 0.2) 48%,
                     rgba(194, 176, 28, 0.2) 85%,
-                    transparent 85%
-                );
+                    transparent 85%);
             background-size: 100% 1px, 100% 1px, 1px 100%, 1px 100%;
             background-position: top, bottom, left, right;
             background-repeat: no-repeat;
         }
-        
+
         .confirmation-dialog::after {
             content: '';
             position: absolute;
@@ -1154,7 +1208,7 @@
             right: 0;
             bottom: 0;
             pointer-events: none;
-            background-image: 
+            background-image:
                 /* Dust spots */
                 radial-gradient(circle at 15% 12%, rgba(60, 55, 45, 0.15) 0%, transparent 2%),
                 radial-gradient(circle at 73% 8%, rgba(50, 48, 40, 0.12) 0%, transparent 1.5%),
@@ -1173,15 +1227,22 @@
                 /* Subtle edge fade */
                 linear-gradient(180deg, rgba(30, 30, 26, 0.08) 0%, transparent 15%, transparent 85%, rgba(20, 20, 18, 0.12) 100%),
                 linear-gradient(90deg, rgba(25, 25, 22, 0.06) 0%, transparent 10%, transparent 90%, rgba(25, 25, 22, 0.06) 100%);
-            box-shadow: 
+            box-shadow:
                 inset 0 0 20px rgba(10, 10, 8, 0.3),
                 inset 2px 2px 6px rgba(8, 8, 6, 0.25),
                 inset -1px -1px 4px rgba(30, 30, 26, 0.15);
         }
 
         @keyframes dialog-appear {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         .confirmation-header {
@@ -1199,12 +1260,12 @@
             filter: brightness(0.9);
             padding-bottom: 15px;
             border-bottom: 1px solid rgba(194, 176, 28, 0.2);
-            background-image: linear-gradient(90deg, 
-                transparent 0%, 
-                rgba(20, 20, 18, 0.15) 50%, 
-                transparent 100%);
+            background-image: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(20, 20, 18, 0.15) 50%,
+                    transparent 100%);
         }
-        
+
         .confirmation-header::after {
             content: '';
             position: absolute;
@@ -1212,11 +1273,11 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: linear-gradient(90deg, 
-                rgba(194, 176, 28, 0.1) 0%,
-                transparent 15%,
-                transparent 85%,
-                rgba(194, 176, 28, 0.08) 100%);
+            background: linear-gradient(90deg,
+                    rgba(194, 176, 28, 0.1) 0%,
+                    transparent 15%,
+                    transparent 85%,
+                    rgba(194, 176, 28, 0.08) 100%);
         }
 
         .confirmation-message {
@@ -1260,22 +1321,23 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-image: 
-                linear-gradient(135deg, 
-                    rgba(25, 25, 22, 0.2) 0%, 
+            background-image:
+                linear-gradient(135deg,
+                    rgba(25, 25, 22, 0.2) 0%,
                     transparent 30%,
-                    rgba(18, 18, 16, 0.25) 70%, 
+                    rgba(18, 18, 16, 0.25) 70%,
                     transparent 100%);
-            box-shadow: 
+            box-shadow:
                 inset 0 1px 2px rgba(0, 0, 0, 0.3),
                 inset 0 -1px 1px rgba(30, 30, 26, 0.1),
                 0 1px 0 rgba(77, 110, 80, 0.05);
         }
 
-        .confirmation-button:hover, .confirmation-button:focus {
+        .confirmation-button:hover,
+        .confirmation-button:focus {
             background: rgba(18, 18, 16, 0.7);
             border-color: rgba(77, 110, 80, 0.4);
-            box-shadow: 
+            box-shadow:
                 0 0 6px rgba(77, 110, 80, 0.15),
                 inset 0 1px 2px rgba(0, 0, 0, 0.4),
                 inset 0 -1px 1px rgba(30, 30, 26, 0.15),
@@ -1283,10 +1345,10 @@
             opacity: 1;
             outline: none;
         }
-        
+
         .confirmation-button:focus {
             border-color: rgba(77, 110, 80, 0.6);
-            box-shadow: 
+            box-shadow:
                 0 0 12px rgba(77, 110, 80, 0.25),
                 inset 0 0 8px rgba(77, 110, 80, 0.08),
                 inset 0 1px 2px rgba(0, 0, 0, 0.4),
@@ -1297,30 +1359,31 @@
         .confirmation-button.deny {
             color: var(--secondary-color);
             border-color: rgba(162, 52, 48, 0.3);
-            box-shadow: 
+            box-shadow:
                 inset 0 1px 2px rgba(0, 0, 0, 0.3),
                 inset 0 -1px 1px rgba(30, 30, 26, 0.1),
                 0 1px 0 rgba(162, 52, 48, 0.05);
             flex: 0.8;
         }
-        
+
         .confirmation-button:not(.deny) {
             flex: 1.2;
         }
 
-        .confirmation-button.deny:hover, .confirmation-button.deny:focus {
+        .confirmation-button.deny:hover,
+        .confirmation-button.deny:focus {
             background: rgba(18, 18, 16, 0.7);
             border-color: rgba(162, 52, 48, 0.4);
-            box-shadow: 
+            box-shadow:
                 0 0 6px rgba(162, 52, 48, 0.15),
                 inset 0 1px 2px rgba(0, 0, 0, 0.4),
                 inset 0 -1px 1px rgba(30, 30, 26, 0.15),
                 0 1px 0 rgba(162, 52, 48, 0.08);
         }
-        
+
         .confirmation-button.deny:focus {
             border-color: rgba(162, 52, 48, 0.6);
-            box-shadow: 
+            box-shadow:
                 0 0 12px rgba(162, 52, 48, 0.25),
                 inset 0 0 8px rgba(162, 52, 48, 0.08),
                 inset 0 1px 2px rgba(0, 0, 0, 0.4),
@@ -1346,59 +1409,59 @@
             height: 200%;
             top: -50%;
             left: -50%;
-            background: radial-gradient(ellipse at center, 
-                rgba(40, 40, 35, 0.4) 0%, 
-                rgba(30, 30, 26, 0.3) 20%,
-                rgba(20, 20, 18, 0.2) 40%,
-                transparent 70%);
+            background: radial-gradient(ellipse at center,
+                    rgba(40, 40, 35, 0.4) 0%,
+                    rgba(30, 30, 26, 0.3) 20%,
+                    rgba(20, 20, 18, 0.2) 40%,
+                    transparent 70%);
             filter: blur(60px);
             opacity: 0.6;
         }
 
         .fog-layer-1 {
             animation: fogDrift1 45s ease-in-out infinite;
-            background: radial-gradient(ellipse at 30% 40%, 
-                rgba(45, 45, 38, 0.45) 0%, 
-                rgba(35, 35, 30, 0.3) 25%,
-                transparent 60%);
+            background: radial-gradient(ellipse at 30% 40%,
+                    rgba(45, 45, 38, 0.45) 0%,
+                    rgba(35, 35, 30, 0.3) 25%,
+                    transparent 60%);
         }
 
         .fog-layer-2 {
             animation: fogDrift2 55s ease-in-out infinite;
             animation-delay: -15s;
-            background: radial-gradient(ellipse at 70% 60%, 
-                rgba(38, 38, 32, 0.4) 0%, 
-                rgba(28, 28, 24, 0.25) 30%,
-                transparent 65%);
+            background: radial-gradient(ellipse at 70% 60%,
+                    rgba(38, 38, 32, 0.4) 0%,
+                    rgba(28, 28, 24, 0.25) 30%,
+                    transparent 65%);
         }
 
         .fog-layer-3 {
             animation: fogDrift3 65s ease-in-out infinite;
             animation-delay: -25s;
-            background: radial-gradient(ellipse at 50% 30%, 
-                rgba(42, 42, 36, 0.35) 0%, 
-                rgba(32, 32, 28, 0.2) 28%,
-                transparent 58%);
+            background: radial-gradient(ellipse at 50% 30%,
+                    rgba(42, 42, 36, 0.35) 0%,
+                    rgba(32, 32, 28, 0.2) 28%,
+                    transparent 58%);
             filter: blur(80px);
         }
 
         .fog-layer-4 {
             animation: fogDrift4 50s ease-in-out infinite;
             animation-delay: -35s;
-            background: radial-gradient(ellipse at 20% 70%, 
-                rgba(40, 40, 34, 0.38) 0%, 
-                rgba(30, 30, 26, 0.22) 32%,
-                transparent 62%);
+            background: radial-gradient(ellipse at 20% 70%,
+                    rgba(40, 40, 34, 0.38) 0%,
+                    rgba(30, 30, 26, 0.22) 32%,
+                    transparent 62%);
             filter: blur(70px);
         }
 
         .fog-layer-5 {
             animation: fogDrift5 60s ease-in-out infinite;
             animation-delay: -20s;
-            background: radial-gradient(ellipse at 80% 20%, 
-                rgba(36, 36, 30, 0.42) 0%, 
-                rgba(26, 26, 22, 0.28) 26%,
-                transparent 55%);
+            background: radial-gradient(ellipse at 80% 20%,
+                    rgba(36, 36, 30, 0.42) 0%,
+                    rgba(26, 26, 22, 0.28) 26%,
+                    transparent 55%);
             filter: blur(65px);
             opacity: 0.5;
         }
@@ -1407,15 +1470,19 @@
             0% {
                 transform: translate(-5%, -5%) rotate(0deg) scale(1);
             }
+
             25% {
                 transform: translate(3%, -8%) rotate(3deg) scale(1.05);
             }
+
             50% {
                 transform: translate(8%, 2%) rotate(-2deg) scale(1.1);
             }
+
             75% {
                 transform: translate(-2%, 6%) rotate(4deg) scale(1.03);
             }
+
             100% {
                 transform: translate(-5%, -5%) rotate(0deg) scale(1);
             }
@@ -1425,15 +1492,19 @@
             0% {
                 transform: translate(5%, 8%) rotate(0deg) scale(1.05);
             }
+
             30% {
                 transform: translate(-4%, 3%) rotate(-3deg) scale(1);
             }
+
             60% {
                 transform: translate(-8%, -4%) rotate(2deg) scale(1.08);
             }
+
             85% {
                 transform: translate(2%, -7%) rotate(-4deg) scale(1.02);
             }
+
             100% {
                 transform: translate(5%, 8%) rotate(0deg) scale(1.05);
             }
@@ -1443,12 +1514,15 @@
             0% {
                 transform: translate(0%, 0%) rotate(1deg) scale(1);
             }
+
             33% {
                 transform: translate(-6%, 5%) rotate(-2deg) scale(1.06);
             }
+
             66% {
                 transform: translate(4%, -6%) rotate(3deg) scale(1.04);
             }
+
             100% {
                 transform: translate(0%, 0%) rotate(1deg) scale(1);
             }
@@ -1458,12 +1532,15 @@
             0% {
                 transform: translate(-3%, 4%) rotate(-1deg) scale(1.02);
             }
+
             40% {
                 transform: translate(6%, -2%) rotate(4deg) scale(1.07);
             }
+
             70% {
                 transform: translate(-5%, -6%) rotate(-3deg) scale(1);
             }
+
             100% {
                 transform: translate(-3%, 4%) rotate(-1deg) scale(1.02);
             }
@@ -1473,18 +1550,22 @@
             0% {
                 transform: translate(4%, -6%) rotate(2deg) scale(1.04);
             }
+
             35% {
                 transform: translate(-7%, 4%) rotate(-4deg) scale(1.09);
             }
+
             65% {
                 transform: translate(3%, 7%) rotate(3deg) scale(1.01);
             }
+
             100% {
                 transform: translate(4%, -6%) rotate(2deg) scale(1.04);
             }
         }
     </style>
 </head>
+
 <body>
     <!-- Volumetric Fog -->
     <div class="fog-container">
@@ -1494,14 +1575,14 @@
         <div class="fog-layer fog-layer-4"></div>
         <div class="fog-layer fog-layer-5"></div>
     </div>
-    
+
     <!-- CRT screen effect overlays -->
     <div class="crt-overlay"></div>
     <div class="scanlines"></div>
     <div class="noise"></div>
     <div class="flicker"></div>
     <div class="vignette"></div>
-    
+
     <!-- Custom Confirmation Dialog -->
     <div class="confirmation-overlay" id="confirmationOverlay">
         <div class="confirmation-dialog">
@@ -1509,12 +1590,12 @@
             <div class="terminal-damage"></div>
             <div class="terminal-dust"></div>
             <div class="terminal-scanline"></div>
-            
+
             <div class="corner-element top-left"></div>
             <div class="corner-element top-right"></div>
             <div class="corner-element bottom-left"></div>
             <div class="corner-element bottom-right"></div>
-            
+
             <div class="confirmation-header">WARNING: SERVER CREATION</div>
             <div class="confirmation-message" id="confirmationMessage">
                 By creating a server, you forfeit your right to a swift and painless death.
@@ -1529,7 +1610,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Join Server Error Dialog -->
     <div class="confirmation-overlay" id="joinErrorOverlay">
         <div class="confirmation-dialog">
@@ -1537,22 +1618,23 @@
             <div class="terminal-damage"></div>
             <div class="terminal-dust"></div>
             <div class="terminal-scanline"></div>
-            
+
             <div class="corner-element top-left"></div>
             <div class="corner-element top-right"></div>
             <div class="corner-element bottom-left"></div>
             <div class="corner-element bottom-right"></div>
-            
+
             <div class="confirmation-header">ERROR: DOOM CODE REQUIRED</div>
             <div class="confirmation-message" id="joinErrorMessage">
-                Please enter a valid Doom Code. Your reluctance has been logged and will affect your annual performance review.
+                Please enter a valid Doom Code. Your reluctance has been logged and will affect your annual performance
+                review.
             </div>
             <div class="confirmation-buttons">
                 <button class="confirmation-button" id="joinErrorButton">ACKNOWLEDGE FAILURE</button>
             </div>
         </div>
     </div>
-    
+
     <!-- Join Server Confirmation Dialog -->
     <div class="confirmation-overlay" id="joinConfirmOverlay">
         <div class="confirmation-dialog">
@@ -1560,12 +1642,12 @@
             <div class="terminal-damage"></div>
             <div class="terminal-dust"></div>
             <div class="terminal-scanline"></div>
-            
+
             <div class="corner-element top-left"></div>
             <div class="corner-element top-right"></div>
             <div class="corner-element bottom-left"></div>
             <div class="corner-element bottom-right"></div>
-            
+
             <div class="confirmation-header">WARNING: JOINING EXPEDITION</div>
             <div class="confirmation-message" id="joinConfirmMessage">
                 Warning message will be displayed here
@@ -1576,34 +1658,34 @@
             </div>
         </div>
     </div>
-    
+
     <div class="logo-container">
         <img src="logorusted.png" alt="Planet Hoarders" class="game-logo">
     </div>
-    
+
     <div class="expedition-container">
         <!-- Damage and dust overlays -->
         <div class="terminal-damage"></div>
         <div class="terminal-dust"></div>
         <div class="terminal-scanline"></div>
-        
+
         <div class="corner-element top-left"></div>
         <div class="corner-element top-right"></div>
         <div class="corner-element bottom-left"></div>
         <div class="corner-element bottom-right"></div>
-        
+
         <div class="expedition-header">
             <h1 class="expedition-title">Initiate Profit Venture</h1>
             <div class="expedition-subtitle">EXPENDABLE EMPLOYEE DEPLOYMENT [v.0.5.3-UNSTABLE]</div>
         </div>
-        
+
         <div class="warning-message">
             <strong>WARNING:</strong> Team survival rate estimated at 12.7%<br>
             [an improvement from last quarter's 8.2%!].<br>
             Company accepts no liability for employee disintegration,<br>
             molecular restructuring, or existential dread.
         </div>
-        
+
         <div class="expedition-options">
             <div class="option-button" id="createServerBtn">
                 <i class="fas fa-server"></i>
@@ -1614,14 +1696,16 @@
                 FOLLOW A DOOMED COLLEAGUE
             </div>
         </div>
-        
+
         <!-- Join Server Form -->
         <div id="joinServerForm" class="server-form">
             <div class="input-group">
                 <label class="form-label">COLLEAGUE'S DOOM CODE</label>
                 <div class="input-with-button">
-                    <input type="text" class="form-input" id="doomCodeInput" placeholder="Enter ID of soon-to-be-deceased colleague">
-                    <button class="paste-button" id="pasteDoomCode"><i class="fa-solid fa-clipboard"></i> RETRIEVE CODE</button>
+                    <input type="text" class="form-input" id="doomCodeInput"
+                        placeholder="Enter ID of soon-to-be-deceased colleague">
+                    <button class="paste-button" id="pasteDoomCode"><i class="fa-solid fa-clipboard"></i> RETRIEVE
+                        CODE</button>
                 </div>
             </div>
             <button class="option-button" style="margin-top: 15px; width: 100%;">
@@ -1629,63 +1713,63 @@
                 EMBRACE INEVITABLE DEMISE
             </button>
         </div>
-        
+
         <div class="back-button">
             <a href="main-menu.html" class="back-link">
                 <i class="fa-solid fa-arrow-left"></i> RETURN TO ILLUSION OF SAFETY
             </a>
         </div>
-        
+
         <div class="corporate-disclaimer">
             By proceeding, you acknowledge that your organs may be harvested for company research.
             HR will not process complaints from the deceased. Have a productive day!
         </div>
     </div>
-    
+
     <script>
         // Initialize audio when page loads
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             window.audioManager.initializeAudio();
-            
+
             // Add sound effects to all interactive elements
             const interactiveElements = document.querySelectorAll('.option-button, .form-submit, .paste-button, .back-link, .confirmation-button');
             interactiveElements.forEach(element => {
-                element.addEventListener('mouseenter', function() {
+                element.addEventListener('mouseenter', function () {
                     window.audioManager.playSound(window.audioManager.hoverSound);
                 });
-                
-                element.addEventListener('click', function() {
+
+                element.addEventListener('click', function () {
                     window.audioManager.playSound(window.audioManager.clickSound);
                 });
             });
-            
+
             // Initialize keyboard navigation
             initializeKeyboardNavigation();
         });
-        
+
         // Keyboard Navigation System
         let currentFocusIndex = 0;
         let focusableElements = [];
         let modalFocusElements = [];
         let currentModalFocusIndex = 0;
-        
+
         function initializeKeyboardNavigation() {
             updateFocusableElements();
-            
+
             // Set initial focus on first button
             if (focusableElements.length > 0) {
                 focusableElements[0].setAttribute('tabindex', '0');
                 focusableElements[0].focus();
             }
-            
+
             // Add keyboard event listener
             document.addEventListener('keydown', handleKeyboardNavigation);
         }
-        
+
         function updateFocusableElements() {
             // Get all focusable elements based on current state
             const joinFormVisible = document.getElementById('joinServerForm').style.display === 'block';
-            
+
             if (joinFormVisible) {
                 // When join form is visible, include form elements
                 focusableElements = [
@@ -1704,57 +1788,57 @@
                     document.querySelector('.back-link')
                 ];
             }
-            
+
             // Filter out null elements
             focusableElements = focusableElements.filter(el => el !== null);
-            
+
             // Set tabindex for all elements
             focusableElements.forEach((el, index) => {
                 el.setAttribute('tabindex', index === currentFocusIndex ? '0' : '-1');
             });
         }
-        
+
         function updateModalFocusElements(modalId) {
             const modal = document.getElementById(modalId);
             if (!modal) return;
-            
+
             modalFocusElements = Array.from(modal.querySelectorAll('.confirmation-button'));
             currentModalFocusIndex = 0;
-            
+
             if (modalFocusElements.length > 0) {
                 modalFocusElements[0].focus();
             }
         }
-        
+
         function handleKeyboardNavigation(e) {
             // Check if any modal is active
             const confirmOverlay = document.getElementById('confirmationOverlay');
             const joinErrorOverlay = document.getElementById('joinErrorOverlay');
             const joinConfirmOverlay = document.getElementById('joinConfirmOverlay');
-            
-            const isModalActive = confirmOverlay.classList.contains('active') || 
-                                 joinErrorOverlay.classList.contains('active') || 
-                                 joinConfirmOverlay.classList.contains('active');
-            
+
+            const isModalActive = confirmOverlay.classList.contains('active') ||
+                joinErrorOverlay.classList.contains('active') ||
+                joinConfirmOverlay.classList.contains('active');
+
             if (isModalActive) {
                 handleModalNavigation(e);
                 return;
             }
-            
+
             // Main page navigation
-            switch(e.key) {
+            switch (e.key) {
                 case 'ArrowDown':
                 case 'Tab':
                     if (e.key === 'Tab' && e.shiftKey) return; // Let Shift+Tab be handled separately
                     e.preventDefault();
                     navigateFocus(1);
                     break;
-                    
+
                 case 'ArrowUp':
                     e.preventDefault();
                     navigateFocus(-1);
                     break;
-                    
+
                 case 'Enter':
                 case ' ':
                     e.preventDefault();
@@ -1762,32 +1846,32 @@
                         focusableElements[currentFocusIndex].click();
                     }
                     break;
-                    
+
                 case 'Escape':
                     e.preventDefault();
                     // Go back to main menu
                     window.location.href = 'main-menu.html';
                     break;
             }
-            
+
             // Handle Shift+Tab
             if (e.key === 'Tab' && e.shiftKey) {
                 e.preventDefault();
                 navigateFocus(-1);
             }
         }
-        
+
         function handleModalNavigation(e) {
             const activeModal = document.querySelector('.confirmation-overlay.active');
             if (!activeModal) return;
-            
+
             const buttons = Array.from(activeModal.querySelectorAll('.confirmation-button'));
             const currentFocus = document.activeElement;
             let currentIndex = buttons.indexOf(currentFocus);
-            
+
             if (currentIndex === -1) currentIndex = 0;
-            
-            switch(e.key) {
+
+            switch (e.key) {
                 case 'ArrowLeft':
                 case 'ArrowUp':
                     e.preventDefault();
@@ -1795,7 +1879,7 @@
                     buttons[currentIndex].focus();
                     window.audioManager.playSound(window.audioManager.hoverSound);
                     break;
-                    
+
                 case 'ArrowRight':
                 case 'ArrowDown':
                 case 'Tab':
@@ -1804,7 +1888,7 @@
                     buttons[currentIndex].focus();
                     window.audioManager.playSound(window.audioManager.hoverSound);
                     break;
-                    
+
                 case 'Enter':
                 case ' ':
                     e.preventDefault();
@@ -1812,38 +1896,38 @@
                         buttons[currentIndex].click();
                     }
                     break;
-                    
+
                 case 'Escape':
                     e.preventDefault();
                     // Close the modal (click deny/cancel button)
-                    const denyButton = activeModal.querySelector('.confirmation-button.deny') || 
-                                     activeModal.querySelector('.confirmation-button');
+                    const denyButton = activeModal.querySelector('.confirmation-button.deny') ||
+                        activeModal.querySelector('.confirmation-button');
                     if (denyButton) {
                         denyButton.click();
                     }
                     break;
             }
         }
-        
+
         function navigateFocus(direction) {
             // Remove focus from current element
             if (focusableElements[currentFocusIndex]) {
                 focusableElements[currentFocusIndex].setAttribute('tabindex', '-1');
             }
-            
+
             // Calculate new index
             currentFocusIndex = (currentFocusIndex + direction + focusableElements.length) % focusableElements.length;
-            
+
             // Focus new element
             if (focusableElements[currentFocusIndex]) {
                 focusableElements[currentFocusIndex].setAttribute('tabindex', '0');
                 focusableElements[currentFocusIndex].focus();
-                
+
                 // Play hover sound
                 window.audioManager.playSound(window.audioManager.hoverSound);
             }
         }
-        
+
         // Flicker effect for CRT screen
         function randomFlicker() {
             const flicker = document.querySelector('.flicker');
@@ -1856,16 +1940,16 @@
             setTimeout(randomFlicker, 100);
         }
         randomFlicker();
-        
+
         // Random terminal glitch effect for the logo
         function randomLogoGlitch() {
             const logo = document.querySelector('.game-logo');
             const randomInterval = Math.random() * 12000 + 8000; // Between 8-20 seconds
-            
+
             setTimeout(() => {
                 // Add glitch class
                 logo.classList.add('terminal-glitch');
-                
+
                 // Remove glitch class after animation completes
                 setTimeout(() => {
                     logo.classList.remove('terminal-glitch');
@@ -1873,18 +1957,18 @@
                 }, 300); // Duration matches animation length
             }, randomInterval);
         }
-        
+
         // Start the random logo glitch effect
         randomLogoGlitch();
-        
+
         // Form toggle functionality
-        document.getElementById('createServerBtn').addEventListener('click', function() {
-            window.audioManager.playSound(window.audioManager.selectSound);
-            
+        document.getElementById('createServerBtn').addEventListener('click', function () {
+
+
             // Show custom confirmation dialog
             const overlay = document.getElementById('confirmationOverlay');
             const message = document.getElementById('confirmationMessage');
-            
+
             // Random confirmation messages
             const confirmMessages = [
                 "By creating a server, you forfeit your right to a swift and painless death.\n\nYour organs will be automatically registered for company research.\n\nProceed with server creation?",
@@ -1892,10 +1976,10 @@
                 "NOTICE: Your sanity waiver has been pre-signed for your convenience.\n\nObjections will be filed in the void.\n\nProceed with server creation?",
                 "ALERT: Creating a server logs your existence as 'expendable'.\n\nYour suffering will be monitored for research purposes.\n\nAccept these terms?"
             ];
-            
+
             message.innerHTML = confirmMessages[Math.floor(Math.random() * confirmMessages.length)].replace(/\n/g, '<br>');
             overlay.classList.add('active');
-            
+
             // Set focus to green accept button (not the deny button) and highlight it by default
             setTimeout(() => {
                 const acceptButton = document.getElementById('confirmButton');
@@ -1904,26 +1988,26 @@
                 }
             }, 100);
         });
-        
+
         // Handle confirmation dialog buttons
-        document.getElementById('confirmButton').addEventListener('click', function() {
-            window.audioManager.playSound(window.audioManager.selectSound);
-            
+        document.getElementById('confirmButton').addEventListener('click', function () {
+
+
             console.log("Employee surrender protocol accepted. Deploying to lobby...");
             // Add a fake "loading" effect before redirecting
             document.body.innerHTML += `<div class="fake-loading" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 10, 8, 0.95); color: #f7b933; font-family: 'Share Tech Mono', monospace; font-size: 18px; letter-spacing: 0.5px; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; text-shadow: 0 0 8px rgba(247, 185, 51, 0.3);">
                 <div style="opacity: 0.85; filter: brightness(0.9); letter-spacing: 2px;">ESTABLISHING LOBBY CONNECTION...</div>
                 <div style="margin-top: 20px; font-size: 13px; opacity: 0.7; filter: brightness(0.85); letter-spacing: 0.3px;">Preparing pre-deployment chamber...</div>
             </div>`;
-            
+
             setTimeout(() => {
                 window.location.href = 'lobby.html';
             }, 2000);
         });
-        
-        document.getElementById('denyButton').addEventListener('click', function() {
-            window.audioManager.playSound(window.audioManager.selectSound);
-            
+
+        document.getElementById('denyButton').addEventListener('click', function () {
+
+
             document.getElementById('confirmationOverlay').classList.remove('active');
             // Add a glitch effect to the screen
             const flicker = document.querySelector('.flicker');
@@ -1932,45 +2016,45 @@
                 flicker.style.backgroundColor = 'rgba(10, 10, 8, 0)';
             }, 100);
         });
-        
+
         // Close dialog when clicking outside
-        document.getElementById('confirmationOverlay').addEventListener('click', function(e) {
+        document.getElementById('confirmationOverlay').addEventListener('click', function (e) {
             if (e.target === this) {
                 window.audioManager.playSound(window.audioManager.clickSound);
                 this.classList.remove('active');
             }
         });
-        
-        document.getElementById('joinServerBtn').addEventListener('click', function() {
-            window.audioManager.playSound(window.audioManager.selectSound);
-            
+
+        document.getElementById('joinServerBtn').addEventListener('click', function () {
+
+
             document.getElementById('joinServerForm').style.display = 'block';
             document.querySelectorAll('.option-button').forEach(btn => {
                 btn.style.opacity = '0.5';
             });
             this.style.opacity = '1';
-            
+
             // Hide the corporate disclaimer to make container smaller
             const disclaimer = document.querySelector('.corporate-disclaimer');
             if (disclaimer) {
                 disclaimer.style.display = 'none';
             }
-            
+
             // Update focusable elements to include form fields
             updateFocusableElements();
-            
+
             // Set focus to the doom code input
             setTimeout(() => {
                 document.getElementById('doomCodeInput').focus();
                 currentFocusIndex = focusableElements.indexOf(document.getElementById('doomCodeInput'));
             }, 100);
-            
+
             // Add some console humor
             console.log("Employee loyalty noted. Reducing scheduled torment by 0.02%.");
         });
-        
+
         // Highlight embrace button when doom code is entered
-        document.getElementById('doomCodeInput').addEventListener('input', function() {
+        document.getElementById('doomCodeInput').addEventListener('input', function () {
             const embraceButton = document.querySelector('#joinServerForm .option-button');
             if (this.value.trim() !== '') {
                 embraceButton.style.color = 'var(--primary-color)';
@@ -1988,27 +2072,27 @@
                 embraceButton.style.opacity = '';
             }
         });
-        
+
         // Simulate joining server
-        document.querySelector('#joinServerForm .option-button').addEventListener('click', function() {
-            window.audioManager.playSound(window.audioManager.selectSound);
-            
+        document.querySelector('#joinServerForm .option-button').addEventListener('click', function () {
+
+
             const serverId = document.getElementById('doomCodeInput').value;
             if (serverId.trim() === '') {
                 // Show custom error dialog instead of alert
                 const joinErrorOverlay = document.getElementById('joinErrorOverlay');
                 joinErrorOverlay.classList.add('active');
-                
+
                 // Set focus to error button
                 setTimeout(() => {
                     document.getElementById('joinErrorButton').focus();
                 }, 100);
                 return;
             }
-            
+
             // Store the server ID for the game to use
             localStorage.setItem('joinedServerCode', serverId);
-            
+
             // Show absurd confirmation with custom dialog instead of confirm
             const joinMessages = [
                 `WARNING: Joining expedition "${serverId}". This colleague has already encountered 17 reality distortions. Join anyway?`,
@@ -2016,15 +2100,15 @@
                 `ALERT: Tracking data shows "${serverId}" is currently experiencing rapid molecular disassembly. Excellent learning opportunity. Join?`,
                 `CAUTION: Expedition "${serverId}" has exceeded expected survival time by 347%. Investigation pending. Continue anyway?`
             ];
-            
+
             const randomJoinMessage = joinMessages[Math.floor(Math.random() * joinMessages.length)];
-            
+
             // Set the message and show custom confirmation dialog
             const joinConfirmOverlay = document.getElementById('joinConfirmOverlay');
             const joinConfirmMessage = document.getElementById('joinConfirmMessage');
             joinConfirmMessage.innerHTML = randomJoinMessage;
             joinConfirmOverlay.classList.add('active');
-            
+
             // Set focus to green accept button (not the deny button) and highlight it by default
             setTimeout(() => {
                 const acceptButton = document.getElementById('joinConfirmButton');
@@ -2033,61 +2117,61 @@
                 }
             }, 100);
         });
-        
+
         // Handle join error dialog button
-        document.getElementById('joinErrorButton').addEventListener('click', function() {
+        document.getElementById('joinErrorButton').addEventListener('click', function () {
             window.audioManager.playSound(window.audioManager.clickSound);
             document.getElementById('joinErrorOverlay').classList.remove('active');
-            
+
             // Return focus to doom code input
             setTimeout(() => {
                 document.getElementById('doomCodeInput').focus();
             }, 100);
         });
-        
+
         // Handle join confirmation dialog buttons
-        document.getElementById('joinConfirmButton').addEventListener('click', function() {
-            window.audioManager.playSound(window.audioManager.selectSound);
-            
+        document.getElementById('joinConfirmButton').addEventListener('click', function () {
+
+
             document.getElementById('joinConfirmOverlay').classList.remove('active');
-            
+
             // Add a fake "scanning" effect before redirecting
             document.body.innerHTML += `<div class="fake-loading" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 10, 8, 0.95); color: #f7b933; font-family: 'Share Tech Mono', monospace; font-size: 18px; letter-spacing: 0.5px; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; text-shadow: 0 0 8px rgba(247, 185, 51, 0.3);">
                 <div style="opacity: 0.85; filter: brightness(0.9); letter-spacing: 2px;">SYNCHRONIZING INEVITABLE FATE...</div>
                 <div style="margin-top: 20px; font-size: 13px; opacity: 0.7; filter: brightness(0.85); letter-spacing: 0.3px;">Aligning temporal death coordinates...</div>
             </div>`;
-            
+
             setTimeout(() => {
                 window.location.href = 'index.html';
             }, 2000);
         });
-        
-        document.getElementById('joinDenyButton').addEventListener('click', function() {
+
+        document.getElementById('joinDenyButton').addEventListener('click', function () {
             window.audioManager.playSound(window.audioManager.clickSound);
             document.getElementById('joinConfirmOverlay').classList.remove('active');
         });
-        
+
         // Close join error dialog when clicking outside
-        document.getElementById('joinErrorOverlay').addEventListener('click', function(e) {
+        document.getElementById('joinErrorOverlay').addEventListener('click', function (e) {
             if (e.target === this) {
                 window.audioManager.playSound(window.audioManager.clickSound);
                 this.classList.remove('active');
-                
+
                 // Return focus to doom code input
                 setTimeout(() => {
                     document.getElementById('doomCodeInput').focus();
                 }, 100);
             }
         });
-        
+
         // Close join confirmation dialog when clicking outside
-        document.getElementById('joinConfirmOverlay').addEventListener('click', function(e) {
+        document.getElementById('joinConfirmOverlay').addEventListener('click', function (e) {
             if (e.target === this) {
                 window.audioManager.playSound(window.audioManager.clickSound);
                 this.classList.remove('active');
             }
         });
-        
+
         // Add random ominous messages that appear occasionally
         function randomOminousMessage() {
             const messages = [
@@ -2097,7 +2181,7 @@
                 "Motion detected in walls. Standard procedure initiated.",
                 "Employee mental resilience test commencing without notice."
             ];
-            
+
             const message = messages[Math.floor(Math.random() * messages.length)];
             const messageDiv = document.createElement('div');
             messageDiv.style.position = 'fixed';
@@ -2112,56 +2196,56 @@
             messageDiv.style.opacity = '0';
             messageDiv.style.transition = 'opacity 0.5s ease';
             messageDiv.textContent = message;
-            
+
             document.body.appendChild(messageDiv);
-            
+
             setTimeout(() => {
                 messageDiv.style.opacity = '1';
             }, 100);
-            
+
             setTimeout(() => {
                 messageDiv.style.opacity = '0';
                 setTimeout(() => {
                     document.body.removeChild(messageDiv);
                 }, 500);
             }, 4000);
-            
+
             // Schedule next message
             const nextMessageTime = 5000 + Math.random() * 15000;
             setTimeout(randomOminousMessage, nextMessageTime);
         }
-        
+
         // Start random messages after a delay
         setTimeout(randomOminousMessage, 5000);
-        
+
         // Paste Doom Code functionality
-        document.getElementById('pasteDoomCode').addEventListener('click', function() {
+        document.getElementById('pasteDoomCode').addEventListener('click', function () {
             window.audioManager.playSound(window.audioManager.clickSound);
-            
+
             // Try to read from clipboard
             navigator.clipboard.readText()
                 .then(text => {
                     // Format the text to look like a Doom Code if it doesn't already
                     let formattedText = text.trim();
-                    
+
                     // If it doesn't start with #, add it
                     if (!formattedText.startsWith('#') && formattedText.length > 0) {
                         formattedText = '#' + formattedText;
                     }
-                    
+
                     // Put the text in the input field
                     const doomCodeInput = document.getElementById('doomCodeInput');
                     doomCodeInput.value = formattedText;
-                    
+
                     // Trigger input event to highlight embrace button
                     doomCodeInput.dispatchEvent(new Event('input'));
-                    
+
                     // Add a glitch effect to the paste button
                     const pasteButton = document.getElementById('pasteDoomCode');
                     pasteButton.innerHTML = '<i class="fa-solid fa-check"></i> SECURED';
                     pasteButton.style.backgroundColor = 'rgba(77, 110, 80, 0.3)';
                     pasteButton.style.borderColor = 'var(--tertiary-color)';
-                    
+
                     // Create temporary notification
                     const notification = document.createElement('div');
                     notification.style.position = 'fixed';
@@ -2176,7 +2260,7 @@
                     notification.style.zIndex = '9999';
                     notification.style.opacity = '0';
                     notification.style.transition = 'opacity 0.3s ease';
-                    
+
                     // Add some absurd corporate humor
                     const notificationMessages = [
                         "DOOM CODE INTERCEPTED. Colleague's demise now linked to yours.",
@@ -2184,14 +2268,14 @@
                         "SIGNAL COPIED. Misery loves company - yours specifically.",
                         "COORDINATE MATCH FOUND. Suffering synchronization imminent."
                     ];
-                    
+
                     notification.textContent = notificationMessages[Math.floor(Math.random() * notificationMessages.length)];
                     document.body.appendChild(notification);
-                    
+
                     setTimeout(() => {
                         notification.style.opacity = '1';
                     }, 100);
-                    
+
                     setTimeout(() => {
                         notification.style.opacity = '0';
                         setTimeout(() => {
@@ -2200,7 +2284,7 @@
                             }
                         }, 300);
                     }, 3000);
-                    
+
                     // Reset paste button after a delay
                     setTimeout(() => {
                         pasteButton.innerHTML = '<i class="fa-solid fa-clipboard"></i> RETRIEVE CODE';
@@ -2216,4 +2300,5 @@
         });
     </script>
 </body>
-</html> 
+
+</html>
